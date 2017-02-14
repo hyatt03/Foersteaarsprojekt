@@ -57,20 +57,46 @@ COMPONENT Origin = Progress_bar()
   AT (0,0,0) ABSOLUTE
 
 COMPONENT myGuide = Guide(
-    w1 = 1, h1 = 1, w2 = 1, h2 = 1, l = 10, R0 = 0.99, m = 6)
+    w1 = 0.2, h1 = 0.2, w2 = 0.2, h2 = 0.2, l = 10, R0 = 0.99, m = 6)
   AT (0, 0, 0) RELATIVE Origin
 
 COMPONENT sourcedos = Source_simple(
-    yheight = 0.1, xwidth = 0.1, dist = 10, focus_xw = 0.1,
-    focus_yh = 0.1, E0 = 5, dE = 1, lambda0 = 5, dlambda = 1,
+    yheight = 0.1, xwidth = 0.1, dist = 5, focus_xw = 0.3,
+    focus_yh = 0.3, E0 = 5, dE = 1, lambda0 = 5, dlambda = 1,
     flux = 1, gauss = 1, target_index = +1)
   AT (0, 0, 0) RELATIVE myGuide
 
+/*
+COMPONENT psd_monitor_4pi = PSD_monitor_4PI( 
+    nx=90, 
+    ny=90, 
+    filename="beginning.dat", 
+    radius=0.2, 
+    restore_neutron=1)
+AT (0, 0, 0) RELATIVE sourcedos
 
-COMPONENT detector = Divergence_monitor(
-    filename = "det.dat")
-  AT (0, 0, 9) RELATIVE Origin
+COMPONENT detector = Divergence_monitor(filename = "det.dat")
+  AT (0, 0, 9.9) RELATIVE Origin
+*/
 
+COMPONENT brilliance_monitor = Brilliance_monitor( 
+    nlam=101, 
+    nt=1001, 
+    srcarea=1, 
+    lambda_0=0, 
+    lambda_1=20, 
+    restore_neutron=0, 
+    Freq=14, 
+    tofcuts=0, 
+    toflambda=0, 
+    xwidth=0.15, 
+    yheight=0.15, 
+    source_dist=8, 
+    filename="brill.dat", 
+    t_0=0, 
+    t_1=20000)
+AT (0, 0, 8) RELATIVE sourcedos
+ROTATED (30, 0, 0) RELATIVE sourcedos
 
 /* This section is executed when the simulation ends (C code). Other    */
 /* optional sections are : SAVE                                         */
