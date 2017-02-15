@@ -1,12 +1,13 @@
-\documentclass[]{report}
+\documentclass[12pt,oneside,a4paper]{article}
 
 %% Language and font encodings
-\usepackage[english]{babel}
+\usepackage{ulem}
+\usepackage[danish,english]{babel}
 \usepackage[utf8x]{inputenc}
 \usepackage[T1]{fontenc}
 
 %% Sets page size and margins
-\usepackage[a4paper,top=3cm,bottom=2cm,left=2.25cm,right=2.25cm,marginparwidth=1.75cm]{geometry}
+\usepackage[left=2.5cm,top=2.0cm,bottom=1.5cm, right=3.0cm]{geometry}
 
 %% Useful packages
 \usepackage{amsmath}
@@ -17,29 +18,96 @@
 \usepackage{gensymb}
 \usepackage{float}
 \usepackage{adjustbox}
+\usepackage{graphics}
+\usepackage{amssymb}
+\usepackage{url}
+\usepackage{cancel}
+\usepackage{booktabs}
+\usepackage{pdfpages}
+\usepackage{mathpazo}
+\usepackage[section]{placeins}
+\usepackage{caption}
+\usepackage{wrapfig}
+\usepackage{tocloft}
+\usepackage{subfig}
+\usepackage{fancyhdr}
+\usepackage{framed}
+\usepackage{footnote}
+
+\linespread{1.3} % linjeafstand 1.5
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{0.3cm}
 
 % Title Page
-\title{Simulering af neutron optik}
-\author{
-    Hyatt, Jonas Peter\ 
-    \texttt{zkv499@alumni.ku.dk}
-    \and
-    LastName, Walde\ 
-    \texttt{first2.last2@alumni.ku.dk}
-    \and
-    LastName, Walther\ 
-    \texttt{first2.last2@alumni.ku.dk}
-}
+%\title{Simulering af neutron optik}
+%\author{
+%    Hyatt, Jonas Peter\ 
+%    \texttt{zkv499@alumni.ku.dk}
+%    \and
+%    LastName, Walde\ 
+%    \texttt{first2.last2@alumni.ku.dk}
+%    \and
+%    LastName, Walther\ 
+%    \texttt{first2.last2@alumni.ku.dk}
+%}
 
 
 \begin{document}
-\maketitle
+\selectlanguage{danish}
+\pagenumbering{roman}
+%\maketitle
+
+%% Forside %%
+
+\begin{center}
+    {\textsc {\LARGE \bf{Københavns Universitet \\[0.3cm]  Bachelorstudiet i fysik}}}\\[1.5cm]
+    {\textsc {\Large \bf Førsteårsprojekt 2017}}\\[0.8cm]
+    {\Large Projekt nummer: 2017-05}\\[1cm]
+    
+    \rule{15cm}{0.01cm}\\[1cm]
+    {\LARGE\bf  Simulering af neutron optik} \\ {\it Med fokus på M-Optimization}\\ [0.5cm]
+    \rule{15cm}{0.01cm}\\[1cm]
+\end{center}
+
+\vfill
+{\large Forfattere:}\\
+{\large \hspace*{1cm} \makebox[6cm][l]{Jonas P. Hyatt}  \hspace{1cm} KU- ID: \makebox[2cm][l]{ZKV499} \\
+{\large \hspace*{1cm} \makebox[6cm][l]{Waldemar Svejstrup}   \hspace{1cm} KU- ID: \makebox[2cm][l]{MDS274} \\
+{\large \hspace*{1cm} \makebox[6cm][l]{Walter J. Birkemose}   \hspace{1cm} KU- ID: \makebox[2cm][l]{SMX359} \\ 
+        
+{\large Vejledere:}\\
+{\large \hspace*{1cm} \makebox[6cm][l]{Kim Lefmann}  \hspace{1cm} Email: \makebox[2cm][l]{lefmann@nbi.ku.dk} \\
+{\large \hspace*{1cm} \makebox[6cm][l]{Jonas Okkels Birk}    \hspace{1cm} Email: \makebox[2cm][l]{jonasobirk@gmail.com} \\
+
+\vfill
+
+{\large Rapporten omfatter {\bf 1} siders hovedtekst og {\bf 1} siders appendix.}
+
+{\large Rapporten er indsendt som en pdf-fil den 17 marts 2017. }
+
+\normalsize
+
+%% Forside slut! %%
+\newpage
+%% Abstract %%
 
 \begin{abstract}
     Vi simulerer små bolde
+    
+    We are simulating small balls
 \end{abstract}
 
-\chapter{kapitel 1}
+%% Abstract slut! %%
+\newpage
+%% Indholdsfortegnelse %%
+
+\tableofcontents
+
+%% Indholdsfortegnelse slut %%
+\newpage
+%% Rapporten begynder her! %%
+
+\pagenumbering{arabic}
 
 \section{afsnit 1}
 Det her er afsnit 1
@@ -48,5 +116,15 @@ Det her er afsnit 1
 \section{afsnit 2}
 Det er et nyt afsnit
 
+%% Rapporten er slut! %% 
+\newpage
+%% Appendix %%
+
+\appendix
+\section{Appendix}
+Totalt mange appendix er nødvendige!
+
+%% Appendix slut! %%
 
 \end{document}
+
