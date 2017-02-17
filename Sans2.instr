@@ -25,10 +25,11 @@
 *
 * %E
 *******************************************************************************/
-DEFINE INSTRUMENT template_body_simple(Par1=1)
+DEFINE INSTRUMENT template_body_simple(psdsize=0.5)
 
 DECLARE
 %{
+double psdsize;
 %}
 
 INITIALIZE
@@ -44,59 +45,84 @@ AT (0, 0, 0) RELATIVE ABSOLUTE
 COMPONENT moderator = Moderator( 
     radius=0.07, 
     Emin=3.8, 
-    Emax=14.7, 
-    dist=10, 
-    focus_xw=0.02, 
-    focus_yh=0.02, 
+    Emax=20, 
+    dist=8.299, 
+    focus_xw=0.005, 
+    focus_yh=0.005, 
     t0=37.15, 
     Ec=9.0, 
     gamma=39.1, 
     target_index=+1, 
     flux=1)
 AT (0, 0, 0) RELATIVE Origin
-ROTATED (0, 0, 0) RELATIVE PREVIOUS
+
+COMPONENT mon3 = PSD_monitor(
+    filename = "mon3.dat", restore_neutron = 1)
+  AT (0, 0, 0.1) RELATIVE Origin
+
 
 COMPONENT diskchopper = DiskChopper( 
-    theta_0=1, 
+    theta_0=0.35, 
     radius=0.5, 
-    yheight=0, 
+    yheight=0.2, 
     nu=350, 
     nslit=68, 
     jitter=0, 
-    delay=10E-6, 
-    isfirst=0, 
+    delay=10, 
+    isfirst=1, 
     n_pulse=1, 
     abs_out=0, 
     phase=0, 
     xwidth=0, 
     verbose=0)
-AT (0, 0.1, 0.2) RELATIVE Origin
+AT (0, 0, 0.2) RELATIVE Origin
 
-COMPONENT slit = Slit( 
-    xmin=-0.01, 
-    xmax=0.01, 
-    ymin=-0.01, 
-    ymax=0.01, 
-    radius=0.02,
-    xwidth=0, 
-    yheight=0)
-AT (0, 0, 1) RELATIVE Origin
+
+COMPONENT slit = Slit(
+    radius=0.030)
+AT (0, 0, 0.25) RELATIVE Origin
 
 COMPONENT slit2 = Slit( 
-    xmin=-0.01, 
-    xmax=0.01, 
-    ymin=-0.01, 
-    ymax=0.01, 
-    radius=0.02,
-    xwidth=0, 
-    yheight=0)
-AT (0, 0, 2) RELATIVE Origin
+    radius=0.03)
+AT (0, 0, 0.3) RELATIVE Origin
 
+COMPONENT mon4 = PSD_monitor(
+    filename = "mon4.dat", restore_neutron = 1)
+  AT (0, 0, 0.35) RELATIVE Origin
+
+COMPONENT psd_monitor_before = PSD_monitor( 
+    nx=180, 
+    ny=180, 
+    filename="before_psd.dat", 
+    xmin=-psdsize,
+    xmax=psdsize,
+    ymin=-psdsize, 
+    ymax=psdsize, 
+    restore_neutron=1)
+AT (0, 0, 8.299) RELATIVE Origin
+
+
+
+COMPONENT SX = Single_crystal(reflections="", order=0, ax=3.0282, by=3.0282, cz=3.0282/2,
+  sigma_abs=5.08, sigma_inc=5.08, barns=1,
+  xwidth=0.005, yheight=0.005, zdepth=0.005)
+AT (0, 0, 8.3) RELATIVE Origin
+
+/*
+COMPONENT stopDigSelv = Beamstop(
+    radius = 0.023)
+  AT (0, 0, 8.301) RELATIVE Origin
+*/
+
+
+
+
+/*
 COMPONENT powder1 = Powder1( 
-    radius=0, 
+    radius=0.001, 
     yheight=0.05, 
     xwidth=0.05, 
-    zdepth=0.01, 
+    zdepth=0.001, 
     q=1.8049, 
     d=0, 
     d_phi=0, 
@@ -106,24 +132,28 @@ COMPONENT powder1 = Powder1(
     F2=56.8, 
     Vc=85.0054, 
     sigma_abs=0.463)
-AT (0, 0, 3) RELATIVE Origin
+AT (0, 0, 5) RELATIVE Origin
+*/
 
 
+/*
+COMPONENT Sphere_4pi = PSD_monitor_4PI(radius=0.052, nx=180, ny=180, filename="Events")
+  AT (0, 0, 8.3) RELATIVE Origin
+*/
+COMPONENT stopper2 = Beamstop(
+    xwidth = 0.006, yheight = 0.006)
+  AT (0, 0, 8.305) RELATIVE Origin
 
 COMPONENT psd_monitor = PSD_monitor( 
-    nx=90, 
-    ny=90, 
+    nx=180, 
+    ny=180, 
     filename="psd.dat", 
-    xmin=-0.02,
-    xmax=0.02,
-    ymin=-0.02, 
-    ymax=0.02, 
-    xwidth=0, 
-    yheight=0, 
-    restore_neutron=0)
-AT (0, 0, 6) RELATIVE Origin
-ROTATED (0, 0, 0) RELATIVE PREVIOUS
-
+    xmin=-psdsize,
+    xmax=psdsize,
+    ymin=-psdsize, 
+    ymax=psdsize, 
+    restore_neutron=1)
+AT (0, 0, 8.32) RELATIVE Origin
 
 
 
@@ -132,3 +162,4 @@ FINALLY
 %}
 
 END
+
