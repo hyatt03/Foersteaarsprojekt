@@ -25,7 +25,7 @@
 *
 * %E
 *******************************************************************************/
-DEFINE INSTRUMENT template_body_simple(psdsize=0.5)
+DEFINE INSTRUMENT template_body_simple(psdsize=0.5, includeSample=1)
 
 DECLARE
 %{
@@ -106,7 +106,7 @@ AT (0, 0, 8.299) RELATIVE Origin
 COMPONENT SX = Single_crystal(reflections="", order=0, ax=3.0282, by=3.0282, cz=3.0282/2,
   sigma_abs=5.08, sigma_inc=5.08, barns=1,
   xwidth=0.005, yheight=0.005, zdepth=0.005)
-AT (0, 0, 8.3) RELATIVE Origin
+WHEN (includeSample == 1) AT (0, 0, 8.3) RELATIVE Origin
 
 /*
 COMPONENT stopDigSelv = Beamstop(
