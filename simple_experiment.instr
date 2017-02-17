@@ -61,10 +61,10 @@ COMPONENT myGuide = Guide(
   AT (0, 0, 0) RELATIVE Origin
 
 COMPONENT sourcedos = Source_simple(
-    yheight = 0.1, xwidth = 0.1, dist = 5, focus_xw = 0.3,
-    focus_yh = 0.3, E0 = 5, dE = 1, lambda0 = 5, dlambda = 1,
+    yheight = 0.5, xwidth = 0.5, dist = 1, focus_xw = 0.1,
+    focus_yh = 0.1, E0 = 5, dE = 1, lambda0 = 5, dlambda = 1,
     flux = 1, gauss = 1, target_index = +1)
-  AT (0, 0, 0) RELATIVE myGuide
+  AT (0, 0, 0.5) RELATIVE Origin
 
 /*
 COMPONENT psd_monitor_4pi = PSD_monitor_4PI( 
@@ -105,5 +105,11 @@ FINALLY
 %}
 /* The END token marks the instrument definition end */
 END
+
+
+
+
+
+
 
 
