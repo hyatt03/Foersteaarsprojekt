@@ -1,0 +1,92 @@
+
+/* Change name of instrument and input parameters with default values */
+DEFINE INSTRUMENT rita(curved=1)
+
+/* The DECLARE section allows us to declare variables or  small      */
+/* functions in C syntax. These may be used in the whole instrument. */
+DECLARE
+%{
+%}
+
+/* The INITIALIZE section is executed when the simulation starts     */
+/* (C code). You may use them as component parameter values.         */
+INITIALIZE
+%{
+%}
+
+/* Here comes the TRACE section, where the actual      */
+/* instrument is defined as a sequence of components.  */
+TRACE
+
+/* The Arm() class component defines reference points and orientations  */
+/* in 3D space. Every component instance must have a unique name. Here, */
+/* Origin is used. This Arm() component is set to define the origin of  */
+/* our global coordinate system (AT (0,0,0) ABSOLUTE). It may be used   */
+/* for further RELATIVE reference, Other useful keywords are : ROTATED  */
+/* EXTEND GROUP PREVIOUS. Also think about adding a neutron source !    */
+/* Progress_bar is an Arm displaying simulation progress.               */
+COMPONENT Origin = Progress_bar()
+  AT (0,0,0) ABSOLUTE
+
+COMPONENT moderator = Moderator( 
+    radius=0.07, 
+    Emin=0.5, 
+    Emax=20, 
+    dist=1.5, 
+    focus_xw=0.03, 
+    focus_yh=0.012, 
+    t0=37.15, 
+    Ec=9.0, 
+    gamma=39.1, 
+    target_index=+1, 
+    flux=1)
+AT (0, 0, 0) RELATIVE Origin
+
+
+COMPONENT beam_port = Slit(
+    xmin = -0.015, xmax = 0.015, ymin = -0.006, ymax = 0.006)
+  AT (0, 0, 1.499) RELATIVE Origin
+
+
+COMPONENT firstguide = Guide(
+    w1 = 0.12, h1 = 0.03, w2 = 0.12, h2 = 0.03, l = 4.5, m = 2)
+  AT (0, 0, 1.5) RELATIVE Origin
+
+
+COMPONENT secondguide = Guide(
+    w1 = 0.12, h1 = 0.03, w2 = 0.12, h2 = 0.03, l = 20, m = 2)
+ WHEN (curved == 0) AT (0, 0, 6.001) RELATIVE Origin
+
+
+COMPONENT ThirdGuide = Guide_curved(
+    w1 = 0.12, h1 = 0.03, l = 20, m = 2, curvature = 2400)
+  WHEN (curved == 1)  AT (0, 0, 6.001) RELATIVE Origin
+
+
+COMPONENT monc = PSD_monitor(
+    filename = "psd_mon_c.dat",
+    xmin=-0.07,
+    xmax=0.07,
+    ymin=-0.02, 
+    ymax=0.02
+)
+  WHEN (curved == 1)  AT (0.08, 0, 26.002) RELATIVE Origin
+
+
+COMPONENT mons = PSD_monitor(
+    filename = "psd_mon_s.dat",
+    xmin=-0.07,
+    xmax=0.07,
+    ymin=-0.02, 
+    ymax=0.02
+)
+  WHEN (curved == 0)  AT (0, 0, 26.002) RELATIVE Origin
+
+/* This section is executed when the simulation ends (C code). Other    */
+/* optional sections are : SAVE                                         */
+FINALLY
+%{
+%}
+/* The END token marks the instrument definition end */
+END
+
