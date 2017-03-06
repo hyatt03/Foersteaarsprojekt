@@ -4,12 +4,14 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 
+plt.rcParams["figure.figsize"] = (15,8)
+
 row_count = 101
 col_count = 4
 
-def read_file(filename):
+def read_file(path, filename):
     a = np.zeros((row_count, col_count))
-    with open(sys.argv[1] + filename) as f:
+    with open(path + '/' + filename) as f:
         i = 0
         for line in f:
             if '#' not in line:
@@ -34,11 +36,11 @@ def compare(row_a, row_comp):
     return res
 
 # Read files
-mean_begin = read_file('Mean_brill_begin.dat')
-peak_begin = read_file('Peak_brill_begin.dat')
+mean_begin = read_file('./brill_ref', 'Mean_brill_begin.dat')
+peak_begin = read_file('./brill_ref', 'Peak_brill_begin.dat')
 
-mean_end = read_file('Mean_brill_end.dat')
-peak_end = read_file('Peak_brill_end.dat')
+mean_end = read_file(sys.argv[1], 'Mean_brill_end.dat')
+peak_end = read_file(sys.argv[1], 'Peak_brill_end.dat')
 
 # Process the files
 peak_comp = np.divide(peak_end, peak_begin)
@@ -51,6 +53,9 @@ for i in xrange(0, row_count):
     peak_result[i] = compare(peak_begin[i], peak_comp[i])
     mean_result[i] = compare(mean_begin[i], mean_comp[i])
 
+area_peak = np.trapz(y = peak_result[:, 1:2].T[0], x = peak_result[:, 0:1].T[0])
+area_mean = np.trapz(y = mean_result[:, 1:2].T[0], x = mean_result[:, 0:1].T[0])
+
 # Plot results
 fig, ax = plt.subplots()
 ax.plot(peak_result[:, 0:1].T[0], peak_result[:, 1:2].T[0], 'r-', label='Peak brilliance transfer')
@@ -59,7 +64,7 @@ legend = ax.legend(loc='upper right', shadow=True)
 
 plt.xlabel("Wavelength [AA]")
 plt.ylabel("Brilliance Transfer")
-plt.title('Peak/Mean brilliance transfers as a function of wavelength')
+plt.title('Peak/Mean brilliance transfers as a function of wavelength\nPeak area: {}, Mean area: {}'.format(area_peak, area_mean))
 plt.axis([0, 8, 0, 1])
 plt.grid(True)
 plt.show()

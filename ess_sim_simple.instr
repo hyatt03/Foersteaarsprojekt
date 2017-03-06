@@ -1,5 +1,5 @@
 
-DEFINE INSTRUMENT test(elip=1, rot=1, m_val=2, brill=1)
+DEFINE INSTRUMENT test(elip=1, rot=0, m_val=2)
 
 DECLARE
 %{
@@ -21,8 +21,8 @@ COMPONENT Origin = Progress_bar()
   AT (0,0,0) ABSOLUTE
 
 COMPONENT source = ESS_butterfly(
-    sector = "W", beamline = 4, dist = 2, focus_xw = 0.01,
-    focus_yh = 0.01, Lmin = 0.5, Lmax = 8)
+    sector = "W", beamline = 4, dist = 2, focus_xw = 0.1,
+    focus_yh = 0.1, Lmin = 0.5, Lmax = 8)
   AT (0, 0, 0) RELATIVE Origin
 
 
@@ -30,14 +30,13 @@ COMPONENT Brillmon_begin = Brilliance_monitor(
    nlam = 101, nt = 101, filename = "brill_begin.dat", t_0 = 1,
     t_1 =4e4, lambda_0 = 0, lambda_1 = 8,
     Freq =14, toflambda=0, tofcuts=0,
-    srcarea=1, restore_neutron=1)
-  WHEN (brill == 1)
+    xwidth=0.01, yheight=0.01, restore_neutron=1)
   AT (0, 0, 1) RELATIVE source
 
 
 COMPONENT guide = Elliptic_guide_gravity(
     l = 162.4, xwidth = 0.1, yheight = 0.1, dimensionsAt="mid",
-    linxw = 5, loutxw = 5, linyh = 5, loutyh = 5, 
+    linxw = 5, loutxw = 5, linyh = 1, loutyh = 1, 
     m = m_val)
   WHEN (elip == 1)
   AT (0, 0, 2) RELATIVE source
@@ -58,7 +57,6 @@ COMPONENT Brillmon = Brilliance_monitor(
     t_1 =4e4, lambda_0 = 0, lambda_1 = 8,
     Freq =14, toflambda=0, tofcuts=0,
     srcarea=1, restore_neutron=1)
-  WHEN (brill == 1)
 AT (0, 0, u) RELATIVE Monitors
 
 /*
