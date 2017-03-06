@@ -52,25 +52,16 @@ for i in xrange(0, row_count):
     mean_result[i] = compare(mean_begin[i], mean_comp[i])
 
 # Plot results
-fig, axarr = plt.subplots(2)
+fig, ax = plt.subplots()
+ax.plot(peak_result[:, 0:1].T[0], peak_result[:, 1:2].T[0], 'r-', label='Peak brilliance transfer')
+ax.plot(mean_result[:, 0:1].T[0], mean_result[:, 1:2].T[0], 'b-', label='Mean brilliance transfer')
+legend = ax.legend(loc='upper right', shadow=True)
 
-axarr[0].plot(peak_result[:, 0:1].T[0], peak_result[:, 1:2].T[0])
-axarr[0].set_title('Peak')
-axarr[0].set_autoscale_on(False)
-axarr[0].axis([0.5, 8, 0, 1])
-# axarr[0].ylabel('Brilliance Transfer')
-# axarr[0].xlabel('Wavelength [AA]')
-
-axarr[1].plot(mean_result[:, 0:1].T[0], mean_result[:, 1:2].T[0])
-axarr[1].set_title('Mean')
-axarr[1].set_autoscale_on(False)
-axarr[1].axis([0.5, 8, 0, 1])
-# axarr[1].ylabel('Brilliance Transfer')
-# axarr[1].xlabel('Wavelength [AA]')
-
-fig.tight_layout()
 plt.xlabel("Wavelength [AA]")
 plt.ylabel("Brilliance Transfer")
+plt.title('Peak/Mean brilliance transfers as a function of wavelength')
+plt.axis([0, 8, 0, 1])
+plt.grid(True)
 plt.show()
 
 
