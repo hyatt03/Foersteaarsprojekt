@@ -139,8 +139,9 @@ def optimize(instruments, params, area):
     for key in parameter_keys:
         params_dx[key] = params_dx[key] / 10
     
+    pool = ThreadPool(len(parameter_keys))
+    
     for i in xrange(0, 100):
-        pool = ThreadPool(len(parameter_keys))
         bound_optimizer = functools.partial(optimize_param, instruments, params.copy(), params_dx, area)
         results = pool.map(bound_optimizer, parameter_keys)
 
