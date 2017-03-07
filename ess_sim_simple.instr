@@ -1,5 +1,13 @@
 
-DEFINE INSTRUMENT test(elip=1, rot=0, m_val=2)
+DEFINE INSTRUMENT test(
+  m_val=2, 
+  guide_mid_width = 0.18, 
+  guide_mid_height = 0.18,
+  guide_linxw = 10.5,
+  guide_loutxw = 10.5,
+  guide_linyh = 10.5,
+  guide_loutyh = 10.5
+)
 
 DECLARE
 %{
@@ -25,38 +33,28 @@ COMPONENT source = ESS_butterfly(
     focus_yh = 0.1, Lmin = 0.5, Lmax = 8)
   AT (0, 0, 0) RELATIVE Origin
 
-
 COMPONENT Brillmon_begin = Brilliance_monitor(
    nlam = 101, nt = 101, filename = "brill_begin.dat", t_0 = 1,
-    t_1 =4e4, lambda_0 = 0, lambda_1 = 8,
-    Freq =14, toflambda=0, tofcuts=0,
+    t_1 =5e5, lambda_0 = 0, lambda_1 = 8,
+    Freq =1, toflambda=0, tofcuts=0,
     xwidth=0.01, yheight=0.01, restore_neutron=1)
-  AT (0, 0, 1) RELATIVE source
-
+  AT (0, 0, 2) RELATIVE source
 
 COMPONENT guide = Elliptic_guide_gravity(
-    l = 162.4, xwidth = 0.1, yheight = 0.1, dimensionsAt="mid",
-    linxw = 5, loutxw = 5, linyh = 1, loutyh = 1, 
+    l = 162.4, xwidth = guide_mid_width, yheight = guide_mid_height, dimensionsAt="mid",
+    linxw = guide_linxw, loutxw = guide_loutxw, linyh = guide_linyh, loutyh = guide_loutyh, 
     m = m_val)
-  WHEN (elip == 1)
   AT (0, 0, 2) RELATIVE source
-  ROTATED (0, rot, 0) RELATIVE source
-  
- 
-COMPONENT straigth = Guide_gravity(
-    w1 = 0.1, h1 = 0.1, l = 162.4, m = m_val)
-  WHEN (elip == 0)
-  AT (0, 0, 2) RELATIVE source
-  ROTATED (0, rot, 0) RELATIVE source
+  ROTATED (0, 0, 0) RELATIVE source
 
 COMPONENT Monitors = Arm()
-  AT (0, 0, 165) RELATIVE guide
+  AT (0, 0, 165) RELATIVE source
 
 COMPONENT Brillmon = Brilliance_monitor(
-   nlam = 101, nt = 101, filename = "brill_end.dat", t_0 = 1,
-    t_1 =4e4, lambda_0 = 0, lambda_1 = 8,
-    Freq =14, toflambda=0, tofcuts=0,
-    srcarea=1, restore_neutron=1)
+   nlam = 101, nt = 101, filename = "brill_end.dat", t_0 = 1e4,
+    t_1 =5e5, lambda_0 = 0, lambda_1 = 8,
+    Freq =1, toflambda=0, tofcuts=0, source_dist=1,
+    xwidth=0.01, yheight=0.01, restore_neutron=1)
 AT (0, 0, u) RELATIVE Monitors
 
 /*
