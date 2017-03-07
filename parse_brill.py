@@ -123,9 +123,8 @@ def run_mcstas(instrument, params):
 
 def optimize_param(instrument, params, parameter_state, initial_area, param):
     dx = parameter_state[param]
-    if (dx < 10e-5) {
+    if dx < 10e-5:
         dx = - params[param] / 10
-    }
 
     params[param] += dx
     area, result, res_x, res_y = run_mcstas(instrument, params)
