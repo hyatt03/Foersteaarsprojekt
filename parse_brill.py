@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 import os
 import subprocess
 import time
+from multiprocessing.dummy import Pool as ThreadPool
+import functools
 
 FNULL = open(os.devnull, 'w')
 
@@ -90,7 +92,7 @@ def compile_mcstas(instrument):
         sys.exit(1)
         
 def run_mcstas(instrument, params):
-    epoch_time = int(time.time() * 1000)
+    epoch_time = int(time.time() * 100000)
     save_dir = './data/{}_{}'.format(instrument, epoch_time)
     print 'Beginning run @ {}'.format(epoch_time)
     
@@ -98,7 +100,7 @@ def run_mcstas(instrument, params):
         './{}.out'.format(instrument), 
         '-n', '10000000', 
         '-d', save_dir,
-        'm_val=6',
+        'm_val=2',
         'guide_mid_width={}'.format(params['guide_mid_width']),
         'guide_mid_height={}'.format(params['guide_mid_height']),
         'guide_linxw={}'.format(params['guide_linxw']),
@@ -107,7 +109,7 @@ def run_mcstas(instrument, params):
         'guide_loutyh={}'.format(params['guide_loutyh'])
     ]
     
-    print 'running: {}'.format(instrument)
+    # print 'running: {}'.format(instrument)
     exc = subprocess.call(run_instrument_with_params, stdout=FNULL, stderr=subprocess.STDOUT)
     if exc == 0:
         print 'Successful run!'
@@ -115,24 +117,60 @@ def run_mcstas(instrument, params):
         print 'Something went wrong!'
         sys.exit(1)
     
-    print 'finished running in {} ms'.format(int(time.time() * 1000) - epoch_time)
+    print 'finished running in {}'.format(int(time.time() * 100000) - epoch_time)
         
     return process_brilliance(save_dir, 'Mean')
+
+def optimize_param(instrument, params, parameter_state, initial_area, param):
+    dx = parameter_state[param]
+    params[param] += dx
+    area, result, res_x, res_y = run_mcstas(instrument, params)
+    if (area > initial_area):
+        parameter_state[param] = dx * 2
+    else:
+        parameter_state[param] = dx * 0.3
+        
+    # print 'Optimizing {} by {} which gives: {}'.format(param, dx, area)
+    return [area, dx]
+
+def optimize(instruments, params, area):
+    parameter_keys = params.keys()
+    params_dx = params.copy()
+    for key in parameter_keys:
+        params_dx[key] = params_dx[key] / 10
     
+    for i in xrange(0, 100):
+        pool = ThreadPool(len(parameter_keys))
+        bound_optimizer = functools.partial(optimize_param, instruments, params.copy(), params_dx, area)
+        results = pool.map(bound_optimizer, parameter_keys)
+
+        max_area = area
+        for idx in xrange(0, len(parameter_keys)):
+            result = results[idx]
+            parameter = parameter_keys[idx]
+        
+            if (result[0] > area):
+                max_area = result[0]
+                params[parameter] += result[1]
+    
+        area = max_area
+        print 'new params!', params
+
 # Get initial parameters
 parameter_dict = {
-    'guide_mid_width': 0.18,
-    'guide_mid_height': 0.18,
-    'guide_linxw': 10.5,
-    'guide_loutxw': 10.5,
-    'guide_linyh': 10.5,
-    'guide_loutyh': 10.5
+    'guide_mid_width': 0.02, # 0.18,
+    'guide_mid_height': 0.02, # 0.18,
+    'guide_linxw': 2, # 10.5,
+    'guide_loutxw': 2, # 10.5,
+    'guide_linyh': 2, # 10.5,
+    'guide_loutyh': 2 # 10.5
 }
 
 compile_mcstas('ess_sim_simple')
-area, result, res_x, res_y = run_mcstas('ess_sim_simple', parameter_dict)
-print area
+area, a, b, c = run_mcstas('ess_sim_simple', parameter_dict)
+optimize('ess_sim_simple', parameter_dict, area)
 
+"""
 # Plot results
 fig, ax = plt.subplots()
 # ax.plot(peak_res_x, peak_res_y, 'r-', label='Peak brilliance transfer')
@@ -145,6 +183,7 @@ plt.ylabel("Brilliance Transfer")
 plt.axis([0, 8, 0, 1])
 plt.grid(True)
 plt.show()
+"""
 
 
 
