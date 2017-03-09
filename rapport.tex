@@ -121,22 +121,33 @@ Her skriver vi om MCstas, hvordan det fungerer og hvorfor det er godt/skidt
 \subsection{Komponenter til guidesystermerne}
 Her forklarer vi hvordan vi skruer vores guides sammen. Begreber som chopper, sample, diverse former for monitors forklares osv.
 
-Hvis man lod neutronerne flyve frit mellem kilde og prøve, ville meget få neutroner nå frem (grundet afstandskvadratloven). For at transportere neutronerne de omtalte 165 meter fra kilde til prøve, og stadig have en rimelig intensitet ved prøven, bruger man såkaldte neutronguides. Neutronguides består af neutronspejle, hvis grundbyggesten er nikkel (Ni). For at kunne bedømme et neutronspejls kvalitet, indfører vi en kritisk spredningsvektor, qc. Derudover kalder vi den indkommende neutron for ki og den selvsamme udkommende neutron for kf. Vi søger nu den kritiske vinkel, thetac, der er den største mulige vinkel der tillader total refleksion. (Se figur 1)
+Hvis man lod neutronerne flyve frit mellem kilde og prøve, ville meget få neutroner nå frem (grundet afstandskvadratloven). For at transportere neutronerne de omtalte 165 meter fra kilde til prøve, og stadig have en rimelig intensitet ved prøven, bruger man såkaldte neutronguides. Neutronguides består af neutronspejle, hvis grundbyggesten er nikkel (Ni). For at kunne bedømme et neutronspejls kvalitet, indfører vi en kritisk spredningsvektor, $q_c$. Derudover kalder vi den indkommende neutron for $k_i$ og den selvsamme udkommende neutron for $k_f$. Vi søger nu den kritiske vinkel, $\theta_c$, der er den største mulige vinkel der tillader total refleksion. (Se figur 1)
 
-Billede skal ind her :)))))
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{fernet.png}
+\caption{\label{Billede}}
+\end{figure}
 
-Ved totalrefleksion er den kritiske vinkel en funktion af bølgelængden, og ved elastisk spredning får vi derudover at k__i=k__f=k. Vi kan dermed skrive kritiske spredningsvektoren qc som
 
-qc=2*k*sin(theta(lambda)(
+Ved totalrefleksion er den kritiske vinkel en funktion af bølgelængden, og ved elastisk spredning får vi derudover at $k_i=k_f=k$. Vi kan dermed skrive kritiske spredningsvektoren $q_c$ som
 
-Hvilket vi også kan skrive som
+\begin{align} \label{eq:qc}
+q_c=2k \cdot sin(\theta_c (\lambda))
+\end{align}
+Hvor $\lambda$ er bølgelængden for neutronen (Vi husker på partikel-bølge dualiteten fra kvantemekanik, og vi kan dermed godt beskrive neutronen som en bølge)
 
-qc=4*pi*sin(theta(lambda))/lambda
+Vi får, at vi kan skrive ligning (\ref{eq:qc}) som:
 
-Da vi har ved små vinkler at gøre, kan vi approksimere sin(theta(lambda)) til theta(lambda) og får dermed
+\begin{align} \label{eq:qc2}
+q_c=4\pi \cdot \frac{sin(\theta_c(\lambda))}{\lambda}
+\end{align}
+Da vi har ved små vinkler at gøre, kan vi approksimere ligning (\ref{eq:qc2})  ved \\ $sin(\theta_c(\lambda))≈\theta_c(\lambda)$. Vi får at:
 
-qc=4*pi*theta(lambda)/lambda
-
+\begin{align}
+qc≈4\pi \cdot \frac{\theta_c (\lambda)}{\lambda}
+\end{align}
+Vi har, at værdien for den kritiske spredningsvektor for nikkel er $q_{c, Ni}=0.0217\text{Å} ^{-1}$ \cite{lefmann_arleth_kirkensgaard_lebech_thomsen}
 
 
 
