@@ -9,6 +9,8 @@ import time
 from multiprocessing.dummy import Pool as ThreadPool
 import functools
 
+from hyperopt import hp
+
 FNULL = open(os.devnull, 'w')
 
 plt.rcParams["figure.figsize"] = (15,8)
@@ -160,8 +162,22 @@ def optimize(instruments, params, area):
         area = max_area
         print 'new params!', params
 
+def getNegativeBrilliance(instrument, params):
+    area, b, c, d = run_mcstas(instrument, params)
+    if (area > 8):
+        return area
+    
+    return 8 - area
+
+def getSearchSpace(parameterLimits):
+    space = {}
+    for key in parameterLimits.keys():
+        space[key] = hp.uniform(key, parameterLimits[key][0], parameterLimits[key][1]))
+        
+    return space
+
 # Get initial parameters
-parameter_dict = {
+parameter_dict_a = {
     'guide_mid_width': 0.02, # 0.18,
     'guide_mid_height': 0.02, # 0.18,
     'guide_linxw': 2, # 10.5,
@@ -170,9 +186,29 @@ parameter_dict = {
     'guide_loutyh': 2 # 10.5
 }
 
-compile_mcstas('ess_sim_simple')
-area, a, b, c = run_mcstas('ess_sim_simple', parameter_dict)
-optimize('ess_sim_simple', parameter_dict, area)
+parameter_dict_b = {
+    'guide_mid_width': 0.1,
+    'guide_mid_height': 0.05,
+    'guide_linxw': 11,
+    'guide_loutxw': 10.5,
+    'guide_linyh': 11,
+    'guide_loutyh': 10.5
+}
+
+limitsDict = {
+    'guide_mid_width': [0, 0.1],
+    'guide_mid_height': [0, 0.1],
+    'guide_linxw': [0, 80],
+    'guide_loutxw': [0, 80],
+    'guide_linyh': [0, 80],
+    'guide_loutyh': [0, 80]
+}
+
+print getSearchSpace(limitsDict)
+
+# compile_mcstas('ess_sim_simple')
+# area, res, res_x, res_y = run_mcstas('ess_sim_simple', parameter_dict_b)
+# optimize('ess_sim_simple', parameter_dict, area)
 
 """
 # Plot results
