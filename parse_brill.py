@@ -13,6 +13,8 @@ import dill
 from hyperopt import hp, fmin, tpe
 from hyperopt.mongoexp import MongoTrials
 
+os.chdir('/home/jph/Foersteaarsprojekt')
+
 FNULL = open(os.devnull, 'w')
 
 plt.rcParams["figure.figsize"] = (15,8)
@@ -83,7 +85,7 @@ def process_brilliance(path, type):
 def compile_mcstas(instrument):
     print 'About to optimize {}'.format(instrument)
     
-    compile_to_c = ['mcstas', '-I', '.', '-t', '-o', './{}.c'.format(instrument), './{}.instr'.format(instrument)]
+    compile_to_c = ['mcstas', '-I', '.', '-t', '-o', '/home/jph/Foersteaarsprojekt/{}.c'.format(instrument), '/home/jph/Foersteaarsprojekt/{}.instr'.format(instrument)]
     print 'Running: {}'.format(compile_to_c)
     exc = subprocess.call(compile_to_c, stdout=FNULL, stderr=subprocess.STDOUT)
     if exc == 0:
@@ -92,7 +94,7 @@ def compile_mcstas(instrument):
         print 'Compile to C failed!'
         sys.exit(1)
     
-    compile_to_bin = ['cc', '-o', './{}.out'.format(instrument), './{}.c'.format(instrument), '-lm']
+    compile_to_bin = ['cc', '-o', '/home/jph/Foersteaarsprojekt/{}.out'.format(instrument), '/home/jph/Foersteaarsprojekt/{}.c'.format(instrument), '-lm']
     print 'running: {}'.format(compile_to_bin)
     exc = subprocess.call(compile_to_bin, stdout=FNULL, stderr=subprocess.STDOUT)
     if exc == 0:
@@ -103,11 +105,11 @@ def compile_mcstas(instrument):
         
 def run_mcstas(instrument, params):
     epoch_time = now()
-    save_dir = './data/{}_{}'.format(instrument, epoch_time)
+    save_dir = '/home/jph/Foersteaarsprojekt/data/{}_{}'.format(instrument, epoch_time)
     print 'Beginning run @ {}'.format(epoch_time)
     
     run_instrument_with_params = [
-        './{}.out'.format(instrument), 
+        '/home/jph/Foersteaarsprojekt/{}.out'.format(instrument), 
         '-n', '10000000', 
         '-d', save_dir,
         'm_val=2',

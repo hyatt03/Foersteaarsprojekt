@@ -1,3 +1,8 @@
+import sys
+import os
+
+sys.path.append(os.path.abspath('/home/jph/Foersteaarsprojekt'))
+
 from hyperopt import hp, fmin, tpe
 from hyperopt.mongoexp import MongoTrials
     
