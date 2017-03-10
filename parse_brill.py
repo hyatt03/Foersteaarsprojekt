@@ -9,7 +9,7 @@ import time
 from multiprocessing.dummy import Pool as ThreadPool
 import functools
 
-from hyperopt import hp
+from hyperopt import hp, fmin, tpe
 
 FNULL = open(os.devnull, 'w')
 
@@ -170,11 +170,12 @@ def getNegativeBrilliance(instrument, params):
     return 8 - area
 
 def getSearchSpace(parameterLimits):
-    space = {}
+    choice_space = []
+
     for key in parameterLimits.keys():
-        space[key] = hp.uniform(key, parameterLimits[key][0], parameterLimits[key][1]))
-        
-    return space
+        choice_space.append(hp.uniform(key, parameterLimits[key][0], parameterLimits[key][1]))
+    
+    return choice_space
 
 # Get initial parameters
 parameter_dict_a = {
@@ -204,13 +205,31 @@ limitsDict = {
     'guide_loutyh': [0, 80]
 }
 
-print getSearchSpace(limitsDict)
+# print getSearchSpace(limitsDict)
+
+my_instrument = 'ess_sim_simple'
+
+def objective(args):
+    paramsDict = {}
+    i = 0
+    for key in limitsDict.keys():
+        paramsDict[key] = args[i]
+        i += 1
+
+    return getNegativeBrilliance(my_instrument, paramsDict)
+
+best = fmin(objective, getSearchSpace(limitsDict), algo=tpe.suggest, max_evals=100)
+with open("best.txt", "a") as myfile:
+    myfile.write(str(best))
+area, res, res_x, res_y = run_mcstas('ess_sim_simple', best)
+
+
 
 # compile_mcstas('ess_sim_simple')
 # area, res, res_x, res_y = run_mcstas('ess_sim_simple', parameter_dict_b)
 # optimize('ess_sim_simple', parameter_dict, area)
 
-"""
+
 # Plot results
 fig, ax = plt.subplots()
 # ax.plot(peak_res_x, peak_res_y, 'r-', label='Peak brilliance transfer')
@@ -222,8 +241,8 @@ plt.ylabel("Brilliance Transfer")
 # plt.title('Peak/Mean brilliance transfers as a function of wavelength\nPeak area: {}, Mean area: {}'.format(area_peak, area_mean))
 plt.axis([0, 8, 0, 1])
 plt.grid(True)
-plt.show()
-"""
+plt.savefig('optimized_mean.png')
+
 
 
 
