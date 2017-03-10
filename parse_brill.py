@@ -112,7 +112,7 @@ def run_mcstas(instrument, params):
         '/home/jph/Foersteaarsprojekt/{}.out'.format(instrument), 
         '-n', '10000000', 
         '-d', save_dir,
-        'm_val=2',
+        'm_val=6',
         'guide_mid_width={}'.format(params['guide_mid_width']),
         'guide_mid_height={}'.format(params['guide_mid_height']),
         'guide_linxw={}'.format(params['guide_linxw']),

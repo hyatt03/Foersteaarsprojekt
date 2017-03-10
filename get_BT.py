@@ -21,5 +21,5 @@ plt.ylabel("Brilliance Transfer")
 # plt.title('Peak/Mean brilliance transfers as a function of wavelength\nPeak area: {}, Mean area: {}'.format(area_peak, area_mean))
 plt.axis([0, 8, 0, 1])
 plt.grid(True)
-plt.savefig('optimized_mean_2.png')
+plt.savefig('optimized_mean_4.png')
 
