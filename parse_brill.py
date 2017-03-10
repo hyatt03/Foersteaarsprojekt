@@ -8,8 +8,10 @@ import subprocess
 import time
 from multiprocessing.dummy import Pool as ThreadPool
 import functools
+import dill
 
 from hyperopt import hp, fmin, tpe
+from hyperopt.mongoexp import MongoTrials
 
 FNULL = open(os.devnull, 'w')
 
@@ -17,6 +19,12 @@ plt.rcParams["figure.figsize"] = (15,8)
 
 row_count = 101
 col_count = 4
+
+def getExperiment():
+    return 'ess_sim_simple'
+
+def now():
+    return int(time.time() * 100000)
 
 def read_file(path, filename):
     a = np.zeros((row_count, col_count))
@@ -94,7 +102,7 @@ def compile_mcstas(instrument):
         sys.exit(1)
         
 def run_mcstas(instrument, params):
-    epoch_time = int(time.time() * 100000)
+    epoch_time = now()
     save_dir = './data/{}_{}'.format(instrument, epoch_time)
     print 'Beginning run @ {}'.format(epoch_time)
     
@@ -119,7 +127,7 @@ def run_mcstas(instrument, params):
         print 'Something went wrong!'
         sys.exit(1)
     
-    print 'finished running in {}'.format(int(time.time() * 100000) - epoch_time)
+    print 'finished running in {}'.format(now() - epoch_time)
         
     return process_brilliance(save_dir, 'Mean')
 
@@ -169,13 +177,7 @@ def getNegativeBrilliance(instrument, params):
     
     return 8 - area
 
-def getSearchSpace(parameterLimits):
-    choice_space = []
 
-    for key in parameterLimits.keys():
-        choice_space.append(hp.uniform(key, parameterLimits[key][0], parameterLimits[key][1]))
-    
-    return choice_space
 
 # Get initial parameters
 parameter_dict_a = {
@@ -207,8 +209,7 @@ limitsDict = {
 
 # print getSearchSpace(limitsDict)
 
-my_instrument = 'ess_sim_simple'
-
+# We setup the optimizer here
 def objective(args):
     paramsDict = {}
     i = 0
@@ -216,20 +217,24 @@ def objective(args):
         paramsDict[key] = args[i]
         i += 1
 
-    return getNegativeBrilliance(my_instrument, paramsDict)
+    return getNegativeBrilliance(getExperiment(), paramsDict)
 
-best = fmin(objective, getSearchSpace(limitsDict), algo=tpe.suggest, max_evals=100)
-with open("best.txt", "a") as myfile:
-    myfile.write(str(best))
-area, res, res_x, res_y = run_mcstas('ess_sim_simple', best)
+def getSearchSpace(parameterLimits):
+    choice_space = []
 
+    for key in parameterLimits.keys():
+        choice_space.append(hp.uniform(key, parameterLimits[key][0], parameterLimits[key][1]))
+    
+    return choice_space
+
+# area, res, res_x, res_y = run_mcstas('ess_sim_simple', best)
 
 
 # compile_mcstas('ess_sim_simple')
 # area, res, res_x, res_y = run_mcstas('ess_sim_simple', parameter_dict_b)
 # optimize('ess_sim_simple', parameter_dict, area)
 
-
+"""
 # Plot results
 fig, ax = plt.subplots()
 # ax.plot(peak_res_x, peak_res_y, 'r-', label='Peak brilliance transfer')
@@ -241,8 +246,8 @@ plt.ylabel("Brilliance Transfer")
 # plt.title('Peak/Mean brilliance transfers as a function of wavelength\nPeak area: {}, Mean area: {}'.format(area_peak, area_mean))
 plt.axis([0, 8, 0, 1])
 plt.grid(True)
-plt.savefig('optimized_mean.png')
-
+plt.savefig('optimized_mean_2.png')
+"""
 
 
 
