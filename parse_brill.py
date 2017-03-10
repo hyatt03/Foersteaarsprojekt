@@ -10,6 +10,7 @@ from multiprocessing.dummy import Pool as ThreadPool
 import functools
 
 from hyperopt import hp, fmin, tpe
+from hyperopt.mongoexp import MongoTrials
 
 FNULL = open(os.devnull, 'w')
 
@@ -17,6 +18,9 @@ plt.rcParams["figure.figsize"] = (15,8)
 
 row_count = 101
 col_count = 4
+
+def now():
+    return int(time.time() * 100000)
 
 def read_file(path, filename):
     a = np.zeros((row_count, col_count))
@@ -94,7 +98,7 @@ def compile_mcstas(instrument):
         sys.exit(1)
         
 def run_mcstas(instrument, params):
-    epoch_time = int(time.time() * 100000)
+    epoch_time = now()
     save_dir = './data/{}_{}'.format(instrument, epoch_time)
     print 'Beginning run @ {}'.format(epoch_time)
     
@@ -119,7 +123,7 @@ def run_mcstas(instrument, params):
         print 'Something went wrong!'
         sys.exit(1)
     
-    print 'finished running in {}'.format(int(time.time() * 100000) - epoch_time)
+    print 'finished running in {}'.format(now() - epoch_time)
         
     return process_brilliance(save_dir, 'Mean')
 
@@ -207,8 +211,8 @@ limitsDict = {
 
 # print getSearchSpace(limitsDict)
 
+# We setup the optimizer here.
 my_instrument = 'ess_sim_simple'
-
 def objective(args):
     paramsDict = {}
     i = 0
@@ -218,11 +222,13 @@ def objective(args):
 
     return getNegativeBrilliance(my_instrument, paramsDict)
 
-best = fmin(objective, getSearchSpace(limitsDict), algo=tpe.suggest, max_evals=100)
+exp_label = '{}_{}'.format(my_instrument, now())
+
+trials = MongoTrials('mongo://localhost:1234/exp_db/jobs', exp_key=exp_label)
+best = fmin(objective, getSearchSpace(limitsDict), trials=trials, algo=tpe.suggest, max_evals=100)
 with open("best.txt", "a") as myfile:
     myfile.write(str(best))
 area, res, res_x, res_y = run_mcstas('ess_sim_simple', best)
-
 
 
 # compile_mcstas('ess_sim_simple')
