@@ -1,0 +1,103 @@
+
+DEFINE INSTRUMENT test()
+
+DECLARE
+%{
+%}
+
+/* The INITIALIZE section is executed when the simulation starts     */
+/* (C code). You may use them as component parameter values.         */
+INITIALIZE
+%{
+int m = 1;
+%}
+
+/* Here comes the TRACE section, where the actual      */
+/* instrument is defined as a sequence of components.  */
+TRACE
+
+/* The Arm() class component defines reference points and orientations  */
+/* in 3D space. Every component instance must have a unique name. Here, */
+/* Origin is used. This Arm() component is set to define the origin of  */
+/* our global coordinate system (AT (0,0,0) ABSOLUTE). It may be used   */
+/* for further RELATIVE reference, Other useful keywords are : ROTATED  */
+/* EXTEND GROUP PREVIOUS. Also think about adding a neutron source !    */
+/* Progress_bar is an Arm displaying simulation progress.               */
+COMPONENT Origin = Progress_bar()
+  AT (0,0,0) ABSOLUTE
+
+
+COMPONENT source = ESS_butterfly(
+    sector = "W", beamline = 4, dist = 2, focus_xw = 0.1,
+    focus_yh = 0.1, Lmin = 0.5, Lmax = 8)
+  AT (0, 0, 0) RELATIVE Origin
+
+COMPONENT first_guide = Elliptic_guide_gravity(
+  l = 5, xwidth = 0.1, yheight = 0.1, //dimensionsAt="mid",
+  linxw = 0.1, loutxw = 0.1, linyh = 0.1, loutyh = 0.1,
+  m = 6)
+AT (0, 0, 2) RELATIVE source
+/*
+COMPONENT kink_mirror = Mirror(
+  xwidth = 1, yheight = 1,
+  R0 = 0.99, Qc = 0.021,
+  alpha=6.07, m = 6,
+  W=0.003, center = 1,
+  transmit = 0)
+AT (0, 0, 0.6) RELATIVE first_guide
+ROTATED (0, 1, 0) RELATIVE first_guide
+*/
+COMPONENT test_mon1 = PSD_monitor(
+  filename = "test_mon1.dat", xwidth = 5, yheight = 5, 
+  restore_neutron = 1)
+AT (0, 0, 1) RELATIVE first_guide
+
+
+/*
+COMPONENT guide = Elliptic_guide_gravity(
+    l = 162.4, xwidth = 0.1, yheight = 0.1, dimensionsAt="mid",
+    linxw = 5, loutxw = 5, linyh = 10, loutyh = 10, 
+    m = 2)
+  AT (0, 0, 2) RELATIVE source
+  ROTATED (0, rot, 0) RELATIVE source
+  
+ 
+COMPONENT straigth = Guide_gravity(
+    w1 = 0.1, h1 = 0.1, l = 162.4, m = 2)
+  WHEN (elip == 0)
+  AT (0, 0, 2) RELATIVE source
+  ROTATED (0, rot, 0) RELATIVE source
+
+
+COMPONENT mon1 = PSD_monitor(
+    filename = "det1.dat", xwidth = 0.01, yheight = 0.01, restore_neutron=1)
+  AT (0, 0, 165) RELATIVE guide
+
+
+COMPONENT mon2 = Divergence_monitor(
+    nh = 90, nv = 90, filename = "det2.dat", xwidth = 0.01,
+    yheight = 0.01, maxdiv_h = 0.75, maxdiv_v = 0.75,
+    restore_neutron = 1)
+  AT (0, 0, 0.00001) RELATIVE mon1
+
+
+COMPONENT mon3 = E_monitor(
+    filename = "det3.dat", xwidth = 0.1, yheight = 0.1, Emin = 0,
+    Emax = 50, restore_neutron = 1)
+  AT (0, 0, 0.00001) RELATIVE mon2
+
+
+COMPONENT mon4 = L_monitor(
+    filename = "det4.dat", xwidth = 0.1, yheight = 0.1,
+    Lmin = 0.5, Lmax = 8, restore_neutron = 1)
+  AT (0, 0, 0.00001) RELATIVE mon3
+*/
+
+/* This section is executed when the simulation ends (C code). Other    */
+/* optional sections are : SAVE                                         */
+FINALLY
+%{
+%}
+/* The END token marks the instrument definition end */
+END
+
