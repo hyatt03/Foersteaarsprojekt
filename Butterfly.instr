@@ -1,0 +1,77 @@
+/*******************************************************************************
+* Instrument: <instrument name>
+*
+* %I
+* Written by: <your name (email)>
+* Date: <current date>
+* Origin: <your institution>
+* Release: <McStas V.X.X>
+* Version: <instrument version>
+* %INSTRUMENT_SITE: Templates
+*
+* <instrument short description>
+*
+* %D
+* <instrument description>
+*
+* Example: <parameters=values>
+*
+* %P
+* <parameter1>: [<unit>] <parameter1 description>
+* ...
+* 
+* %L
+* <reference/HTML link>
+*
+* %E
+*******************************************************************************/
+DEFINE INSTRUMENT template_body_simple(Par1=1)
+
+DECLARE
+%{
+%}
+
+INITIALIZE
+%{
+%}
+
+TRACE
+
+COMPONENT origin = Progress_bar()
+AT (0, 0, 0) RELATIVE ABSOLUTE
+
+// insert components here (e.g. Insert -> Source -> ...)
+
+COMPONENT Source = ESS_butterfly(sector="N",beamline=5,Lmin=0.1,Lmax=20,dist=2, cold_frac=0.5, yheight=0.03,focus_xw=0.1, focus_yh=0.1)
+AT (0,0,0) RELATIVE origin
+
+
+COMPONENT guide=Elliptic_guide_gravity(
+ 	l=162.4,
+ 	linxw=5,linyh=5,loutxw=10,loutyh=10,
+ 	xwidth=0.05,yheight=0.05,
+ 	R0=0.99,Qc=0.0219,alpha=6.07,m=1.0,W=0.003
+ ) 
+AT (0,0,2) RELATIVE origin
+
+
+COMPONENT psd_monitor = PSD_monitor( 
+    nx=90, 
+    ny=90, 
+    filename="psd.dat", 
+    xmin=-0.05, 
+    xmax=0.05, 
+    ymin=-0.05, 
+    ymax=0.05, 
+    xwidth=0, 
+    yheight=0, 
+    restore_neutron=0)
+AT (0, 0, 165) RELATIVE origin
+ROTATED (0, 0, 0) RELATIVE PREVIOUS
+
+
+FINALLY
+%{
+%}
+
+END

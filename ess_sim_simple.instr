@@ -1,0 +1,94 @@
+
+DEFINE INSTRUMENT test(
+  m_val=2, 
+  guide_mid_width = 0.18, 
+  guide_mid_height = 0.18,
+  guide_linxw = 10.5,
+  guide_loutxw = 10.5,
+  guide_linyh = 10.5,
+  guide_loutyh = 10.5
+)
+
+DECLARE
+%{
+double u;
+%}
+
+/* The INITIALIZE section is executed when the simulation starts     */
+/* (C code). You may use them as component parameter values.         */
+INITIALIZE
+%{
+u=1e-4;
+%}
+
+/* Here comes the TRACE section, where the actual      */
+/* instrument is defined as a sequence of components.  */
+TRACE
+
+COMPONENT Origin = Progress_bar()
+  AT (0,0,0) ABSOLUTE
+
+COMPONENT source = ESS_butterfly(
+    sector = "W", beamline = 4, dist = 2, focus_xw = 0.1,
+    focus_yh = 0.1, Lmin = 0.5, Lmax = 8)
+  AT (0, 0, 0) RELATIVE Origin
+
+COMPONENT Brillmon_begin = Brilliance_monitor(
+   nlam = 101, nt = 101, filename = "brill_begin.dat", t_0 = 1,
+    t_1 =5e5, lambda_0 = 0, lambda_1 = 8,
+    Freq =1, toflambda=0, tofcuts=0,
+    xwidth=0.01, yheight=0.01, restore_neutron=1)
+  AT (0, 0, 2) RELATIVE source
+
+COMPONENT guide = Elliptic_guide_gravity(
+    l = 162.4, xwidth = guide_mid_width, yheight = guide_mid_height, dimensionsAt="mid",
+    linxw = guide_linxw, loutxw = guide_loutxw, linyh = guide_linyh, loutyh = guide_loutyh, 
+    m = m_val)
+  AT (0, 0, 2) RELATIVE source
+  ROTATED (0, 0, 0) RELATIVE source
+
+COMPONENT Monitors = Arm()
+  AT (0, 0, 165) RELATIVE source
+
+COMPONENT Brillmon = Brilliance_monitor(
+   nlam = 101, nt = 101, filename = "brill_end.dat", t_0 = 1e4,
+    t_1 =5e5, lambda_0 = 0, lambda_1 = 8,
+    Freq =1, toflambda=0, tofcuts=0, source_dist=1,
+    xwidth=0.01, yheight=0.01, restore_neutron=1)
+AT (0, 0, u) RELATIVE Monitors
+
+/*
+COMPONENT mon1 = PSD_monitor(
+    filename = "det1.dat", xwidth = 0.01, yheight = 0.01, restore_neutron=1)
+  AT (0, 0, u) RELATIVE PREVIOUS
+
+
+COMPONENT mon2 = Divergence_monitor(
+    nh = 90, nv = 90, filename = "det2.dat", xwidth = 0.01,
+    yheight = 0.01, maxdiv_h = 0.75, maxdiv_v = 0.75,
+    restore_neutron = 1)
+  AT (0, 0, u) RELATIVE PREVIOUS
+
+
+COMPONENT mon3 = E_monitor(
+    filename = "det3.dat", xwidth = 0.01, yheight = 0.01, Emin = 0,
+    Emax = 50, restore_neutron = 1)
+  AT (0, 0, u) RELATIVE PREVIOUS
+
+
+COMPONENT mon4 = L_monitor(
+    filename = "det4.dat", xwidth = 0.01, yheight = 0.01,
+    Lmin = 0.5, Lmax = 8, restore_neutron = 1)
+  AT (0, 0, u) RELATIVE PREVIOUS
+*/
+
+/* This section is executed when the simulation ends (C code). Other    */
+/* optional sections are : SAVE                                         */
+FINALLY
+%{
+%}
+/* The END token marks the instrument definition end */
+END
+
+
+

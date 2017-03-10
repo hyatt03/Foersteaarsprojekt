@@ -1,12 +1,13 @@
-\documentclass[]{report}
+\documentclass[12pt,oneside,a4paper]{article}
 
 %% Language and font encodings
-\usepackage[english]{babel}
+\usepackage{ulem}
+\usepackage[danish,english]{babel}
 \usepackage[utf8x]{inputenc}
 \usepackage[T1]{fontenc}
 
 %% Sets page size and margins
-\usepackage[a4paper,top=3cm,bottom=2cm,left=2.25cm,right=2.25cm,marginparwidth=1.75cm]{geometry}
+\usepackage[left=2.5cm,top=2.0cm,bottom=1.5cm, right=3.0cm]{geometry}
 
 %% Useful packages
 \usepackage{amsmath}
@@ -17,36 +18,182 @@
 \usepackage{gensymb}
 \usepackage{float}
 \usepackage{adjustbox}
+\usepackage{graphics}
+\usepackage{amssymb}
+\usepackage{url}
+\usepackage{cancel}
+\usepackage{booktabs}
+\usepackage{pdfpages}
+\usepackage{mathpazo}
+\usepackage[section]{placeins}
+\usepackage{caption}
+\usepackage{wrapfig}
+\usepackage{tocloft}
+\usepackage{subfig}
+\usepackage{fancyhdr}
+\usepackage{framed}
+\usepackage{footnote}
 
-% Title Page
-\title{Simulering af neutron optik}
-\author{
-    Hyatt, Jonas Peter\ 
-    \texttt{zkv499@alumni.ku.dk}
-    \and
-    LastName, Walde\ 
-    \texttt{first2.last2@alumni.ku.dk}
-    \and
-    LastName, Walther\ 
-    \texttt{first2.last2@alumni.ku.dk}
-}
-
+\linespread{1.3} % linjeafstand 1.5
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{0.3cm}
 
 \begin{document}
-\maketitle
+\selectlanguage{danish}
+\pagenumbering{roman}
+
+%% Forside %%
+
+\begin{center}
+    {\textsc {\LARGE \bf{Københavns Universitet \\[0.3cm]  Bachelorstudiet i fysik}}}\\[1.5cm]
+    {\textsc {\Large \bf Førsteårsprojekt 2017}}\\[0.8cm]
+    {\Large Projekt nummer: 2017-05}\\[1cm]
+    
+    \rule{15cm}{0.01cm}\\[1cm]
+    {\LARGE\bf  Simulering af neutron optik} \\ {\it Med fokus på M-Optimization}\\ [0.5cm]
+    \rule{15cm}{0.01cm}\\[1cm]
+\end{center}
+
+\vfill
+{\large Forfattere:}\\
+{\large \hspace*{1cm} \makebox[6cm][l]{Jonas Peter Hyatt}  \hspace{1cm} KU- ID: \makebox[2cm][l]{ZKV499} \\
+{\large \hspace*{1cm} \makebox[6cm][l]{Waldemar Svejstrup}   \hspace{1cm} KU- ID: \makebox[2cm][l]{MDS274} \\
+{\large \hspace*{1cm} \makebox[6cm][l]{Jens Walter Birkemose}   \hspace{1cm} KU- ID: \makebox[2cm][l]{SMX359} \\ 
+        
+{\large Vejledere:}\\
+{\large \hspace*{1cm} \makebox[6cm][l]{Kim Lefmann}  \hspace{1cm} Email: \makebox[2cm][l]{lefmann@nbi.ku.dk} \\
+{\large \hspace*{1cm} \makebox[6cm][l]{Jonas Okkels Birk}    \hspace{1cm} Email: \makebox[2cm][l]{jonasobirk@gmail.com} \\
+
+\vfill
+
+{\large Rapporten omfatter {\bf 1} siders hovedtekst og {\bf 1} siders appendix.}
+
+{\large Rapporten er indsendt som en pdf-fil den 17 marts 2017. }
+
+\normalsize
+
+%% Forside slut! %%
+\newpage
+%% Abstract %%
 
 \begin{abstract}
-    Vi simulerer små bolde
+    Vi simulerer små bolde 
+    
+    We are simulating small balls
 \end{abstract}
 
-\chapter{kapitel 1}
+%% Abstract slut! %%
+\newpage
+%% Indholdsfortegnelse %%
 
-\section{afsnit 1}
-Det her er afsnit 1
+\tableofcontents
+
+%% Indholdsfortegnelse slut %%
+\newpage
+%% Rapporten begynder her! %%
+
+\pagenumbering{arabic}
+
+\section{Introduktion}
+
+Vores samfund har, over de sidste par hundrede år, været under en rivende udvikling. Mange nye opfindelser er blevet fundet, og mange gamle opfindelser er blevet optimeret. I vores søgen efter mere, leder vi konstant efter nye og bedre måder, at gøre tingene på. På trods af den teknologiske udvikling, har vi stadig mange udfordringer tilbage. Dette kan være alt fra miljø- og klima problemer, til problemer inden for sundhed. For at udvikle og studere de materialer vores verden består af, er det vigtigt for forskerne at kunne se hvordan alting er opbygget. Et vigtigt redskab, der giver forskerne mulighed for at studere materialer helt ned på atomart niveau, er neutronspredning. Dette er et redskab der giver interessante resultater ikke blot for fysik, men også for eksempelvis kemi og bioteknologi, da forståelse af materialers opbygning, er essentiel i alle naturvidenskabelige fag. Netop neutronspredning bliver brugt ved ESS (European Spallation Source), i Lund i Sverige. \cite{ess_folder}
+
+\subsection{Neutronspredning}
+Her introducerer vi neutron spredning
+Neutronspredning fungerer ved, at man skyder en neutron ind på sin prøve, og måler på hvordan neutronens hastighed og retning ændrer sig, efter sammenstødet med prøven. På baggrund af dette, kan man sige noget om den atomare og molekylære struktur af sin prøve. På det punkt minder neutronspredning meget om det mere alment kendte røntgenspredning (røntgenstråling). Der er dog både fordele og ulemper ved neutronspredning. Nogle af fordelene ved neutronspredning er, at grundet neutronens neutrale ladning, vekselvirker den ikke elektromagnetisk på samme måde som røntgenstråler. Dermed kan neutronerne lettere gennemtrænge materialerne som diverse beholder kunne være lavet af. På den måde kan neutronspredning blive brugt når prøven ligger inde i en beholder, og man kan derfor lave tests på prøver ved stort tryk, høj temperatur osv. Derudover er neutronspredning generelt bedre til at analysere lettere grundstoffer, hvorimod røntgenstråler er mere velegnede til de tungere (Dette vil vi ikke komme mere ind på, da det ikke har direkte relevens for vores problemstilling). En af ulemperne ved neutronspredning er, at det kan være meget svært at have med neutroner at gøre. Der er derved både udfordringer ved fremstilling, transport og måling af neutroner.
+
+Man kan overordnet lave neutroner på 2 forskellige måder. Gennem fission og spallation. Ved ESS i Sverige bruger man spallation til at lave neutroner, der spreder sig ud i alle retninger. Det foregår ved at en wolfram kilde bombarderes med protoner, og derved udsender neutroner. Neutronerne kommer dog ud i alle retninger og hastigheder, og for at få brugbare resultater skal neutronerne fokuseres i en stråle, og have omtrent ens hastighed. Dette gøres ved hjælp af en moderator, der sænker farten på neutronerne, således at de bevæger sig med omtrent samme energi. Neutronerne bliver herefter lukket ud gennem et smalt hul, hvorefter det transporteres hen til prøven, som altså bliver bombarderet med neutroner med samme hastighed og retning. Efter neutronerne har interergeret med prøven, er der flere forskellige metoder hvorpå man kan bedømme prøvens struktur. De mest kendte metoder er diffraktion, småvinkelspredning, reflektivitet, tomografi og sprektroskopi \cite{ess_folder}
+Vi vil dog ikke komme videre ind på selve metoderne til målingerne. Vi vil derimod fokusere på selve transporten af neutronerne. Det forholder sig sådan, at man mellem kilde og prøve bliver nødt til at have et stort gab, hvori der kan laves forskellige målinger på neutronerne (omtrent 165m ved de systemer vi vil kigge på). I dette gab laver man såkaldte neutron guides, som består af spejle der reflekterer neutronerne. Det er vores mål, at få flest mulige neutroner, med den rigtige energi og retning, transporteret til vores prøve, til den mindst mulige pris.
 
 
-\section{afsnit 2}
-Det er et nyt afsnit
+\subsection{Monte Carlo simuleringer}
+Her fortæller vi om Monte Carlo 
 
+
+
+
+\section{Metode}
+Her starter vores store metode afsnit
+
+\subsection{MCstas}
+Her skriver vi om MCstas, hvordan det fungerer og hvorfor det er godt/skidt
+
+\subsection{Komponenter til guidesystermerne}
+Her forklarer vi hvordan vi skruer vores guides sammen. Begreber som chopper, sample, diverse former for monitors forklares osv.
+
+Hvis man lod neutronerne flyve frit mellem kilde og prøve, ville meget få neutroner nå frem (grundet afstandskvadratloven). For at transportere neutronerne de omtalte 165 meter fra kilde til prøve, og stadig have en rimelig intensitet ved prøven, bruger man såkaldte neutronguides. Neutronguides består af neutronspejle, hvis grundbyggesten er nikkel (Ni). For at kunne bedømme et neutronspejls kvalitet, indfører vi en kritisk spredningsvektor, $q_c$. Derudover kalder vi den indkommende neutron for $k_i$ og den selvsamme udkommende neutron for $k_f$. Vi søger nu den kritiske vinkel, $\theta_c$, der er den største mulige vinkel der tillader total refleksion. (Se figur 1)
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{fernet.png}
+\caption{\label{Billede}}
+\end{figure}
+
+
+Ved totalrefleksion er den kritiske vinkel en funktion af bølgelængden, og ved elastisk spredning får vi derudover at $k_i=k_f=k$. Vi kan dermed skrive kritiske spredningsvektoren $q_c$ som
+
+\begin{align} \label{eq:qc}
+q_c=2k \cdot sin(\theta_c (\lambda))
+\end{align}
+Hvor $\lambda$ er bølgelængden for neutronen (Vi husker på partikel-bølge dualiteten fra kvantemekanik, og vi kan dermed godt beskrive neutronen som en bølge)
+
+Vi får, at vi kan skrive ligning (\ref{eq:qc}) som:
+
+\begin{align} \label{eq:qc2}
+q_c=4\pi \cdot \frac{sin(\theta_c(\lambda))}{\lambda}
+\end{align}
+Da vi har ved små vinkler at gøre, kan vi approksimere ligning (\ref{eq:qc2})  ved \\ $sin(\theta_c(\lambda))≈\theta_c(\lambda)$. Vi får at:
+
+\begin{align}
+qc≈4\pi \cdot \frac{\theta_c (\lambda)}{\lambda}
+\end{align}
+Vi har, at værdien for den kritiske spredningsvektor for nikkel er $q_{c, Ni}=0.0217\text{Å} ^{-1}$ \cite{lefmann_arleth_kirkensgaard_lebech_thomsen}
+
+
+
+\subsection{Krav til guidesystemerne}
+Hvad skal være opfyldt? Penge? Antal neutroner? Divergens? BT? 
+
+\subsection{Bedømmelse af guidesystemer}
+Her snakker vi om hvordan vi bedømmer guidesystemerne, dvs. antal neutroner, divergens, brilliance transfer osv.
+
+\subsection{Svagheder og fejlkilder ved MCstas}
+Hvorfor er det godt og hvorfor er det skidt?
+
+
+
+\section{Resultater}
+
+\subsection{Vores guide(s)}
+Plots of beskrivelse af vores guides
+
+
+
+\section{Diskussion}
+
+\subsection{Bedømmelse af vores guides}
+Her snakker vi om styrker/svagheder ved vores systemer
+
+\section{Konklusion}
+
+
+
+%% Rapporten er slut! %% 
+\newpage
+%% Kilder %%
+
+\bibliographystyle{plain}
+\bibliography{sources} 
+
+%% Kilder er slut! %% 
+\newpage
+%% Appendix %%
+
+\appendix
+\section{Appendix}
+PDF, ESS Gymnasiehæfte
+
+%% Appendix slut! %%
 
 \end{document}
+
