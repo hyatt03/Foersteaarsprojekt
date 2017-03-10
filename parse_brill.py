@@ -20,6 +20,9 @@ plt.rcParams["figure.figsize"] = (15,8)
 row_count = 101
 col_count = 4
 
+def getExperiment():
+    return 'ess_sim_simple'
+
 def now():
     return int(time.time() * 100000)
 
@@ -174,13 +177,7 @@ def getNegativeBrilliance(instrument, params):
     
     return 8 - area
 
-def getSearchSpace(parameterLimits):
-    choice_space = []
 
-    for key in parameterLimits.keys():
-        choice_space.append(hp.uniform(key, parameterLimits[key][0], parameterLimits[key][1]))
-    
-    return choice_space
 
 # Get initial parameters
 parameter_dict_a = {
@@ -212,8 +209,7 @@ limitsDict = {
 
 # print getSearchSpace(limitsDict)
 
-# We setup the optimizer here.
-my_instrument = 'ess_sim_simple'
+# We setup the optimizer here
 def objective(args):
     paramsDict = {}
     i = 0
@@ -221,22 +217,24 @@ def objective(args):
         paramsDict[key] = args[i]
         i += 1
 
-    return getNegativeBrilliance(my_instrument, paramsDict)
+    return getNegativeBrilliance(getExperiment(), paramsDict)
 
-exp_label = '{}_{}'.format(my_instrument, now())
+def getSearchSpace(parameterLimits):
+    choice_space = []
 
-trials = MongoTrials('mongo://localhost:1234/exp_db/jobs', exp_key=exp_label)
-best = fmin(objective, getSearchSpace(limitsDict), trials=trials, algo=tpe.suggest, max_evals=100)
-with open("best.txt", "a") as myfile:
-    myfile.write(str(best))
-area, res, res_x, res_y = run_mcstas('ess_sim_simple', best)
+    for key in parameterLimits.keys():
+        choice_space.append(hp.uniform(key, parameterLimits[key][0], parameterLimits[key][1]))
+    
+    return choice_space
+
+# area, res, res_x, res_y = run_mcstas('ess_sim_simple', best)
 
 
 # compile_mcstas('ess_sim_simple')
 # area, res, res_x, res_y = run_mcstas('ess_sim_simple', parameter_dict_b)
 # optimize('ess_sim_simple', parameter_dict, area)
 
-
+"""
 # Plot results
 fig, ax = plt.subplots()
 # ax.plot(peak_res_x, peak_res_y, 'r-', label='Peak brilliance transfer')
@@ -249,7 +247,7 @@ plt.ylabel("Brilliance Transfer")
 plt.axis([0, 8, 0, 1])
 plt.grid(True)
 plt.savefig('optimized_mean_2.png')
-
+"""
 
 
 
