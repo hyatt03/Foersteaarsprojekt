@@ -28,9 +28,17 @@ TRACE
 COMPONENT Origin = Progress_bar()
   AT (0,0,0) ABSOLUTE
 
+/* Vi bruger source simple til BT fordi den kan give os bedre statistik */
+    /*
 COMPONENT source = ESS_butterfly(
     sector = "W", beamline = 4, dist = 2, focus_xw = 0.1,
     focus_yh = 0.1, Lmin = 0.5, Lmax = 8)
+  AT (0, 0, 0) RELATIVE Origin
+    */
+
+COMPONENT source = Source_simple(
+    yheight = 0.03, xwidth = 0.08, dist = 2, focus_xw = 0.1,
+    focus_yh = 0.1, gauss = 0, lambda0=4.25, dlambda = 3.75)
   AT (0, 0, 0) RELATIVE Origin
 
 COMPONENT Brillmon_begin = Brilliance_monitor(
@@ -89,6 +97,7 @@ FINALLY
 %}
 /* The END token marks the instrument definition end */
 END
+
 
 
 
