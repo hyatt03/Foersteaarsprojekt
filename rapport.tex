@@ -120,41 +120,58 @@ Her skriver vi om MCstas, hvordan det fungerer og hvorfor det er godt/skidt
 \subsection{Komponenter til guidesystermerne}
 Her forklarer vi hvordan vi skruer vores guides sammen. Begreber som chopper, sample, diverse former for monitors forklares osv.
 
-Hvis man lod neutronerne flyve frit mellem kilde og prøve, ville meget få neutroner nå frem (grundet afstandskvadratloven). For at transportere neutronerne de omtalte 165 meter fra kilde til prøve, og stadig have en rimelig intensitet ved prøven, bruger man såkaldte neutronguides. Neutronguides består af neutronspejle, hvis grundbyggesten er nikkel (Ni). For at kunne bedømme et neutronspejls kvalitet, indfører vi en kritisk spredningsvektor, $q_c$. Derudover kalder vi den indkommende neutron for $k_i$ og den selvsamme udkommende neutron for $k_f$. Vi søger nu den kritiske vinkel, $\theta_c$, der er den største mulige vinkel der tillader total refleksion. (Se figur 1)
+Hvis man lod neutronerne flyve frit mellem kilde og prøve, ville meget få neutroner nå frem (grundet afstandskvadratloven). For at transportere neutronerne de omtalte 165 meter fra kilde til prøve, og stadig have en rimelig intensitet ved prøven, bruger man såkaldte neutronguides. Neutronguides består af neutronspejle, hvis grundbyggesten er nikkel (Ni).
+For at kunne bedømme neutronspejles kvalitet, og dermed også kvaliteten af guides, skal vi indføre nogle forskellige begreber. Vi betragter en neutron der bliver reflekteret af et neutronspejl. Vi kalder her den indgående neutron for $\vec{k_i}$, og den selvsamme udgående neutron for  $\vec{k_f}$. Her definerer vi $\vec{k_i}$ og $\vec{k_f}$ som  $ {\frac{2 \cdot \pi}{\lambda}} \cdot \hat{r}$, hvor $\hat{r}$ er retningen på neutronen, og $\lambda$ er bølgelængden for henholdsvis den indkommende og udkommende neutron (Vi husker partikel-bølge dualiteten fra kvantemekanikken, og ved dermed at vi også kan beskrive neutronen som en bølge). Derudover definerer vi en spredningsvektor, $\vec{q}$, som:
+
+\begin{align}
+\vec{q}=\vec{k_i}-\vec{k_f}
+\end{align}
+Dette er et vigtigt udtryk indenfor neutronspredning, hvilket vi vil bruge flere gange. Nedenfor ses en geometrisk fortolkning af $\vec{k_i}$, $\vec{k_f}$  og $ \vec{q}$
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.7\textwidth]{fernet.png}
+\includegraphics[width=0.7\textwidth]{billede3.png}
 \caption{\label{Billede}}
 \end{figure}
 
-
-Ved totalrefleksion er den kritiske vinkel en funktion af bølgelængden, og ved elastisk spredning får vi derudover at $k_i=k_f=k$. Vi kan dermed skrive kritiske spredningsvektoren $q_c$ som
-
-\begin{align} \label{eq:qc}
-q_c=2k \cdot sin(\theta_c (\lambda))
+Når vi arbejder med guides, er vi ofte interesseret i den kritiske vinkel, hvilket er den størst mulige vinkel, hvorved vi kan få total refleksion mellem guide og neutron. Når vi har total refleksion, gælder det at længden af $\vec{k_i}$ er lig længden af $\vec{k_f}$, hvilket vi blot vil kalde for k:
+\begin{align}
+k_i=k_f=k
 \end{align}
-Hvor $\lambda$ er bølgelængden for neutronen (Vi husker på partikel-bølge dualiteten fra kvantemekanik, og vi kan dermed godt beskrive neutronen som en bølge)
-
-Vi får, at vi kan skrive ligning (\ref{eq:qc}) som:
-
-\begin{align} \label{eq:qc2}
-q_c=4\pi \cdot \frac{sin(\theta_c(\lambda))}{\lambda}
+(Noter, at vi blot skriver længden af $\vec{k_i}$ og $\vec{k_f}$ som $k_i$ og $k_f$) \\
+Når vi ved dette, kan vi ved hjælp af simpel trigonometri skrive længden af $\vec{q}$ som:
+\begin{align} \label{eq:q1}
+q=2k \cdot sin(\theta)
 \end{align}
-Da vi har ved små vinkler at gøre, kan vi approksimere ligning (\ref{eq:qc2})  ved \\ $sin(\theta_c(\lambda))≈\theta_c(\lambda)$. Vi får at:
+Hvor $\theta$ er vinklen som neutronen reflekterer med. Hvis vi gør brug af vores definition af $k$, får vi at ligning (\ref{eq:q1}) kan skrives som:
+\begin{align} \label{eq:q2}
+q=4\pi \cdot \frac{sin(\theta)}{\lambda}
+\end{align}
+Hvor $\lambda$ altså er bølgelængden for neutronen. Da vi har ved små vinkler at gøre, kan vi approksimere ligning (\ref{eq:q2})  ved $sin(\theta)≈\theta$. Vi får at:
 
 \begin{align}
-q_c≈4\pi \cdot \frac{\theta_c (\lambda)}{\lambda}
+q≈4\pi \cdot \frac{\theta}{\lambda}
 \end{align}
-Vi har, at værdien for den kritiske spredningsvektor for nikkel er $q_{c, Ni}=0.0217\text{Å} ^{-1}$ \cite{lefmann_arleth_kirkensgaard_lebech_thomsen}
 
-Dette er en fast værdi for nikkel, og vi kan dermed let udregne den kritiske vinkel som funktion af neutronens bølgelængde som: 
+Som sagt er det ofte relevant at kigge på den kritiske vinkel, hvilket altså er den størst mulige vinkel, hvorved totalrelfleksion er mulig. Denne vinkel betegner vi som $\theta_c$. Når vi har totalrefleksion ved den kritiske vinkel, har vi en kritisk spredningsvektor, hvis længde vi betegner med $q_c$. For et givent materiale er $q_c$ konstant, og vi ser derfor, at den kritiske vinkel er en funktion af bølgelængden. Vi får at:
+
+\begin{align}
+q_c≈4\pi \cdot \frac{\theta_c(\lambda)}{\lambda}
+\end{align}
+
+Vi har, at værdien for den kritiske spredningsvektor for nikkel er $q_{c, Ni}=0.0217\text{Å} ^{-1}$ \cite{lefmann_arleth_kirkensgaard_lebech_thomsen}. Dette er en fast værdi for nikkel, og vi kan dermed let udregne den kritiske vinkel som funktion af neutronens bølgelængde som: 
 
 \begin{align}
 \frac{q_{c,Ni} \cdot \lambda}{4\pi}=\theta_c(\lambda)
 \end{align}
 
-Vi får hermed vi simpel indsætning, at neutroner med en bølgelængde på 1Å har en kritisk vinkel på omtrent $0.1^∘$, mens neutroner med bølgelængde på 10Å har en kritisk vinkel på omtrent $1^∘$, på et neutronspejl lavet af nikkel.
+Vi får hermed ved simpel indsætning, at neutroner med en bølgelængde på 1Å har en kritisk vinkel på omtrent $0.1^∘$, mens neutroner med bølgelængde på 10Å har en kritisk vinkel på omtrent $1^∘$, på et neutronspejl lavet af nikkel.
+Man kan dog opnå en højere værdi af $q_c$ ved at lægge lag af andre materialer, mellem lagene af nikkel. Denne værdi af $q_c$ udregnes som:
+
+\begin{align}
+q_c=m \cdot q_{c,Ni}
+\end{align}
+Hvor m er den såkaldte m-værdi. Denne er altså en indikation på hvor stor en kvalitet spejlet har, i forhold til et rent Ni-spejl. m værdien for et spejl er ofte på et par stykker, men kan komme helt op på omkring 6.
 
 \subsection{Krav til guidesystemerne}
 Hvad skal være opfyldt? Penge? Antal neutroner? Divergens? BT? 
