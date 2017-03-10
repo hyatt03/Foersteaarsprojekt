@@ -8,6 +8,7 @@ import subprocess
 import time
 from multiprocessing.dummy import Pool as ThreadPool
 import functools
+import dill
 
 from hyperopt import hp, fmin, tpe
 from hyperopt.mongoexp import MongoTrials
