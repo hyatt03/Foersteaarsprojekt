@@ -100,7 +100,7 @@ def run_mcstas(instrument, params):
     
     run_instrument_with_params = [
         './{}.out'.format(instrument), 
-        '-n', '10000000', 
+        '-n', '1000000', 
         '-d', save_dir,
         'm_val=2',
         'guide_mid_width={}'.format(params['guide_mid_width']),
@@ -218,7 +218,7 @@ def objective(args):
 
     return getNegativeBrilliance(my_instrument, paramsDict)
 
-best = fmin(objective, getSearchSpace(limitsDict), algo=tpe.suggest, max_evals=100)
+best = fmin(objective, getSearchSpace(limitsDict), algo=tpe.suggest, max_evals=10)
 with open("best.txt", "a") as myfile:
     myfile.write(str(best))
 area, res, res_x, res_y = run_mcstas('ess_sim_simple', best)
