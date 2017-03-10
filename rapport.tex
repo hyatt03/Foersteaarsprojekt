@@ -77,8 +77,7 @@
 %% Abstract %%
 
 \begin{abstract}
-    Vi simulerer små bolde - Jeg tænker vi kalder det abstract istedet for resumé men kunne ikke finde hvor man ændrer det :))
-Vi skriver abstract på engelsk
+    Vi simulerer små bolde 
     
     We are simulating small balls
 \end{abstract}
@@ -104,7 +103,7 @@ Her introducerer vi neutron spredning
 Neutronspredning fungerer ved, at man skyder en neutron ind på sin prøve, og måler på hvordan neutronens hastighed og retning ændrer sig, efter sammenstødet med prøven. På baggrund af dette, kan man sige noget om den atomare og molekylære struktur af sin prøve. På det punkt minder neutronspredning meget om det mere alment kendte røntgenspredning (røntgenstråling). Der er dog både fordele og ulemper ved neutronspredning. Nogle af fordelene ved neutronspredning er, at grundet neutronens neutrale ladning, vekselvirker den ikke elektromagnetisk på samme måde som røntgenstråler. Dermed kan neutronerne lettere gennemtrænge materialerne som diverse beholder kunne være lavet af. På den måde kan neutronspredning blive brugt når prøven ligger inde i en beholder, og man kan derfor lave tests på prøver ved stort tryk, høj temperatur osv. Derudover er neutronspredning generelt bedre til at analysere lettere grundstoffer, hvorimod røntgenstråler er mere velegnede til de tungere (Dette vil vi ikke komme mere ind på, da det ikke har direkte relevens for vores problemstilling). En af ulemperne ved neutronspredning er, at det kan være meget svært at have med neutroner at gøre. Der er derved både udfordringer ved fremstilling, transport og måling af neutroner.
 
 Man kan overordnet lave neutroner på 2 forskellige måder. Gennem fission og spallation. Ved ESS i Sverige bruger man spallation til at lave neutroner, der spreder sig ud i alle retninger. Det foregår ved at en wolfram kilde bombarderes med protoner, og derved udsender neutroner. Neutronerne kommer dog ud i alle retninger og hastigheder, og for at få brugbare resultater skal neutronerne fokuseres i en stråle, og have omtrent ens hastighed. Dette gøres ved hjælp af en moderator, der sænker farten på neutronerne, således at de bevæger sig med omtrent samme energi. Neutronerne bliver herefter lukket ud gennem et smalt hul, hvorefter det transporteres hen til prøven, som altså bliver bombarderet med neutroner med samme hastighed og retning. Efter neutronerne har interergeret med prøven, er der flere forskellige metoder hvorpå man kan bedømme prøvens struktur. De mest kendte metoder er diffraktion, småvinkelspredning, reflektivitet, tomografi og sprektroskopi \cite{ess_folder}
-Vi vil dog ikke komme videre ind på selve metoderne til målingerne. Vi vil derimod fokusere på selve transporten af neutronerne. Det forholder sig sådan, at man mellem kilde og prøve bliver nødt til at have et stort gab, hvori der kan laves forskellige målinger på neutronerne (omtrent 165m ved de systemer vi vil kigge på). I dette gab laver man såkaldte neutron guides, som består af spejle der reflekterer neutronerne. Det er vores mål, at få flest mulige neutroner, med den rigtige energi og retning, trandsporteret til vores prøve, til den mindst mulige pris.
+Vi vil dog ikke komme videre ind på selve metoderne til målingerne. Vi vil derimod fokusere på selve transporten af neutronerne. Det forholder sig sådan, at man mellem kilde og prøve bliver nødt til at have et stort gab, hvori der kan laves forskellige målinger på neutronerne (omtrent 165m ved de systemer vi vil kigge på). I dette gab laver man såkaldte neutron guides, som består af spejle der reflekterer neutronerne. Det er vores mål, at få flest mulige neutroner, med den rigtige energi og retning, transporteret til vores prøve, til den mindst mulige pris.
 
 
 \subsection{Monte Carlo simuleringer}
@@ -121,6 +120,36 @@ Her skriver vi om MCstas, hvordan det fungerer og hvorfor det er godt/skidt
 
 \subsection{Komponenter til guidesystermerne}
 Her forklarer vi hvordan vi skruer vores guides sammen. Begreber som chopper, sample, diverse former for monitors forklares osv.
+
+Hvis man lod neutronerne flyve frit mellem kilde og prøve, ville meget få neutroner nå frem (grundet afstandskvadratloven). For at transportere neutronerne de omtalte 165 meter fra kilde til prøve, og stadig have en rimelig intensitet ved prøven, bruger man såkaldte neutronguides. Neutronguides består af neutronspejle, hvis grundbyggesten er nikkel (Ni). For at kunne bedømme et neutronspejls kvalitet, indfører vi en kritisk spredningsvektor, $q_c$. Derudover kalder vi den indkommende neutron for $k_i$ og den selvsamme udkommende neutron for $k_f$. Vi søger nu den kritiske vinkel, $\theta_c$, der er den største mulige vinkel der tillader total refleksion. (Se figur 1)
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{fernet.png}
+\caption{\label{Billede}}
+\end{figure}
+
+
+Ved totalrefleksion er den kritiske vinkel en funktion af bølgelængden, og ved elastisk spredning får vi derudover at $k_i=k_f=k$. Vi kan dermed skrive kritiske spredningsvektoren $q_c$ som
+
+\begin{align} \label{eq:qc}
+q_c=2k \cdot sin(\theta_c (\lambda))
+\end{align}
+Hvor $\lambda$ er bølgelængden for neutronen (Vi husker på partikel-bølge dualiteten fra kvantemekanik, og vi kan dermed godt beskrive neutronen som en bølge)
+
+Vi får, at vi kan skrive ligning (\ref{eq:qc}) som:
+
+\begin{align} \label{eq:qc2}
+q_c=4\pi \cdot \frac{sin(\theta_c(\lambda))}{\lambda}
+\end{align}
+Da vi har ved små vinkler at gøre, kan vi approksimere ligning (\ref{eq:qc2})  ved \\ $sin(\theta_c(\lambda))≈\theta_c(\lambda)$. Vi får at:
+
+\begin{align}
+qc≈4\pi \cdot \frac{\theta_c (\lambda)}{\lambda}
+\end{align}
+Vi har, at værdien for den kritiske spredningsvektor for nikkel er $q_{c, Ni}=0.0217\text{Å} ^{-1}$ \cite{lefmann_arleth_kirkensgaard_lebech_thomsen}
+
+
 
 \subsection{Krav til guidesystemerne}
 Hvad skal være opfyldt? Penge? Antal neutroner? Divergens? BT? 
