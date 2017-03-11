@@ -10,3 +10,4 @@
 *.log
 data/
 db/
+*.pyc
