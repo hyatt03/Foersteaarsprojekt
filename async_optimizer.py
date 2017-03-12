@@ -17,6 +17,9 @@ from simulation_analysis_utils import objective, getWorkingDir, getResultsFile
 workerDb = 'localhost:1234/exp_db'
 masterDb = 'mongo://{}/jobs'.format(workerDb)
 
+# Array to hold open processes
+workers = []
+
 # Converts a simple dict to a hyperopt search space
 def getSearchSpace(parameterLimits):
     choice_space = []
@@ -53,7 +56,7 @@ def startWorkers():
     ]
 
     for i in range(mp.cpu_count()):
-        Popen(workerBoot, shell = False, stdin = None, stdout = None, stderr = None, close_fds = True, cwd=getWorkingDir())
+        workers.append(Popen(workerBoot, shell = False, stdin = None, stdout = None, stderr = None, close_fds = True, cwd=getWorkingDir()))
 
 if __name__ == "__main__":
     # Compile the experiment first, this ensures it's always up to date
@@ -64,3 +67,8 @@ if __name__ == "__main__":
     
     # Run the actual optimization.
     best = runOptimizations(100)
+
+    # The optimization is done, kill the workers
+    for worker in workers:
+        worker.terminate()
+    
