@@ -84,15 +84,17 @@ def run_mcstas(instrument, params, neutrons = 10000000, m_val = 2):
     run_instrument_with_params = [
         '{}/{}.out'.format(workingDir, instrument), 
         '-n', str(neutrons), 
-        '-d', save_dir,
-        'sample_size=0.01',
-        'benchmark=0',
-        'guide_start=2',
-        'guide_rotation_angle=0',
-        'length_e1=4',
-        'guide_start_xw=0.1',
-        'guide_start_yh=0.1'
+        '-d', save_dir
     ]
+
+    if (instrument == 'ess_brill_optimized'):
+        run_instrument_with_params.append('sample_size=0.01')
+        run_instrument_with_params.append('benchmark=0')
+        run_instrument_with_params.append('guide_start=2')
+        run_instrument_with_params.append('guide_rotation_angle=0')
+        run_instrument_with_params.append('length_e1=4')
+        run_instrument_with_params.append('guide_start_xw=0.1')
+        run_instrument_with_params.append('guide_start_yh=0.1')
     
     for key in params.keys():
         run_instrument_with_params.append('{}={}'.format(key, params[key]))

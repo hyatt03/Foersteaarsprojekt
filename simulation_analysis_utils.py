@@ -25,14 +25,12 @@ import numpy as np
 
 # Define size of brilliance data.
 resultsFile = "parameter_results.json"
-row_count = 101
-col_count = 4
 plt.rcParams["figure.figsize"] = (15,8)
 
 def getResultsFile():
     return resultsFile
 
-def read_file(path, filename):
+def read_file(path, filename, row_count = 101, col_count = 4):
     a = np.zeros((row_count, col_count))
     with open(path + '/' + filename) as f:
         i = 0
@@ -64,7 +62,7 @@ def process_price(path):
     with open(path + '/price.dat') as f:
         print f.readline()
 
-def process_brilliance(path, type):
+def process_brilliance(path, type, row_count = 101, col_count = 4):
     # Read files
     data_begin = read_file(path, '{}_source_brilliance.dat'.format(type))
     data_end = read_file(path, '{}_sample_brilliance.dat'.format(type))
