@@ -62,8 +62,8 @@ def fixDivisionByZeroAndIndex(row_a, row_comp):
 
 def process_brilliance(path, type):
     # Read files
-    data_begin = read_file(path, '{}_brill_begin.dat'.format(type))
-    data_end = read_file(path, '{}_brill_end.dat'.format(type))
+    data_begin = read_file(path, '{}_source_brilliance.dat'.format(type))
+    data_end = read_file(path, '{}_sample_brilliance.dat'.format(type))
 
     # Process the files
     # Ignore divide by zero, we'll fix it later

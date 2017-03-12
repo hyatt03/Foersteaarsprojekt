@@ -7,6 +7,7 @@
 import os
 import subprocess
 import time
+import sys
 
 FNULL = open(os.devnull, 'w')
 limitsDict = {
