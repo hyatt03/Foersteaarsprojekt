@@ -29,7 +29,15 @@ limitsDict = {
     'cguide_radius': [2000, 3000],
     'cguide_length': [1, 10],
     'cguide_xw': [0, 0.1],
-    'cguide_yh': [0, 0.1]
+    'cguide_yh': [0, 0.1],
+    'a0_e1': [0, 1],
+    'a1_e1': [0, 0],
+    'a2_e1': [0.0006],
+    'a3_e1': [0, 0],
+    'a0_e2': [0, 1],
+    'a1_e2': [0, 0],
+    'a2_e2': [0.0006],
+    'a3_e2': [0, 0]
 }
 
 def getExperiment():

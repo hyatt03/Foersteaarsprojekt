@@ -60,6 +60,10 @@ def fixDivisionByZeroAndIndex(row_a, row_comp):
     
     return res
 
+def process_price(path):
+    with open(path + '/price.dat') as f:
+        print f.readline()
+
 def process_brilliance(path, type):
     # Read files
     data_begin = read_file(path, '{}_source_brilliance.dat'.format(type))
@@ -115,6 +119,7 @@ def plotBT(instrument, params):
 # We subtract this from the maximum possible brilliance transfer to get a function we can minimize.
 def getNegativeBrilliance(instrument, params):
     save_dir = run_mcstas(instrument, params)
+    process_price(save_dir)
     area = process_brilliance(save_dir, 'Mean')[0]
     
     if (area > 8):
