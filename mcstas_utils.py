@@ -10,16 +10,29 @@ import time
 
 FNULL = open(os.devnull, 'w')
 limitsDict = {
-    'guide_mid_width': [0, 0.1],
-    'guide_mid_height': [0, 0.1],
-    'guide_linxw': [0, 80],
-    'guide_loutxw': [0, 80],
-    'guide_linyh': [0, 80],
-    'guide_loutyh': [0, 80]
+    'mid_xw_e1': [0, 0.1],
+    'mid_yh_e1': [0, 0.1],
+    'mid_xw_e2': [0, 0.1],
+    'mid_yh_e2': [0, 0.1],
+    'linxw_e1': [0, 10],
+    'loutxw_e1': [0, 10],
+    'linyh_e1': [0, 10],
+    'loutyh_e1': [0, 10],
+    'linxw_e2': [0, 100],
+    'loutxw_e2': [0, 100],
+    'linyh_e2': [0, 100],
+    'loutyh_e2': [0, 100],
+    'cguide_ma': [1, 6],
+    'cguide_mi': [1, 6],
+    'cguide_ms': [1, 6],
+    'cguide_radius': [2000, 3000],
+    'cguide_length': [1, 10],
+    'cguide_xw': [0, 0.1],
+    'cguide_yh': [0, 0.1]
 }
 
 def getExperiment():
-    return 'ess_sim_simple'
+    return 'ess_brill_optimized'
 
 def getLimits():
     return limitsDict
@@ -57,13 +70,19 @@ def run_mcstas(instrument, params, neutrons = 10000000, m_val = 2):
     workingDir = getWorkingDir()
     epoch_time = now()
     save_dir = '{}/data/{}_{}'.format(workingDir, instrument, epoch_time)
-    print('About to run! Saving to {}'.format(save_dir))
-
+    
+    # Create a command array, include default parameters
     run_instrument_with_params = [
         '{}/{}.out'.format(workingDir, instrument), 
         '-n', str(neutrons), 
         '-d', save_dir,
-        'm_val={}'.format(m_val)
+        'sample_size=0.01',
+        'benchmark=0',
+        'guide_start=2',
+        'guide_rotation_angle=0',
+        'length_e1=4',
+        'guide_start_xw=0.1',
+        'guide_start_yh=0.1'
     ]
     
     for key in params.keys():
@@ -80,4 +99,5 @@ def run_mcstas(instrument, params, neutrons = 10000000, m_val = 2):
         
     return save_dir
 
+# Resolve circular dependencies
 from simulation_analysis_utils import getWorkingDir
