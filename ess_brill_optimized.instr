@@ -1,0 +1,360 @@
+/*******************************************************************************
+*         McStas instrument definition URL=http://www.mcstas.org
+*
+* Instrument: ESS_BRILL_OPTIMIZED
+*
+* %Identification
+* Written by: Jonas Peter Hyatt (jonas@hyatt.space)
+* Date: 12-03-2017
+* Origin: NBI
+* Release: McStas
+* Version: 0.1
+* %INSTRUMENT_SITE: ESS
+*
+* This instrument is used to determine the optimal parameters using the E G C G E geometry.
+* Each gap is 0.5m long and inserts slits to remove anything that would not otherwise get transmitted
+* The instrument uses 0.5-8AA wavelengths
+*
+* %Description
+* Instrument longer description (type, elements, usage...)
+*
+* Example: mcrun ess_brill_optimized.instr
+*
+* %Parameters
+* sample_size: [m] the size of the sides of the sample.
+* benchmark: [bool] Set butterfly or source simple, butterfly is only relevant for real benchmarks, not the optimizer.
+* guide_start_xw: [m] Set the focus dimensions of the source.
+* guide_start_yh: [m] Set the focus dimensions of the source.
+* guide_start: [m] How far from the source does the guide start?
+* guide_rotation_angle: [degrees] Rotate the guide?
+* length_e1: [m] Length of the first elliptical section
+* mid_xw_e1: [m] Size of the middle of the first elliptical section
+* mid_yh_e1: [m] Size of the middle of the first elliptical section
+* linxw_e1: [m] default 2m
+* loutxw_e1: [m] default 5m
+* linyh_e1: [m] default 2m
+* loutyh_e1: [m] default 5m
+* cguide_xw: [m] internal size of curved section
+* cguide_yh: [m] internal size of curved section
+* cguide_length: [m] Length of curved section
+* cguide_radius: [m] Radius of curved section
+* cguide_ma: m-value of curved section
+* cguide_mi: m-value of curved section
+* cguide_ms: m-value of curved section
+* mid_xw_e2: [m] Size of the middle of the second elliptical section
+* mid_yh_e2: [m] Size of the middle of the second elliptical section
+* linxw_e2: [m] default 2m
+* loutxw_e2: [m] default 5m
+* linyh_e2: [m] default 2m
+* loutyh_e2: [m] default 5m
+* a0_e1: m-value parameter for creating m-value vectors
+* a1_e1: m-value parameter for creating m-value vectors
+* a2_e1: m-value parameter for creating m-value vectors
+* a3_e1: m-value parameter for creating m-value vectors
+* a0_e2: m-value parameter for creating m-value vectors
+* a1_e2: m-value parameter for creating m-value vectors
+* a2_e2: m-value parameter for creating m-value vectors
+* a3_e2: m-value parameter for creating m-value vectors
+*
+* %Link
+* See https://github.com/hyatt03/Foersteaarsprojekt for more information on the project and the optimizations.
+*
+* %End
+*******************************************************************************/
+
+DEFINE INSTRUMENT ess_brill_optimized(
+  sample_size = 0.01,
+  benchmark = 0, 
+  guide_start_xw = 0.1, 
+  guide_start_yh = 0.1,
+  guide_start = 2,
+  guide_rotation_angle = 0,
+  length_e1 = 4,
+  mid_xw_e1 = 0.1,
+  mid_yh_e1 = 0.1,
+  linxw_e1 = 2,
+  loutxw_e1 = 5,
+  linyh_e1 = 2,
+  loutyh_e1 = 5,
+  cguide_xw = 0.1,
+  cguide_yh = 0.1,
+  cguide_length = 2,
+  cguide_radius = 2400,
+  cguide_ma = 2,
+  cguide_mi = 2,
+  cguide_ms = 2,
+  mid_xw_e2 = 0.1,
+  mid_yh_e2 = 0.1,
+  linxw_e2 = 2,
+  loutxw_e2 = 5,
+  linyh_e2 = 2,
+  loutyh_e2 = 5,
+  a0_e1 = 1,
+  a1_e1 = 0,
+  a2_e1 = 0.0006,
+  a3_e1 = 0,
+  a0_e2 = 1,
+  a1_e2 = 0,
+  a2_e2 = 0.0006,
+  a3_e2 = 0
+)
+
+/* The DECLARE section allows us to declare variables or  small      */
+/* functions in C syntax. These may be used in the whole instrument. */
+DECLARE
+%{
+double u;
+double length_e2;
+int iter;
+double m_values_e1[200];
+double m_values_e2[200];
+double m_value_e1;
+double m_value_e2;
+double price;
+double segment_length_e1;
+double segment_length_e2;
+int x;
+%}
+
+/* The INITIALIZE section is executed when the simulation starts     */
+/* (C code). You may use them as component parameter values.         */
+INITIALIZE
+%{  
+/* Small distance ensures no overlap. */
+u = 10e-6;
+/* We can now calculate the length of the second elliptical guide from our specifications */
+length_e2 = 163.4 - 8 * u - cguide_length - length_e1 - guide_start;
+
+segment_length_e1 = length_e1 / 200;
+segment_length_e2 = length_e2 / 200;
+
+/* estimate of base price of substrate and first layer of coating for guide, aluminium for the first to parts, glass for rest. */
+price = cguide_length * (0.1 * 25e3 + 8e3) + length_e1 * (0.1 * 25e3 + 8e3) + length_e2 * (0.1 * 14e3 + 8e3);
+
+/* Calculate the m-values for our two elliptical guides */
+for (iter = 0; iter < 200; iter++) {
+  x = iter - 100;
+  m_value_e1 = abs(a0_e1 + a1_e1 * x + a2_e1 * x * x + a3_e1 * x * x * x);
+  m_value_e2 = abs(a0_e2 + a1_e2 * x + a2_e2 * x * x + a3_e2 * x * x * x);
+
+  if (m_value_e1 > 7) {
+    m_value_e1 = 7;
+  }
+  
+  if (m_value_e2 > 7) {
+    m_value_e2 = 7;
+  }
+
+  price += (pow(m_value_e1 * segment_length_e1, 2.6/4) * 2 + pow(m_value_e2 * segment_length_e2, 2.6/4) * 2)*1e3;
+
+  m_values_e1[iter] = m_value_e1;
+  m_values_e2[iter] = m_value_e2;
+}
+
+%}
+
+/* Here comes the TRACE section, where the actual      */
+/* instrument is defined as a sequence of components.  */
+TRACE
+
+/* The Arm() class component defines reference points and orientations  */
+/* in 3D space. Every component instance must have a unique name. Here, */
+/* Origin is used. This Arm() component is set to define the origin of  */
+/* our global coordinate system (AT (0,0,0) ABSOLUTE). It may be used   */
+/* for further RELATIVE reference, Other useful keywords are : ROTATED  */
+/* EXTEND GROUP PREVIOUS. Also think about adding a neutron source !    */
+/* Progress_bar is an Arm displaying simulation progress.               */
+COMPONENT Origin = Progress_bar()
+  AT (0,0,0) ABSOLUTE
+
+/** SOURCE START **/
+
+/* This source has a very flat distribution */
+/* We use it for optimizing, it ensures we get enough data on the entrie spectrum.*/
+COMPONENT source = Source_simple(
+    yheight = 0.03, xwidth = 0.08, dist = guide_start, focus_xw = guide_start_xw,
+    focus_yh = guide_start_yh, gauss = 0, lambda0=4.25, dlambda = 3.75)
+  WHEN (benchmark == 0)
+  AT (0, 0, 0) RELATIVE Origin
+
+/* Create a source for benchmark use */
+COMPONENT source_ess = ESS_butterfly(
+    sector = "W", beamline = 4, dist = guide_start, focus_xw = guide_start_xw,
+    focus_yh = guide_start_yh, Lmin = 0.5, Lmax = 8)
+  WHEN (benchmark == 1)
+  AT (0, 0, 0) RELATIVE Origin
+
+/** SOURCE END **/
+
+/** SOURCE MONITORS **/
+/* these monitors are used for calculating relative values such as brilliance transfer */
+COMPONENT start_of_source_monitors = Arm()
+AT (0, 0, guide_start - 5 * u) RELATIVE source
+
+COMPONENT source_psd = PSD_monitor(
+    filename = "source_psd.dat", xwidth = sample_size, yheight = sample_size, restore_neutron=1)
+  AT (0, 0, u) RELATIVE PREVIOUS
+
+COMPONENT source_div = Divergence_monitor(
+    nh = 90, nv = 90, filename = "source_div.dat", xwidth = sample_size,
+    yheight = sample_size, maxdiv_h = 0.75, maxdiv_v = 0.75,
+    restore_neutron = 1)
+  AT (0, 0, u) RELATIVE PREVIOUS
+
+COMPONENT source_energy = E_monitor(
+    filename = "source_energy.dat", xwidth = sample_size, yheight = sample_size, Emin = 0,
+    Emax = 50, restore_neutron = 1)
+  AT (0, 0, u) RELATIVE PREVIOUS
+
+COMPONENT source_lambda = L_monitor(
+    filename = "source_lambda.dat", xwidth = sample_size, yheight = sample_size,
+    Lmin = 0, Lmax = 8, restore_neutron = 1)
+  AT (0, 0, u) RELATIVE PREVIOUS
+
+COMPONENT Brillmon_begin = Brilliance_monitor(
+   nlam = 101, nt = 101, filename = "source_brilliance.dat", t_0 = 0,
+    t_1 =5e5, lambda_0 = 0, lambda_1 = 8,
+    Freq =14, toflambda=0, tofcuts=0,
+    xwidth=sample_size, yheight=sample_size, restore_neutron=1)
+  AT (0, 0, u) RELATIVE previous
+
+/** SOURCE MONITORS END **/
+
+/** FIRST ELLIPTICAL SECTION START **/
+/* define a start point for ease */
+COMPONENT StartOfGuide = Arm()
+AT (0, 0, guide_start) RELATIVE Origin
+ROTATED (0, guide_rotation_angle, 0) RELATIVE Origin
+
+COMPONENT first_ellipsis = Elliptic_guide_gravity(
+    l = length_e1, xwidth = mid_xw_e1, yheight = mid_yh_e1,
+    linxw = linxw_e1, loutxw = loutxw_e1, linyh = linyh_e1,
+    loutyh = loutyh_e1, dimensionsAt = "mid", m = 2,
+    mvaluesright = m_values_e1, mvaluesleft = m_values_e1, mvaluestop = m_values_e1, mvaluesbottom = m_values_e1,
+    verbose = "off")
+  AT (0, 0, u) RELATIVE PREVIOUS
+
+COMPONENT end_of_e1 = Arm()
+AT (0, 0, length_e1 + 2 * u) RELATIVE PREVIOUS
+
+/** FIRST ELLIPTICAL SECTION END **/
+
+/** GAP SECTION **/
+/* This gap ensures that we have room for a chopper that can normalize the beam */
+/* We create a couple of slits to ensure the optimizer knows something is blocking */
+
+COMPONENT chopper1_start = Slit(
+    xwidth = 0.05, yheight = 0.03)
+  AT (0, 0, u) RELATIVE PREVIOUS
+
+COMPONENT chopper1_end = Slit(
+    xwidth = 0.05, yheight = 0.03)
+  AT (0, 0, 0.5) RELATIVE PREVIOUS
+
+/** END OF GAP **/
+
+/** CURVE START **/
+/* The curved section eliminates line of sight, which greatly reduces background noise */
+/* The curved guide is rotated so it curves downwards due to ESS requirements. */
+COMPONENT start_of_c = Arm()
+AT (0, 0, u) RELATIVE PREVIOUS
+
+COMPONENT curved_guide= Bender(
+  w = cguide_xw, h = cguide_yh, l = cguide_length,
+  r = cguide_radius, ma = cguide_ma, mi = cguide_mi, ms = cguide_ms)
+AT (0,0, u) RELATIVE PREVIOUS
+ROTATED (0,0,180) RELATIVE PREVIOUS
+
+/* Define the end and return the rotation to normal. */
+COMPONENT end_of_c = Arm()
+AT (0, 0, cguide_length + 2*u) RELATIVE PREVIOUS
+ROTATED (0,0,-180) RELATIVE PREVIOUS
+
+/** CURVE END **/
+
+/** SECOND GAP SECTION **/
+
+COMPONENT chopper2_start = Slit(
+    xwidth = 0.05, yheight = 0.03)
+  AT (0, 0, u) RELATIVE PREVIOUS
+
+COMPONENT chopper2_end = Slit(
+    xwidth = 0.05, yheight = 0.03)
+  AT (0, 0, 0.5) RELATIVE PREVIOUS
+
+/** END OF SECOND GAP **/
+
+/** SECOND ELIPSIS BEGIN **/
+/* This is the final elliptical section, it guides the neutrons onto the sample (our monitors in this case) */
+COMPONENT start_of_e2 = Arm()
+AT (0, 0, u) RELATIVE PREVIOUS
+
+COMPONENT second_ellipsis = Elliptic_guide_gravity(
+    l = length_e2, xwidth = mid_xw_e2, yheight = mid_yh_e2,
+    linxw = linxw_e2, loutxw = loutxw_e2, linyh = linyh_e2,
+    loutyh = loutyh_e2, dimensionsAt = "mid", m = 2,
+    mvaluesright = m_values_e2, mvaluesleft = m_values_e2, mvaluestop = m_values_e2, mvaluesbottom = m_values_e2,
+    verbose = "off")
+  AT (0, 0, u) RELATIVE PREVIOUS
+
+COMPONENT end_of_e2 = Arm()
+AT (0, 0, length_e2 + 2 * u) RELATIVE PREVIOUS
+
+/** SECOND ELIPSIS END **/
+
+/** SAMPLE SECTION **/
+/* This is where our sample would be placed */
+/* We put our final monitors here to see the illumination of the sample */
+COMPONENT start_of_sample = Arm()
+AT (0, 0, 0.6) RELATIVE PREVIOUS
+
+COMPONENT Brillmon_sample = Brilliance_monitor(
+   nlam = 101, nt = 101, filename = "sample_brilliance.dat", t_0 = 0,
+    t_1 =5e5, lambda_0 = 0, lambda_1 = 8,
+    Freq =14, toflambda=0, tofcuts=0,
+    xwidth=sample_size, yheight=sample_size, restore_neutron=1)
+  AT (0, 0, u) RELATIVE PREVIOUS
+
+COMPONENT sample_psd = PSD_monitor(
+    filename = "sample_psd.dat", xwidth = sample_size, yheight = sample_size, restore_neutron=1)
+  AT (0, 0, u) RELATIVE PREVIOUS
+
+COMPONENT sample_div = Divergence_monitor(
+    nh = 90, nv = 90, filename = "sample_div.dat", xwidth = sample_size,
+    yheight = sample_size, maxdiv_h = 0.75, maxdiv_v = 0.75,
+    restore_neutron = 1)
+  AT (0, 0, u) RELATIVE PREVIOUS
+
+COMPONENT sample_energy = E_monitor(
+    filename = "sample_energy.dat", xwidth = sample_size, yheight = sample_size, Emin = 0,
+    Emax = 50, restore_neutron = 1)
+  AT (0, 0, u) RELATIVE PREVIOUS
+
+COMPONENT sample_lambda = L_monitor(
+    filename = "sample_lambda.dat", xwidth = sample_size, yheight = sample_size,
+    Lmin = 0, Lmax = 8, restore_neutron = 1)
+  AT (0, 0, u) RELATIVE PREVIOUS
+
+/** SAMPLE SECTION END **/
+
+/* This section is executed when the simulation ends (C code). Other    */
+/* optional sections are : SAVE                                         */
+FINALLY
+%{
+/* save the price to a price file */  
+FILE *f = fopen(strcat(mcdirname, "/price.dat"), "w");
+
+if (f == NULL) {
+    printf("Error opening file!\n");
+}
+else {
+  fprintf(f, "%f\n", price);
+  fclose(f);
+}
+
+%}
+/* The END token marks the instrument definition end */
+END
+
+
+
