@@ -62,7 +62,9 @@ def fixDivisionByZeroAndIndex(row_a, row_comp):
 
 def process_price(path):
     with open(path + '/price.dat') as f:
-        print f.readline()
+        price = int(float(f.readline()))
+
+    return price
 
 def process_brilliance(path, type):
     # Read files
@@ -119,13 +121,13 @@ def plotBT(instrument, params):
 # We subtract this from the maximum possible brilliance transfer to get a function we can minimize.
 def getNegativeBrilliance(instrument, params):
     save_dir = run_mcstas(instrument, params)
-    process_price(save_dir)
+    price = process_price(save_dir)
     area = process_brilliance(save_dir, 'Mean')[0]
     
     if (area > 8):
         return area
     
-    return 8 - area
+    return (8 - area) * price
 
 # Objective function, takes the arguments from hyperopt and converts to a dict which is run as a simulation.
 def objective(args):
