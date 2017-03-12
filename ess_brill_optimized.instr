@@ -47,6 +47,14 @@
 * loutxw_e2: [m] default 5m
 * linyh_e2: [m] default 2m
 * loutyh_e2: [m] default 5m
+* a0_e1: m-value parameter for creating m-value vectors
+* a1_e1: m-value parameter for creating m-value vectors
+* a2_e1: m-value parameter for creating m-value vectors
+* a3_e1: m-value parameter for creating m-value vectors
+* a0_e2: m-value parameter for creating m-value vectors
+* a1_e2: m-value parameter for creating m-value vectors
+* a2_e2: m-value parameter for creating m-value vectors
+* a3_e2: m-value parameter for creating m-value vectors
 *
 * %Link
 * See https://github.com/hyatt03/Foersteaarsprojekt for more information on the project and the optimizations.
@@ -80,7 +88,15 @@ DEFINE INSTRUMENT ess_brill_optimized(
   linxw_e2 = 2,
   loutxw_e2 = 5,
   linyh_e2 = 2,
-  loutyh_e2 = 5
+  loutyh_e2 = 5,
+  a0_e1 = 1,
+  a1_e1 = 0,
+  a2_e1 = 0.0006,
+  a3_e1 = 0,
+  a0_e2 = 1,
+  a1_e2 = 0,
+  a2_e2 = 0.0006,
+  a3_e2 = 0
 )
 
 /* The DECLARE section allows us to declare variables or  small      */
@@ -89,6 +105,12 @@ DECLARE
 %{
 double u;
 double length_e2;
+int iter;
+double m_values_e1[200];
+double m_values_e2[200];
+double m_value_e1;
+double m_value_e2;
+int x;
 %}
 
 /* The INITIALIZE section is executed when the simulation starts     */
@@ -99,6 +121,25 @@ INITIALIZE
 u = 10e-6;
 /* We can now calculate the length of the second elliptical guide from our specifications */
 length_e2 = 163.4 - 8 * u - cguide_length - length_e1 - guide_start;
+
+/* Calculate the m-values for our two elliptical guides */
+for (iter = 0; iter < 200; iter++) {
+  x = iter - 100;
+  m_value_e1 = abs(a0_e1 + a1_e1 * x + a2_e1 * x * x + a3_e1 * x * x * x);
+  m_value_e2 = abs(a0_e2 + a1_e2 * x + a2_e2 * x * x + a3_e2 * x * x * x);
+
+  if (m_value_e1 > 7) {
+    m_value_e1 = 7;
+  }
+  
+  if (m_value_e2 > 7) {
+    m_value_e2 = 7;
+  }
+
+  m_values_e1[iter] = m_value_e1;
+  m_values_e2[iter] = m_value_e2;
+}
+
 %}
 
 /* Here comes the TRACE section, where the actual      */
@@ -178,6 +219,7 @@ COMPONENT first_ellipsis = Elliptic_guide_gravity(
     l = length_e1, xwidth = mid_xw_e1, yheight = mid_yh_e1,
     linxw = linxw_e1, loutxw = loutxw_e1, linyh = linyh_e1,
     loutyh = loutyh_e1, dimensionsAt = "mid", m = 2,
+    mvaluesright = m_values_e1, mvaluesleft = m_values_e1, mvaluestop = m_values_e1, mvaluesbottom = m_values_e1,
     verbose = "off")
   AT (0, 0, u) RELATIVE PREVIOUS
 
@@ -240,6 +282,7 @@ COMPONENT second_ellipsis = Elliptic_guide_gravity(
     l = length_e2, xwidth = mid_xw_e2, yheight = mid_yh_e2,
     linxw = linxw_e2, loutxw = loutxw_e2, linyh = linyh_e2,
     loutyh = loutyh_e2, dimensionsAt = "mid", m = 2,
+    mvaluesright = m_values_e2, mvaluesleft = m_values_e2, mvaluestop = m_values_e2, mvaluesbottom = m_values_e2,
     verbose = "off")
   AT (0, 0, u) RELATIVE PREVIOUS
 
@@ -290,5 +333,6 @@ FINALLY
 %}
 /* The END token marks the instrument definition end */
 END
+
 
 
