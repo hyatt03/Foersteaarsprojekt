@@ -11,3 +11,4 @@
 data/
 db/
 *.pyc
+ess_brill_optimized_*
