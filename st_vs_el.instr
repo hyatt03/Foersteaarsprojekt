@@ -1,0 +1,99 @@
+/*******************************************************************************
+*         McStas instrument definition URL=http://www.mcstas.org
+*
+* Instrument: test (rename also the example and DEFINE lines below)
+*
+* %Identification
+* Written by: Your name (email)
+* Date: Current Date
+* Origin: Your institution
+* Release: McStas
+* Version: 0.2
+* %INSTRUMENT_SITE: Institution_name_as_a_single word
+*
+* Instrument short description
+*
+* %Description
+* Instrument longer description (type, elements, usage...)
+*
+* Example: mcrun test.instr <parameters=values>
+*
+* %Parameters
+* Par1: [unit] Parameter1 description
+*
+* %Link
+* A reference/HTML link for more information
+*
+* %End
+*******************************************************************************/
+
+/* Change name of instrument and input parameters with default values */
+DEFINE INSTRUMENT ellipsisvsstraight(elip=1)
+
+/* The DECLARE section allows us to declare variables or  small      */
+/* functions in C syntax. These may be used in the whole instrument. */
+DECLARE
+%{
+%}
+
+/* The INITIALIZE section is executed when the simulation starts     */
+/* (C code). You may use them as component parameter values.         */
+INITIALIZE
+%{
+%}
+
+/* Here comes the TRACE section, where the actual      */
+/* instrument is defined as a sequence of components.  */
+TRACE
+
+/* The Arm() class component defines reference points and orientations  */
+/* in 3D space. Every component instance must have a unique name. Here, */
+/* Origin is used. This Arm() component is set to define the origin of  */
+/* our global coordinate system (AT (0,0,0) ABSOLUTE). It may be used   */
+/* for further RELATIVE reference, Other useful keywords are : ROTATED  */
+/* EXTEND GROUP PREVIOUS. Also think about adding a neutron source !    */
+/* Progress_bar is an Arm displaying simulation progress.               */
+COMPONENT Origin = Progress_bar()
+  AT (0,0,0) ABSOLUTE
+
+
+COMPONENT source = Source_simple(
+    yheight = 0.03, xwidth = 0.08, dist = 2, focus_xw = 0.1,
+    focus_yh = 0.1, lambda0 = 5.1, dlambda = 5, flux = 100)
+  AT (0, 0, 0) RELATIVE Origin
+
+
+COMPONENT source_brill = Brilliance_monitor(
+    nlam = 101, nt = 101, lambda_0 = 0, lambda_1 = 10, filename = "source_brilliance.dat",
+    restore_neutron = 1, Freq = 14, tofcuts = 0, toflambda = 0,
+    xwidth = 0.01, yheight = 0.01, t_0 = 0, t_1 = 5e4)
+  AT (0, 0, 1.6) RELATIVE source
+
+
+COMPONENT guide_st = Guide(
+    w1 = 0.1, h1 = 0.1, w2 = 0.1, h2 = 0.1, l = 98, m = 6)
+  WHEN (elip != 1)
+  AT (0, 0, 2) RELATIVE source
+
+COMPONENT guide_el = Elliptic_guide_gravity(
+    l = 98, xwidth = 0.1, yheight = 0.1, linxw = 33, loutxw = 5,
+    linyh = 33, loutyh = 5, m = 6)
+  WHEN (elip == 1)
+  AT (0, 0, 2) RELATIVE source
+
+COMPONENT sample_brill = Brilliance_monitor(
+    nlam = 101, nt = 101, lambda_0 = 0, lambda_1 = 10, filename = "sample_brilliance.dat",
+    restore_neutron = 1, Freq = 14, tofcuts = 0, toflambda = 0,
+    xwidth = 0.01, yheight = 0.01, t_0 = 0, t_1 = 5e6)
+  AT (0, 0, 100.6) RELATIVE source
+
+
+
+/* This section is executed when the simulation ends (C code). Other    */
+/* optional sections are : SAVE                                         */
+FINALLY
+%{
+%}
+/* The END token marks the instrument definition end */
+END
+
