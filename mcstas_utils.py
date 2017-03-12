@@ -57,6 +57,8 @@ def run_mcstas(instrument, params, neutrons = 10000000, m_val = 2):
     workingDir = getWorkingDir()
     epoch_time = now()
     save_dir = '{}/data/{}_{}'.format(workingDir, instrument, epoch_time)
+    print('About to run! Saving to {}'.format(save_dir))
+
     run_instrument_with_params = [
         '{}/{}.out'.format(workingDir, instrument), 
         '-n', str(neutrons), 

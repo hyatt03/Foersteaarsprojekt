@@ -4,8 +4,8 @@
 @file: Utilities for analyzing a simulation that has already been run. Defines objective for practical purposes.
 """
 
-# workingDir = '/home/jph/Foersteaarsprojekt'
-workingDir = '/Users/jonashyatt/Code/Foersteaarsprojekt'
+workingDir = '/home/jph/Foersteaarsprojekt'
+# workingDir = '/Users/jonashyatt/Code/Foersteaarsprojekt'
 def getWorkingDir():
     return workingDir
 

@@ -32,7 +32,7 @@ def runOptimizations(evals):
     exp_label = '{}_{}'.format(getExperiment(), now())
     
     # Allow parallelizing 
-    trials = MongoTrials(workerDb, exp_key=exp_label)
+    trials = MongoTrials(masterDb, exp_key=exp_label)
     
     # Use hyperopt to optimize function
     best = fmin(objective, getSearchSpace(limitsDict), trials=trials, algo=tpe.suggest, max_evals=evals)
@@ -45,9 +45,15 @@ def runOptimizations(evals):
 
 # Open a worker for each idle CPU.
 def startWorkers():
-    workerBoot = ['PYTHONPATH=$PYTHONPATH:{}/'.format(getWorkingDir()), 'hyperopt-mongo-worker', '--mongo={}'.format(workerDb), '--poll-interval=1']
+    workerBoot = [
+        #'PYTHONPATH=$PYTHONPATH:{}/'.format(getWorkingDir()), 
+        'hyperopt-mongo-worker', 
+        '--mongo={}'.format(workerDb), 
+        '--poll-interval=1'
+    ]
+
     for i in range(mp.cpu_count()):
-        Popen(workerBoot, shell = True, stdin = None, stdout = None, stderr = None, close_fds = True)
+        Popen(workerBoot, shell = False, stdin = None, stdout = None, stderr = None, close_fds = True, cwd=getWorkingDir())
 
 if __name__ == "__main__":
     # Compile the experiment first, this ensures it's always up to date
