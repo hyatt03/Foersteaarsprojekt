@@ -110,17 +110,26 @@ double m_values_e1[200];
 double m_values_e2[200];
 double m_value_e1;
 double m_value_e2;
+double price;
+double segment_length_e1;
+double segment_length_e2;
 int x;
 %}
 
 /* The INITIALIZE section is executed when the simulation starts     */
 /* (C code). You may use them as component parameter values.         */
 INITIALIZE
-%{
+%{  
 /* Small distance ensures no overlap. */
 u = 10e-6;
 /* We can now calculate the length of the second elliptical guide from our specifications */
 length_e2 = 163.4 - 8 * u - cguide_length - length_e1 - guide_start;
+
+segment_length_e1 = length_e1 / 200;
+segment_length_e2 = length_e2 / 200;
+
+/* estimate of base price of substrate and first layer of coating for guide, aluminium for the first to parts, glass for rest. */
+price = cguide_length * (0.1 * 25e3 + 8e3) + length_e1 * (0.1 * 25e3 + 8e3) + length_e2 * (0.1 * 14e3 + 8e3);
 
 /* Calculate the m-values for our two elliptical guides */
 for (iter = 0; iter < 200; iter++) {
@@ -135,6 +144,8 @@ for (iter = 0; iter < 200; iter++) {
   if (m_value_e2 > 7) {
     m_value_e2 = 7;
   }
+
+  price += (pow(m_value_e1 * segment_length_e1, 2.6/4) * 2 + pow(m_value_e2 * segment_length_e2, 2.6/4) * 2)*1e3;
 
   m_values_e1[iter] = m_value_e1;
   m_values_e2[iter] = m_value_e2;
@@ -330,6 +341,17 @@ COMPONENT sample_lambda = L_monitor(
 /* optional sections are : SAVE                                         */
 FINALLY
 %{
+/* save the price to a price file */  
+FILE *f = fopen(strcat(mcdirname, "/price.dat"), "w");
+
+if (f == NULL) {
+    printf("Error opening file!\n");
+}
+else {
+  fprintf(f, "%f\n", price);
+  fclose(f);
+}
+
 %}
 /* The END token marks the instrument definition end */
 END
