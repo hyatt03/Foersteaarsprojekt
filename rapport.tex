@@ -182,18 +182,19 @@ Når vi samler en række neutronspejle i forlængelse af hinanden, kalder vi det
 Det kan også være nødvendigt at samle guiden på visse steder. Dette kan eksempelvis være nødvendigt, hvis man vil indsætte en såkaldt chopper.
 
 \subsubsection{Chopper}
-En chopper er en roterende komponent, der kun lader neutroner passere i visse tidsintervaller. Den simpleste chopper er en 'disk chopper', som basalt set er en roterende disk, med et antal 'revner' eller huller nær kanten. Chopperen bliver sat til at rotere foran neutronstrålen, og neutronerne kan dermed kun passere chopperen, når chopperen er åben, dvs. når neutronen kan passere gennem hullet i chopperen. I det chopperen roterer, vil det kun til nogle tidspunkter være muligt for neutronerne at passere. Med en chopper kan man altså opdele neutronstrålen i midnre bider. Dette kan give en bedre kontrol over neutronerne, og dermed bedre resultater.
+En chopper er en roterende komponent, der kun lader neutroner passere i visse tidsintervaller. Den simpleste chopper er en 'disk chopper', som basalt set er en roterende disk, med et antal 'revner' eller huller nær kanten. Chopperen bliver sat til at rotere foran neutronstrålen, og neutronerne kan dermed kun passere chopperen, når chopperen er åben, dvs. når neutronen kan passere gennem hullet i chopperen. I det chopperen roterer, vil det kun til nogle tidspunkter være muligt for neutronerne at passere. Med en chopper kan man altså opdele neutronstrålen i midnre bider. Dette kan give en bedre kontrol over neutronerne, og dermed bedre resultater. \cite{ess_folder}
 
-\subsubsection{Neutronkilder og moderator}
-Neutroner kan genereres på flere forskellige måder. Ved ESS i Lund bliver neutronerne frembragt ved protonbombardament af en wolframkilde. Alle neutronerne skal helst have samme hastighed, og for at give dem dette gør man brug af en såkaldt moderator.
+\subsubsection{Neutronkilder, moderator og neutrondetektionr}
+Neutroner kan genereres på flere forskellige måder. Ved ESS i Lund bliver neutronerne frembragt ved protonbombardament af en wolframkilde. Alle neutronerne skal helst have samme hastighed, og for at give dem dette gør man brug af en såkaldt moderator. En moderator er et ofte hydrogenholdigt materiale, som omkrænser neutron kilden. Neutronernes energi bliver derved normaliseret ved, at de langsomt vil opnå termisk ligevægt med moderatoren gennem sammenstød med moderatorens hydrogenatomer (eksempler på moderatorer kunne være $H_2O$, $H_2$ eller $CH_4$). Man kan hermed ændre på neutronernes energi ved at ændre på moderatorens temperatur. 
+Efter neutronerne har interergeret med prøven, skal de selvsagt detekteres, således at man kan få forsøgsresultater. Neutronerne 
+bliver ofte detekteret gennem en kerneprocess med helium, hvorefter der bliver frigjort noget energi, $Q$. \cite{lefmann_arleth_kirkensgaard_lebech_thomsen}
 
-Vi har i introduktionen allerede beskrevet det her... Kan ikke finde noget om butterfly?
-\cite{ess_folder}
+\begin{align}
+^3He + n \to  ^3H + ^1H + Q
+\end{align}
 
-\subsubsection{Neutron detektion}
-Efter neutronerne har interergeret med prøven, skal de selvsagt detekteres, således at man kan 
-For at måle kvaliteten af forsøgene, bruges forskellige slags monitors (også i simuleringer)
-
+Den frigivne energi, $Q$, giver anledning til et elektrisk signal, og neutronen er dermed blevet detekteret.
+Når man bedømmer kvaliteten af sin guide, betyder det selvfølgelig noget, hvor mange neutroner der bliver transporteret fra kilde til prøve. Dette er dog ikke den vigtigste parameter man kigger på, når man bedømmer sin guide. Et meget vigtigt udtryk er den såkaldte $brilliance$. Brilliance er tæt sammensat med faserummets densitet, dvs. hvor mange neutroner der bevæger sig igennem et givent areal pr. tidsenhed. Brilliance er altså et udtryk for, hvor mange neutroner vi får transporteret igennem et relevant areal pr. tid. Ofte vil arealet være på størrelse med den prøve man beskyder, og det er derfor også intuitivt, at vi er interesserede i at finde de neutroner der rent faktisk er fokuseret på prøven, i stedet for dem der misser den. Det er en fysisk lov, at faserummets densitet ikke kan stige, og vi kan dermed aldrig få en brilliance der er større ved vores prøve, end ved vores moderator. Ofte måler man brilliance lige foran moderatoren, og brilliance lige inden prøven. Hermed kan man dividere de to, for at se hvor meget af brilliance vores guide har formået at bevare. Dermed snakker vi om $brilliance transfer$, ofte bare betegnet BT. \cite{lefmann_arleth_kirkensgaard_lebech_thomsen}
 
 
 
