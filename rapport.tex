@@ -226,15 +226,15 @@ Målet er derefter at nå så høj brilliance transfer som muligt, men for BIFRO
 Når man har lavet sin simulering i MCstas, er det klart at man skal bedømme hvorvidt ens guide er god eller ej. I MCstas kan man let indsætte forskellige monitors, foran sin prøve, så man kan se, hvordan neutronerne rammer prøven. Blandt monitors vi har brugt er blandt andet monitors der er følsomme overfor positionen hvormed neutronerne rammer prøven, bølgelængderne af neutronerne, divergensen for neutronerne (altså indfaldsvinklen hvormed neutronerne rammer prøven), og brilliance sensitive monitors. Specielt bedømmer vi vores guides på baggrund af hvor meget af brilliancen de bevarer. I en idealiseret verden ville vi have en brilliance transfer på 1, dvs. brilliance er den samme lige foran kilden, som den er lige inden prøven. Dette er dog ikke realistisk, da vi altid vil have et tab. Dog er det heller ikke realistisk at opnå ekstremt høj brilliance transfer ved eksempelvis at have en ekstremt bred guide, eller en meget høj m-værdi på mange af spejlene i guiden. Dette skyldes at vi som sagt også skal tage højde for prisen på diverse komponenter. Vi bedømmer altså primært vores resultater på baggrund af deres brilliance transfer, samt deres pris. Vi kigger dog også på, om vores brilliance transfer er højt for relevante bølgelængder, om der kommer mange neutroner frem, og om divergensen er for stor.
 
 \subsection{Optimering}
-Vi har arbejdet med flere forskellige guides, som vi har forsøgt at optimere mest muligt. Vi har gjort dette ved at parametrisere vores instrumenter, således at vi let kunne ændre på geometrier og m-værdier. På baggrund af vores simuleringer har vi skabt et optimeringsprogram som kunne benytte parametriseringen af instrumentet til automatisk at finde værdien af de parametre, der gav højest mulig brilliance transfer. Senere udvidede vi scriptet således at det også tog højde for m-værdiernes pris. Vi har altså basalt set optimeret på geometri, m-værdi og pris. Alt dette er i første omgang bedømt på baggrund af arealet under vores brilliance transfer kurve, ved bølgelængder mellem 0.5Å og 8Å. Derefter har vi også kigget på, om vores optimeringer overholder eksempelvis pris-og divergens krav.
+Vi har arbejdet med flere forskellige guides, som vi har forsøgt at optimere mest muligt. Vi har gjort dette ved at parametrisere vores instrumenter, således at vi let kunne ændre på geometrier og m-værdier. På baggrund af vores simuleringer, har vi skabt et optimeringsprogram, som kunne benytte parametriseringen af instrumentet, til automatisk at finde værdien af de parametre, der gav højest mulig brilliance transfer. Senere udvidede vi scriptet således, at det også tog højde for m-værdiernes pris. Vi har altså basalt set optimeret på geometri, m-værdi og pris. Alt dette er i første omgang bedømt på baggrund af arealet under vores brilliance transfer kurve, ved bølgelængder mellem 0.5Å og 8Å. Derefter har vi også kigget på, om vores optimeringer overholder eksempelvis pris-og divergenskrav.
 
 
 \section{Resultater}
 
 \subsection{Vores guide(s)}
-Vi har i løbet af dette projekt lavet en del virtuelle eksperimenter vha. MCStas, dog vil vi fokusere et mindre subsæt af guides for at begrænse omfanget af rapporten.
+Vi har i løbet af dette projekt lavet en del virtuelle eksperimenter vha. MCStas. Vi vil dog begrænse os til nogle enkelte guides, for at begrænse omfanget af rapporten.
 
-Specifikt vil vi fokusere på tre guides:
+Specifikt vil vi fokusere på disse simuleringer:
 \begin{enumerate}
     \item Simpel simulering af lige versus elliptisk guide \cite{github:st_vs_el}
     \item Simpel simulering af elliptisk guide der minder om ESS forholdende. \cite{github:ess_sim_simple}
@@ -242,19 +242,50 @@ Specifikt vil vi fokusere på tre guides:
 \end{enumerate}
 
 \subsubsection{Sammenligning af lige og elliptisk guide}
-Denne simulering blev fremstillet for at fremhæve forskellen mellem en lige guide, og en elliptisk guide. 
+Denne simulering blev fremstillet for at fremhæve forskellen mellem en lige guide, og en elliptisk guide. En skitse af deres geometri ses herunder:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{ElipsStraight.JPG}
+\caption{Eksempel på guidegeometrien, den lige guide består kun af de lige streger, mens den eliptiske kun består af de eliptiske streger.}
+\end{figure}
+
+Hvis du simulerer resultaterne, er der en tydelig forskel mellem den eliptiske og lige guide. Resultatet ses herunder:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{billede3.png}
+\caption{Brilliance transfer som funktion af bølgelængden af lige og eliptisk guide.}
+\end{figure}
+
 
 \subsubsection{Det simpleste ESS tilfælde}
-Denne guide blev fremstillet for at simulere det simpleste tilfælde man kan forestille sig ved ESS.
+Denne guide blev fremstillet for at simulere det simpleste tilfælde man kan forestille sig ved ESS. Vi har kun her optimeret efter de simpleste omstændigheder. Dvs. vi har sat en høj fast m-værdi, og derefter optimeret guidens geometri, hvor den skulle overholde nogle af de simpleste geometriske krav.
+En skitse af guidens geometri ses herunder:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{Elips.JPG}
+\caption{Brilliance transfer som funktion af bølgelængden af lige og eliptisk guide.}
+\end{figure}
+
+
 
 \subsubsection{Realistisk ESS geometri}
-Denne guide tager udgangspunkt en guidegeometri som har været under overvejelse til forsøget på ESS.
+Denne guide tager udgangspunkt en guidegeometri som har været under overvejelse til forsøget på ESS. Guiden geometri bliver populært kaldt 'EGCGE', dvs. den består af en eliptisk guide (E), et gab (G), en kurvet guide (C), endnu et gab (G), og til sidst en eliptisk guide igen (E). En skitse af guiden er tegnet herunder:
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth, angle=90]{EGCGE.JPG}
+\caption{Brilliance transfer som funktion af bølgelængden af lige og eliptisk guide.}
+\end{figure}
+
+Dette er en guidestruktur som potentielt godt kunne blive brugt ved ESS. Vi har optimeret den med hensyn til geometri, m-værdi og pris. Vores resultat ses herunder
 
 \section{Diskussion}
 
 \subsection{Bedømmelse af vores guides}
-Her snakker vi om styrker/svagheder ved vores systemer
+I vores første simulering hvor den lige guide blevet plottet mod den eliptiske guide, var det meget tydeligt, at den eliptiske gav en klart større brilliance transfer. Dette er første tegn på, at guidegeometrien kan optimeres. Dog må vi huske, at det ikke kun er brilliance transfer, der tæller. Divergensen betyder eksempelvis også meget
 
 \section{Konklusion}
 
