@@ -18,7 +18,7 @@ import time
 import sys
 import functools
 from multiprocessing.dummy import Pool as ThreadPool
-from mcstas_utils import run_mcstas, now
+from mcstas_utils import run_mcstas, compile_mcstas, now
 from simulation_analysis_utils import process_brilliance
 
 plt.rcParams["figure.figsize"] = (15,8)
@@ -31,7 +31,7 @@ def run_single(which):
     
     if which == 1:
         params['elip'] = 1
-        
+
     return run_mcstas(instrument_name, params, neutrons = 100000000)
 
 
@@ -57,4 +57,5 @@ def parrallel_run_simulation():
         
     # ax.plot(peak_res_x, peak_res_y, 'r.-', label='Peak brilliance transfer')    
 
+compile_mcstas(instrument_name)
 parrallel_run_simulation()
