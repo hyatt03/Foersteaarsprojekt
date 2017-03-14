@@ -113,7 +113,10 @@ double m_value_e2;
 double price;
 double segment_length_e1;
 double segment_length_e2;
+double x_div;
+double y_div;
 int x;
+int flag;
 %}
 
 /* The INITIALIZE section is executed when the simulation starts     */
@@ -145,7 +148,7 @@ for (iter = 0; iter < 200; iter++) {
     m_value_e2 = 7;
   }
 
-  price += (pow(m_value_e1 * segment_length_e1, 2.6/4) * 2 + pow(m_value_e2 * segment_length_e2, 2.6/4) * 2)*1e3;
+  price += (pow(m_value_e1 * segment_length_e1, 2.6) / 2 + pow(m_value_e2 * segment_length_e2, 2.6) / 2)*1e3;
 
   m_values_e1[iter] = m_value_e1;
   m_values_e2[iter] = m_value_e2;
@@ -200,6 +203,12 @@ COMPONENT source_div = Divergence_monitor(
     yheight = sample_size, maxdiv_h = 0.75, maxdiv_v = 0.75,
     restore_neutron = 1)
   AT (0, 0, u) RELATIVE PREVIOUS
+EXTEND
+    %{
+    x_div = RAD2DEG*atan2(vx,vz);
+    y_div = RAD2DEG*atan2(vy,vz);
+    if (SCATTERED) flag=1; else flag=0;
+    %}
 
 COMPONENT source_energy = E_monitor(
     filename = "source_energy.dat", xwidth = sample_size, yheight = sample_size, Emin = 0,
@@ -216,6 +225,7 @@ COMPONENT Brillmon_begin = Brilliance_monitor(
     t_1 =5e5, lambda_0 = 0, lambda_1 = 8,
     Freq =14, toflambda=0, tofcuts=0,
     xwidth=sample_size, yheight=sample_size, restore_neutron=1)
+  WHEN (x_div < 0.75 && x_div > -0.75)
   AT (0, 0, u) RELATIVE previous
 
 /** SOURCE MONITORS END **/
@@ -308,21 +318,28 @@ AT (0, 0, length_e2 + 2 * u) RELATIVE PREVIOUS
 COMPONENT start_of_sample = Arm()
 AT (0, 0, 0.6) RELATIVE PREVIOUS
 
+COMPONENT sample_div = Divergence_monitor(
+    nh = 90, nv = 90, filename = "sample_div.dat", xwidth = sample_size,
+    yheight = sample_size, maxdiv_h = 2, maxdiv_v = 2,
+    restore_neutron = 1)
+  AT (0, 0, u) RELATIVE PREVIOUS
+  EXTEND
+    %{
+    x_div = RAD2DEG*atan2(vx,vz);
+    y_div = RAD2DEG*atan2(vy,vz);
+    if (SCATTERED) flag=1; else flag=0;
+    %}
+
 COMPONENT Brillmon_sample = Brilliance_monitor(
    nlam = 101, nt = 101, filename = "sample_brilliance.dat", t_0 = 0,
     t_1 =5e5, lambda_0 = 0, lambda_1 = 8,
     Freq =14, toflambda=0, tofcuts=0,
     xwidth=sample_size, yheight=sample_size, restore_neutron=1)
+  WHEN (x_div < 0.75 && x_div > -0.75)
   AT (0, 0, u) RELATIVE PREVIOUS
 
 COMPONENT sample_psd = PSD_monitor(
-    filename = "sample_psd.dat", xwidth = sample_size, yheight = sample_size, restore_neutron=1)
-  AT (0, 0, u) RELATIVE PREVIOUS
-
-COMPONENT sample_div = Divergence_monitor(
-    nh = 90, nv = 90, filename = "sample_div.dat", xwidth = sample_size,
-    yheight = sample_size, maxdiv_h = 0.75, maxdiv_v = 0.75,
-    restore_neutron = 1)
+    filename = "sample_psd.dat", xwidth = sample_size * 2, yheight = sample_size * 2, restore_neutron=1)
   AT (0, 0, u) RELATIVE PREVIOUS
 
 COMPONENT sample_energy = E_monitor(
@@ -355,6 +372,7 @@ else {
 %}
 /* The END token marks the instrument definition end */
 END
+
 
 
 

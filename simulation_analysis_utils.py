@@ -104,22 +104,22 @@ def plotBT(instrument, params):
     save_dir = run_mcstas(instrument, params)
     [mean_area, mean_result, res_x, res_y, err_y] = process_brilliance(save_dir, 'Mean')
     [peak_area, peak_result, peak_res_x, peak_res_y, peak_err_y] = process_brilliance(save_dir, 'Peak')
-    
+
     # Plot the data
     fig, ax = plt.subplots()
 
     ax.plot(peak_res_x, peak_res_y, 'r.-', label='Peak brilliance transfer')
     ax.plot(res_x, res_y, 'b.-', label='Mean brilliance transfer')
-    
+
     legend = ax.legend(loc='upper left', shadow=True)
-    
+
     plt.xlabel("Wavelength [AA]")
     plt.ylabel("Brilliance Transfer")
     plt.title('Peak/Mean brilliance transfers as a function of wavelength\nPeak area: {:3.2f}, Mean area: {:3.2f}'.format(peak_area, mean_area))
     plt.axis([0, 8, 0, 1])
     plt.grid(True)
     plt.savefig('optimized_mean_{}.png'.format(now()))
-    
+
     return save_dir
 
 # Negative brilliance is essentially the area under the brilliance transfer curve
@@ -128,10 +128,10 @@ def getNegativeBrilliance(instrument, params):
     save_dir = run_mcstas(instrument, params)
     price = process_price(save_dir)
     area = process_brilliance(save_dir, 'Mean')[0]
-    
+
     if (area > 8):
         return area
-    
+
     return (8 - area) * price
 
 # Objective function, takes the arguments from hyperopt and converts to a dict which is run as a simulation.
@@ -149,5 +149,5 @@ if __name__ == "__main__":
     # get all the plots if this file is run directly.
     with open(getResultsFile(), "rb") as a:
         lines = a.readlines()
-    
+
     save_dir = plotBT(getExperiment(), json.loads(lines[-1]))
