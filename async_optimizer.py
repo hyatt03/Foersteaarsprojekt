@@ -66,7 +66,7 @@ if __name__ == "__main__":
     startWorkers()
     
     # Run the actual optimization.
-    best = runOptimizations(1000)
+    best = runOptimizations(100)
 
     # The optimization is done, kill the workers
     for worker in workers:
