@@ -7,6 +7,7 @@
 # Make sure this script can run without a display (server environment).
 import matplotlib
 matplotlib.use('pdf')
+matplotlib.rcParams.update({'font.size': 24})
 
 # Import helper modules
 import matplotlib.pyplot as plt
@@ -28,7 +29,7 @@ def run_single(which):
     params = {
         'elip': 0
     }
-    
+
     if which == 1:
         params['elip'] = 1
 
@@ -52,7 +53,7 @@ def parrallel_run_simulation():
     plt.xlabel("Wavelength [AA]")
     plt.ylabel("Brilliance Transfer")
     plt.title('Mean brilliance transfers as a function of wavelength')
-    plt.axis([0, 10, 0, 1])
+    plt.axis([0, 8, 0, 1])
     plt.grid(True)
     plt.savefig('st_vs_elip_{}.png'.format(now()))
         

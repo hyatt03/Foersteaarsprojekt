@@ -16,6 +16,7 @@ os.chdir(workingDir)
 # Make sure this script can run without a display (server environment).
 import matplotlib
 matplotlib.use('pdf')
+matplotlib.rcParams.update({'font.size': 24})
 
 # Import helper modules
 import matplotlib.pyplot as plt
