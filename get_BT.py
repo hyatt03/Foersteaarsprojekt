@@ -17,11 +17,11 @@ from simulation_analysis_utils import process_brilliance
 params = {'guide_loutxw': 7.236909136827689, 'guide_mid_height': 0.07242770304915397, 'guide_linxw': 73.11127655966307, 'guide_linyh': 5.924279652618898, 'guide_mid_width': 0.05851273883218753, 'guide_loutyh': 1.9432886941931304}
 
 # compile_mcstas('ess_sim_simple')
-# save_dir = run_mcstas('ess_sim_simple', params)
-save_dir = './data/ess_sim_simple_148949435459073'
+save_dir = run_mcstas('ess_sim_simple', params, neutrons = 100000000)
+# save_dir = './data/ess_sim_simple_148949435459073'
 res = process_brilliance(save_dir, 'Mean')
 
-print len(res)
+# print len(res)
 
 # Plot results
 fig, ax = plt.subplots()
