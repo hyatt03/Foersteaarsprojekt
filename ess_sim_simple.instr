@@ -42,7 +42,7 @@ COMPONENT source = Source_simple(
   AT (0, 0, 0) RELATIVE Origin
 
 COMPONENT Brillmon_begin = Brilliance_monitor(
-   nlam = 101, nt = 101, filename = "brill_begin.dat", t_0 = 1,
+   nlam = 101, nt = 101, filename = "source_brilliance.dat", t_0 = 1,
     t_1 =5e5, lambda_0 = 0, lambda_1 = 8,
     Freq =1, toflambda=0, tofcuts=0,
     xwidth=0.01, yheight=0.01, restore_neutron=1)
@@ -59,7 +59,7 @@ COMPONENT Monitors = Arm()
   AT (0, 0, 165) RELATIVE source
 
 COMPONENT Brillmon = Brilliance_monitor(
-   nlam = 101, nt = 101, filename = "brill_end.dat", t_0 = 1e4,
+   nlam = 101, nt = 101, filename = "sample_brilliance.dat", t_0 = 1e4,
     t_1 =5e5, lambda_0 = 0, lambda_1 = 8,
     Freq =1, toflambda=0, tofcuts=0, source_dist=1,
     xwidth=0.01, yheight=0.01, restore_neutron=1)
