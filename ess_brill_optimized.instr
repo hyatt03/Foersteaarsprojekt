@@ -195,12 +195,12 @@ COMPONENT start_of_source_monitors = Arm()
 AT (0, 0, guide_start - 5 * u) RELATIVE source
 
 COMPONENT source_psd = PSD_monitor(
-    filename = "source_psd.dat", xwidth = sample_size, yheight = sample_size, restore_neutron=1)
+    filename = "source_psd.dat", xwidth = 0.02, yheight = 0.02, restore_neutron=1)
   AT (0, 0, u) RELATIVE PREVIOUS
 
 COMPONENT source_div = Divergence_monitor(
     nh = 90, nv = 90, filename = "source_div.dat", xwidth = sample_size,
-    yheight = sample_size, maxdiv_h = 0.75, maxdiv_v = 0.75,
+    yheight = sample_size, maxdiv_h = 2, maxdiv_v = 2,
     restore_neutron = 1)
   AT (0, 0, u) RELATIVE PREVIOUS
 EXTEND
@@ -339,7 +339,7 @@ COMPONENT Brillmon_sample = Brilliance_monitor(
   AT (0, 0, u) RELATIVE PREVIOUS
 
 COMPONENT sample_psd = PSD_monitor(
-    filename = "sample_psd.dat", xwidth = sample_size * 2, yheight = sample_size * 2, restore_neutron=1)
+    filename = "sample_psd.dat", xwidth = 0.02, yheight = 0.02, restore_neutron=1)
   AT (0, 0, u) RELATIVE PREVIOUS
 
 COMPONENT sample_energy = E_monitor(

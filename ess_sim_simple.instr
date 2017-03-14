@@ -12,6 +12,10 @@ DEFINE INSTRUMENT test(
 DECLARE
 %{
 double u;
+double x_div;
+double y_div;
+int flag;
+double sample_size = 1.0;
 %}
 
 /* The INITIALIZE section is executed when the simulation starts     */
@@ -41,12 +45,31 @@ COMPONENT source = Source_simple(
     focus_yh = 0.1, gauss = 0, lambda0=4.25, dlambda = 3.75)
   AT (0, 0, 0) RELATIVE Origin
 
+COMPONENT source_psd = PSD_monitor(
+  filename = "source_psd.dat", xwidth = 0.02, yheight = 0.02, restore_neutron=1)
+AT (0, 0, 2 - 2 * u) RELATIVE PREVIOUS
+
+COMPONENT source_div = Divergence_monitor(
+    nh = 90, nv = 90, filename = "source_div.dat", xwidth = sample_size,
+    yheight = sample_size, maxdiv_h = 2, maxdiv_v = 2,
+    restore_neutron = 1)
+  AT (0, 0, 2 - u) RELATIVE PREVIOUS
+EXTEND
+    %{
+    x_div = RAD2DEG*atan2(vx,vz);
+    y_div = RAD2DEG*atan2(vy,vz);
+    if (SCATTERED) flag=1; else flag=0;
+    %}
+
 COMPONENT Brillmon_begin = Brilliance_monitor(
    nlam = 101, nt = 101, filename = "source_brilliance.dat", t_0 = 1,
     t_1 =5e5, lambda_0 = 0, lambda_1 = 8,
     Freq =1, toflambda=0, tofcuts=0,
     xwidth=0.01, yheight=0.01, restore_neutron=1)
+  // WHEN (x_div < 0.75 && x_div > -0.75)
   AT (0, 0, 2) RELATIVE source
+
+
 
 COMPONENT guide = Elliptic_guide_gravity(
     l = 162.4, xwidth = guide_mid_width, yheight = guide_mid_height, dimensionsAt="mid",
@@ -58,12 +81,29 @@ COMPONENT guide = Elliptic_guide_gravity(
 COMPONENT Monitors = Arm()
   AT (0, 0, 165) RELATIVE source
 
+COMPONENT sample_div = Divergence_monitor(
+  nh = 90, nv = 90, filename = "sample_div.dat", xwidth = sample_size,
+  yheight = sample_size, maxdiv_h = 2, maxdiv_v = 2,
+  restore_neutron = 1)
+AT (0, 0, u) RELATIVE PREVIOUS
+EXTEND
+  %{
+  x_div = RAD2DEG*atan2(vx,vz);
+  y_div = RAD2DEG*atan2(vy,vz);
+  if (SCATTERED) flag=1; else flag=0;
+  %}
+
 COMPONENT Brillmon = Brilliance_monitor(
    nlam = 101, nt = 101, filename = "sample_brilliance.dat", t_0 = 1e4,
     t_1 =5e5, lambda_0 = 0, lambda_1 = 8,
     Freq =1, toflambda=0, tofcuts=0, source_dist=1,
     xwidth=0.01, yheight=0.01, restore_neutron=1)
+WHEN (x_div < 0.75 && x_div > -0.75)
 AT (0, 0, u) RELATIVE Monitors
+      
+COMPONENT sample_psd = PSD_monitor(
+  filename = "sample_psd.dat", xwidth = 0.02, yheight = 0.02, restore_neutron=1)
+AT (0, 0, u) RELATIVE PREVIOUS
 
 /*
 COMPONENT mon1 = PSD_monitor(

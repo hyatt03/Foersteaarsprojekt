@@ -7,7 +7,7 @@ import subprocess
 import time
 import sys
 from mcstas_utils import run_mcstas, compile_mcstas, now
-from simulation_analysis_utils import process_brilliance
+from simulation_analysis_utils import process_brilliance, plotPSD, plotDIV
 
 matplotlib.rcParams.update({'font.size': 24})
 
@@ -17,10 +17,17 @@ matplotlib.rcParams.update({'font.size': 24})
 
 params = {'guide_loutxw': 7.236909136827689, 'guide_mid_height': 0.07242770304915397, 'guide_linxw': 73.11127655966307, 'guide_linyh': 5.924279652618898, 'guide_mid_width': 0.05851273883218753, 'guide_loutyh': 1.9432886941931304}
 
-# compile_mcstas('ess_sim_simple')
+compile_mcstas('ess_sim_simple')
 # save_dir = run_mcstas('ess_sim_simple', params, neutrons = 100000000)
-save_dir = './data/ess_sim_simple_148949502936168'
+save_dir = './data/ess_sim_simple_148951498750355'
+print save_dir
 res = process_brilliance(save_dir, 'Mean')
+
+plotPSD(save_dir + '/source_psd.dat', filename = 'psd_ess_simple_before.png')
+plotDIV(save_dir + '/source_div.dat')
+
+plotPSD(save_dir + '/sample_psd.dat', filename = 'psd_ess_simple_after.png')
+plotDIV(save_dir + '/sample_div.dat')
 
 # print len(res)
 
@@ -35,5 +42,5 @@ plt.ylabel("Brilliance Transfer")
 # plt.title('Peak/Mean brilliance transfers as a function of wavelength\nPeak area: {}, Mean area: {}'.format(area_peak, area_mean))
 plt.axis([0, 8, 0, 1])
 plt.grid(True)
-plt.savefig('optimized_mean_4.png')
+plt.savefig('optimized_mean_5.png')
 

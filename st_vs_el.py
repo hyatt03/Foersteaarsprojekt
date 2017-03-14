@@ -20,7 +20,7 @@ import sys
 import functools
 from multiprocessing.dummy import Pool as ThreadPool
 from mcstas_utils import run_mcstas, compile_mcstas, now
-from simulation_analysis_utils import process_brilliance
+from simulation_analysis_utils import process_brilliance, plotPSD, plotDIV
 
 plt.rcParams["figure.figsize"] = (15,8)
 instrument_name = 'st_vs_el'
@@ -39,7 +39,7 @@ def run_single(which):
 def parrallel_run_simulation():
     pool = ThreadPool(2)
     # dirs = pool.map(run_single, [1, 2])
-    dirs = ['./data/st_vs_el_148948323747645', './data/st_vs_el_148948323747666']
+    dirs = ['./data/st_vs_el_148951785569744/', './data/st_vs_el_148951785569855']
 
     # Plot the data
     fig, ax = plt.subplots()
@@ -56,7 +56,19 @@ def parrallel_run_simulation():
     plt.axis([0, 8, 0, 1])
     plt.grid(True)
     plt.savefig('st_vs_elip_{}.png'.format(now()))
-        
+    
+    print 'ellipse_before:', plotPSD(dirs[0] + '/source_psd.dat', filename = 'psd_before_ellipse.png')
+    # print 'ellipse_before:', plotDIV(dirs[0] + '/source_div.dat')
+
+    print 'ellipse_after:', plotPSD(dirs[0] + '/sample_psd.dat', filename = 'psd_after_ellipse.png')
+    # print 'ellipse_after:', plotDIV(dirs[0] + '/sample_div.dat')
+    
+    print 'straight_before:', plotPSD(dirs[1] + '/source_psd.dat', filename = 'psd_before_straight.png')
+    # print 'straight_before:', plotDIV(dirs[1] + '/source_div.dat')
+
+    print 'straight_after:', plotPSD(dirs[1] + '/sample_psd.dat', filename = 'psd_after_straight.png')
+    # print 'straight_after:', plotDIV(dirs[1] + '/sample_div.dat')
+    
     # ax.plot(peak_res_x, peak_res_y, 'r.-', label='Peak brilliance transfer')    
 
 compile_mcstas(instrument_name)
