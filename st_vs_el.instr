@@ -34,6 +34,9 @@ DEFINE INSTRUMENT ellipsisvsstraight(elip=1)
 /* functions in C syntax. These may be used in the whole instrument. */
 DECLARE
 %{
+  double x_div;
+  double y_div;
+  int flag;
 %}
 
 /* The INITIALIZE section is executed when the simulation starts     */
@@ -62,13 +65,28 @@ COMPONENT source = Source_simple(
     focus_yh = 0.1, lambda0 = 5.1, dlambda = 5, flux = 100)
   AT (0, 0, 0) RELATIVE Origin
 
+COMPONENT source_div = Divergence_monitor(
+  nh = 90, nv = 90, filename = "source_div.dat", xwidth = 0.01,
+  yheight = 0.01, maxdiv_h = 2, maxdiv_v = 2,
+  restore_neutron = 1)
+AT (0, 0, 1.5999) RELATIVE PREVIOUS
+EXTEND
+%{
+  x_div = RAD2DEG*atan2(vx,vz);
+  y_div = RAD2DEG*atan2(vy,vz);
+  if (SCATTERED) flag=1; else flag=0;
+%}
 
 COMPONENT source_brill = Brilliance_monitor(
     nlam = 101, nt = 101, lambda_0 = 0, lambda_1 = 10, filename = "source_brilliance.dat",
     restore_neutron = 1, Freq = 14, tofcuts = 0, toflambda = 0,
     xwidth = 0.01, yheight = 0.01, t_0 = 0, t_1 = 5e4)
+  WHEN (x_div > -0.75 && x_div < 0.75)
   AT (0, 0, 1.6) RELATIVE source
-
+      
+COMPONENT source_psd = PSD_monitor(
+  filename = "source_psd.dat", xwidth = 0.02, yheight = 0.02, restore_neutron=1)
+AT (0, 0, 1.6001) RELATIVE PREVIOUS
 
 COMPONENT guide_st = Guide(
     w1 = 0.1, h1 = 0.1, w2 = 0.1, h2 = 0.1, l = 98, m = 6)
@@ -81,13 +99,28 @@ COMPONENT guide_el = Elliptic_guide_gravity(
   WHEN (elip == 1)
   AT (0, 0, 2) RELATIVE source
 
+COMPONENT sample_div = Divergence_monitor(
+  nh = 90, nv = 90, filename = "sample_div.dat", xwidth = 0.01,
+  yheight = 0.01, maxdiv_h = 2, maxdiv_v = 2,
+  restore_neutron = 1)
+AT (0, 0, 100.5999) RELATIVE PREVIOUS
+      EXTEND
+      %{
+        x_div = RAD2DEG*atan2(vx,vz);
+        y_div = RAD2DEG*atan2(vy,vz);
+        if (SCATTERED) flag=1; else flag=0;
+      %}
+
 COMPONENT sample_brill = Brilliance_monitor(
     nlam = 101, nt = 101, lambda_0 = 0, lambda_1 = 10, filename = "sample_brilliance.dat",
     restore_neutron = 1, Freq = 14, tofcuts = 0, toflambda = 0,
     xwidth = 0.01, yheight = 0.01, t_0 = 0, t_1 = 5e6)
+  WHEN (x_div > -0.75 && x_div < 0.75) 
   AT (0, 0, 100.6) RELATIVE source
 
-
+COMPONENT sample_psd = PSD_monitor(
+  filename = "sample_psd.dat", xwidth = 0.02, yheight = 0.02, restore_neutron=1)
+AT (0, 0, 100.6001) RELATIVE PREVIOUS
 
 /* This section is executed when the simulation ends (C code). Other    */
 /* optional sections are : SAVE                                         */
