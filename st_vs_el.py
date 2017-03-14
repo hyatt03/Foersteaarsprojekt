@@ -43,8 +43,8 @@ def parrallel_run_simulation():
     fig, ax = plt.subplots()
     mean_results_elip = process_brilliance(dirs[0], 'Mean')
     mean_results_str =  process_brilliance(dirs[1], 'Mean')
-    ax.plot(mean_results_elip[2], mean_results_elip[3], 'b.-', label='Mean brilliance transfer elliptical')
-    ax.plot(mean_results_str[2], mean_results_str[3], 'r.-', label='Mean brilliance transfer straight')
+    ax.plot(mean_results_elip[2], mean_results_elip[3], 'b.-', label='Mean brilliance transfer elliptical', yerr = mean_results_elip[4])
+    ax.plot(mean_results_str[2], mean_results_str[3], 'r.-', label='Mean brilliance transfer straight', yerr = mean_results_str[4])
     
     legend = ax.legend(loc='upper left', shadow=True)
     
