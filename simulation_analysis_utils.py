@@ -19,6 +19,7 @@ matplotlib.use('pdf')
 
 # Import helper modules
 import matplotlib.pyplot as plt
+import math
 import json
 from mcstas_utils import getExperiment, now, getLimits, run_mcstas
 import numpy as np
@@ -58,6 +59,15 @@ def fixDivisionByZeroAndIndex(row_a, row_comp):
     
     return res
 
+def getErrors(result, data_source, data_sample):
+    # If the error or value is already 0, just return.
+    if (data_source[1] == 0 or data_source[2] or data_sample[1] == 0 or data_sample[2] == 0):
+        return result
+
+    # Calculate the error, by error propagation.
+    result[2] = math.sqrt((1 / data_source[1]) ** 2 * data_source[2] ** 2 + (-data_sample[1] / (data_source[1] ** 2)) ** 2 * data_sample[2] ** 2)
+    return result
+
 def process_price(path):
     with open(path + '/price.dat') as f:
         price = int(float(f.readline()))
@@ -79,24 +89,24 @@ def process_brilliance(path, type, row_count = 101, col_count = 4):
     # Normalize the data and add correct x axis
     for i in xrange(0, row_count):
         result[i] = fixDivisionByZeroAndIndex(data_begin[i], comp[i])
+        getErrors(result[i], data_begin[i], data_end[i])
 
     # Split and transpose for ease of further calculations.
     res_x = result[:, 0:1].T[0]
     res_y = result[:, 1:2].T[0]
+    err_y = result[:, 2:3].T[0]
 
     # Calculate the area under the curves
     area = np.trapz(y = res_y, x = res_x)
     
     # Return all relevant stuff!
-    return [area, result, res_x, res_y]
+    return [area, result, res_x, res_y, err_y]
 
 def plotBT(instrument, params):
     # Run sim to get all the required data.
     save_dir = run_mcstas(instrument, params)
-    [mean_area, mean_result, res_x, res_y] = process_brilliance(save_dir, 'Mean')
-    [peak_area, peak_result, peak_res_x, peak_res_y] = process_brilliance(save_dir, 'Peak')
-    
-    # @TODO: Deal with the error propergation here!!!!
+    [mean_area, mean_result, res_x, res_y, err_y] = process_brilliance(save_dir, 'Mean')
+    [peak_area, peak_result, peak_res_x, peak_res_y, peak_err_y] = process_brilliance(save_dir, 'Peak')
     
     # Plot the data
     fig, ax = plt.subplots()

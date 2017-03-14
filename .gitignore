@@ -12,3 +12,6 @@ data/
 db/
 *.pyc
 ess_brill_optimized_*
+.idea/
+*.iml
+
