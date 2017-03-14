@@ -209,7 +209,11 @@ Hvor m er den såkaldte m-værdi. Denne er altså en indikation på, hvor stor e
 Neutronspejle består af et nedre lag af såkaldt $substrate$. Dette er basis for spejlet, og kan laves af flere forskellige materialer, alt afhængigt af, hvor stor kvalitet spejlet ønskes i, og hvordan spejlet skal interergere med neutronerne. Derudover består neutronspejle af nogle lag $coating$ ovenpå. Det er netop denne coating der dikterer m-værdien for spejlet, dvs. mange lag coating giver en høj m-værdi. Senere vil vi komme ind på priserne for henholdsvis substrate og coating, da det er en vigtig begrænsing for vores simuleringer.
 
 \subsubsection{Elliptiske guides}
-Når man samler en række neutronspejle i forlængelse af hinanden, kalder man det for en neutronguide. De simpleste guides er selvsagt fuldstændig lige. Dette er dog ikke altid det mest hensigtsmæssige. Der kan være flere forskellige grunde til, at man vil have en enten kurvet eller eliptisk guide. Hvis neutronerne skal transportereres store afstande, kan det være en fordel at gøre guiden breddere, ved at gøre den enten eliptisk, eller delvis eliptisk i starten. Derved kommer der længere flyvetid mellem hvert sammenstød mellem neutronen og guiden, og færre neutroner går dermed tabt. Derudover kan der være en idé i, at få den prøve man skyder på, uden for synslinje af neutronkilden, således at man ikke får baggrundsstråling fra kilden. Dette kan gøres ved enten at lave en kurvet guide, eller eventuelt lave et såkaldt 'kink'. Et kink består af et neutronspejl, der reflekterer neutronerne fra en guide til en anden, så man kan få en vinkel mellem sine to neutronguides. 
+Når man samler en række neutronspejle i forlængelse af hinanden, kalder man det for en neutronguide. De simpleste guides er selvsagt fuldstændig lige. Dette er dog ikke altid det mest hensigtsmæssige. Der kan være flere forskellige grunde til, at man vil have en enten kurvet eller eliptisk guide. 
+Hvis neutronerne skal transportereres store afstande, kan det være en fordel, at gøre guiden breddere, ved at gøre den enten eliptisk, eller delvis eliptisk i starten. Derved kommer der længere flyvetid mellem hvert sammenstød mellem neutronen og guiden, og færre neutroner går dermed tabt. 
+Derudover kan en eliptisk guide opnå en større brilliance transfer, end en almindelig lige guide. Dette skyldes at færre neutroner går tabt lige  i starten, men at nogle af neutronerne tilgengæld har en større divergens når de kommer hen til prøven. 
+
+Det kan også være en idé i, at få den prøve man skyder på, uden for synslinje af neutronkilden, således at man ikke får baggrundsstråling fra kilden. Dette kan gøres ved enten at lave en kurvet guide, eller eventuelt lave et såkaldt 'kink'. Et kink består af et neutronspejl, der reflekterer neutronerne fra en guide til en anden, så man kan få en vinkel mellem sine to neutronguides. 
 Det kan også være nødvendigt at samle guiden på visse steder. Dette kan eksempelvis være nødvendigt, hvis man vil indsætte en såkaldt chopper.
 
 \subsubsection{Chopper}
@@ -227,9 +231,6 @@ bliver ofte detekteret gennem en kerneprocess med helium, hvorefter der bliver f
 Den frigivne energi, $Q$, giver anledning til et elektrisk signal, og neutronen er dermed blevet detekteret.
 
 
-
-
-
 \subsection{Krav til guidesystemerne}
 De forskellige guides der bliver bygget, skal bruges til forskellige eksperimenter, hvorfor deres specifikationer er forskellige. BIFROST som bearbejdes i dette projekt må koste op til 2.10 M€, hvilket selvfølgelig har betydning for vores optimeringsmuligheder. Prøven skal befinde sig 165m fra kilden, og derfor skal selve guiden være 162,4m lang, da de første 2m og de sidste 0.6m skal være fri for guides, så det er plads til diverse instrumenter. Endvidere må guiden højst have en tykkelse på $10cm \cdot 10cm$ på sit breddeste, for at mindske prisen.
 \\
@@ -241,11 +242,11 @@ Udover prisen som en begrænsende faktor, skal der indsættes choppers 0.5m og 2
 \\
 Divergensen i vores guide må højst fluktuere med $\pm0.75^\circ$. Derudover er det vigtigt for eksperimentet, at neutronerne har den rette energi, hvilket er en af grundene til, at prøven skal være uden for synslinje af kilden. Hvis prøven ikke er dette, kan enkelte hurtige neutroner blot  bevæge sig direkte hen til prøven, uden at blive reflekteret. Dermed ville vi ikke have nogen kontrol over disse neutroner.
 \\
-Målet er derefter at nå så høj brilliance transfer som muligt, men for BIFROST er det kun relevant i et bølgelængde interval indenfor 0.5Å-8Å.
+Målet er derefter at nå så høj brilliance transfer som muligt i et bølgelængdeinterval indenfor 0.5Å til 8Å.
 
 \subsection{Bedømmelse af guidesystemer}
 
-Når man har lavet sin simulering i MCstas, er det klart at man skal bedømme hvorvidt ens guide er god eller ej. I MCstas kan man let indsætte forskellige monitors, foran sin prøve, så man kan se, hvordan neutronerne rammer prøven. Blandt monitors vi har brugt er blandt andet monitors der er følsomme overfor positionen hvormed neutronerne rammer prøven, bølgelængderne af neutronerne, divergensen for neutronerne (altså indfaldsvinklen hvormed neutronerne rammer prøven), og brilliance sensitive monitors. Specielt bedømmer vi vores guides på baggrund af hvor meget af brilliancen de bevarer, dvs. hvor høj en brilliance transfer de har. Vi er dog også kritiske overfor den brilliance transfer vi får. Det er vigtigt, at vores brilliance transfer er høj, for de rigtige bølgelængder. Derudover bedømmer vi også vores guides på baggrund af deres pris. Prisen er den eneste variabel der begrænser brugen af vores m-værdier, så for at få en realistisk guide, er det vigtigt at have prisen med som variabel.
+Når man har lavet sin simulering i MCstas, er det klart at man skal bedømme hvorvidt ens guide er god eller ej. I MCstas kan man let indsætte forskellige monitors foran sin prøve, så man kan se, hvordan neutronerne rammer prøven. Blandt monitors vi har brugt er blandt andet monitors der er følsomme overfor positionen hvormed neutronerne rammer prøven, bølgelængderne af neutronerne, divergensen for neutronerne (altså indfaldsvinklen hvormed neutronerne rammer prøven), og brilliance sensitive monitors. Specielt bedømmer vi vores guides på baggrund af hvor meget af brilliancen de bevarer, dvs. hvor høj en brilliance transfer de har. Vi er dog også kritiske overfor den brilliance transfer vi får. Det er vigtigt, at vores brilliance transfer er høj, for de rigtige bølgelængder. Derudover bedømmer vi også vores guides på baggrund af deres pris. Prisen er den eneste variabel der begrænser brugen af vores m-værdier, så for at få en realistisk guide, er det vigtigt at have prisen med som variabel.
 
 
 \subsection{Optimering}
@@ -309,7 +310,7 @@ Denne guide tager udgangspunkt en guidegeometri som har været under overvejelse
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.5\textwidth, angle=90]{EGCGE.JPG}
-\caption{Brilliance transfer som funktion af bølgelængden af lige og eliptisk guide.}
+\caption{Skitse af realistisk ESS geometri}
 \end{figure}
 
 Dette er en guidestruktur som potentielt godt kunne blive brugt ved ESS. Vi har optimeret den med hensyn til geometri, m-værdi og pris. Vores resultat ses herunder
@@ -336,7 +337,59 @@ I vores første simulering hvor den lige guide blevet plottet mod den eliptiske 
 
 \appendix
 \section{Appendix}
-PDF, ESS Gymnasiehæfte
+
+\subsection{Sammenligning af lige og elliptisk guide}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{div_straight_after.png}
+\caption{Divergensen på den lige guide}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{div_ellipse_after.png}
+\caption{Divergensen på den eliptiske guide}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{psd_straight_after.png}
+\caption{Positionen af neutronsammenstødene med prøven efter den lige guide}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{psd_ellipse_after.png}
+\caption{Positionen af neutronsammenstødene med prøven efter den eliptiske guide}
+\end{figure}
+
+
+
+\subsection{Det simpleste ESS tilfælde}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{div_ess_simple_after.png}
+\caption{Divergens for den simple ESS guide}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{psd_ess_simple_after.png}
+\caption{Positionen af neutronsammenstødene med prøven efter den eliptiske guide}
+\end{figure}
+
+
+
+
+
+\subsection{Realistisk ESS geometri}
+
+
+
 
 %% Appendix slut! %%
 
