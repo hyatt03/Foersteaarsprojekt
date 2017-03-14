@@ -116,7 +116,7 @@ MC metoden er ofte brugt i tilfælde hvor en analytisk løsning til et problem  
 I vores tilfælde benytter vi MC metoden til at lave ray tracing, dette betyder at vi tager nogle tilfældige tal og bruger dem til at definere en stråle af neutroner, denne har nogle parametre så som hastighed og retning. 
 Ud fra disse  kigger vi på hvad strålen rammer, dette kunne for eksempel være et simuleret spejl, hvorefter vi regner vha. sandsynligheder hvor meget af denne stråle vil blive sendt videre, herefter opdaterer strålens parametre med ny retning og hastighed. 
 Hver gang en stråle rammer et komponent får det en ny vægtning, som er produktet af alle tidligere vægtninger samt sandsynligheden for hvor meget af denne stråle vil komme videre. 
-Når strålen rammer en detektor optages alt informationen vi har indsamlet indtil nu, og vores vægtninger giver så et udtryk af hvor mange neutroner vil komme frem til denne detektor givet vores startbetingelser defineret af vores neutronkilde. \cite{wiki:monte_carlo}
+Når strålen rammer en detektor optages alt informationen vi har indsamlet indtil nu, og vores vægtninger giver så et udtryk af hvor mange neutroner vil komme frem til denne detektor givet vores startbetingelser defineret af vores neutronkilde. \cite{wiki:monte_carlo} \cite{thesis:sonja}
 
 
 \section{Metode}
@@ -187,7 +187,7 @@ Hvor m er den såkaldte m-værdi. Denne er altså en indikation på, hvor stor e
 
 Neutronspejle består af et nedre lag af såkaldt $substrate$. Dette er basis for spejlet, og kan laves af flere forskellige materialer, alt afhængigt af, hvor stor kvalitet spejlet ønskes i, og hvordan spejlet skal interergere med neutronerne. Derudover består neutronspejle af nogle lag $coating$ ovenpå. Det er netop denne coating der dikterer m-værdien for spejlet, dvs. mange lag coating giver en høj m-værdi. Senere vil vi komme ind på priserne for henholdsvis substrate og coating, da det er en vigtig begrænsing for vores simuleringer.
 
-\subsubsection{Eliptiske guides}
+\subsubsection{Elliptiske guides}
 Når man samler en række neutronspejle i forlængelse af hinanden, kalder man det for en neutronguide. De simpleste guides er selvsagt fuldstændig lige. Dette er dog ikke altid det mest hensigtsmæssige. Der kan være flere forskellige grunde til, at man vil have en enten kurvet eller eliptisk guide. Hvis neutronerne skal transportereres store afstande, kan det være en fordel at gøre guiden breddere, ved at gøre den enten eliptisk, eller delvis eliptisk i starten. Derved kommer der længere flyvetid mellem hvert sammenstød mellem neutronen og guiden, og færre neutroner går dermed tabt. Derudover kan der være en idé i, at få den prøve man skyder på, uden for synslinje af neutronkilden, således at man ikke får baggrundsstråling fra kilden. Dette kan gøres ved enten at lave en kurvet guide, eller eventuelt lave et såkaldt 'kink'. Et kink består af et neutronspejl, der reflekterer neutronerne fra en guide til en anden, så man kan få en vinkel mellem sine to neutronguides. 
 Det kan også være nødvendigt at samle guiden på visse steder. Dette kan eksempelvis være nødvendigt, hvis man vil indsætte en såkaldt chopper.
 
