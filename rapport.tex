@@ -124,6 +124,21 @@ Ud fra disse  kigger vi på, hvad strålen rammer, hvilket eksempelvis kunne væ
 Hver gang en stråle rammer et komponent, får det en ny vægtning, som er produktet af alle tidligere vægtninger, samt sandsynligheden for, hvor meget af denne stråle vil komme videre.
 Når strålen rammer en detektor, optages al informationen vi har indsamlet indtil nu. Vores vægtninger giver så et udtryk for, hvor mange neutroner, der vil komme frem til denne detektor, givet vores startbetingelser, defineret af vores neutronkilde. \cite{wiki:monte_carlo}
 
+\subsection{Brilliance}
+
+Når man bedømmer kvaliteten af sin guide, betyder det selvfølgelig noget, hvor mange neutroner der bliver transporteret gennem guiden. Dette er dog ikke den vigtigste parameter man kigger på, når man bedømmer sin guide. 
+\\
+For at finde den vigtigste måde, at bedømme kvaliteten af en neutronguide på, skal vi først indføre faserummet for neutronerne. Neutronerne i neutronstrålen interergerer ikke med hinanden, og vi kan derfor betragte dem som individuelle. Dette gør det langt lettere for os, at arbejde med faserummet. Vi får herfra, at neutronstrålen kan beskrives i et 6-dimensionelt faserum, ud fra de 6 variable, $x$, $y$, $z$, $p$, $\eta_x$, og $\eta_y$. Her har vi at x, y og z er de sædvanlige positions variable og $\eta_x$ og $\eta_y$ er divergensen i x- og y-retningen. Derudover er p størrelsen af impulsen, men da denne kan beskrives ud fra sammenhængen $\lambda=\frac{h}{p}$, får vi at størrelsen af p er afhængig af bølgelængden, $\lambda$. Herfra får vi, at da neutronerne vi betragter, oplever total refleksion på guiden, vil deres bølgelængde være konstant. Derudover bevæger alle neutronerne sig gennem de to planer ved neutronkilden (z=0) og prøven der bliver skudt på (z=L, hvor L er længden mellem kilde og prøve). Da de eneste interessante z-koordinater er z=0 og z=L, og alle neutroner kommer til at bevæge sig mellem disse to z-værdier, kommer z-retningen derfor ikke til at være interessant for os. Vi har dermed, at densiteten af faserummet for neutronstrålen inde i guiden kan beskrives ved de 4 variable,  $x$, $y$, $\eta_x$, og $\eta_y$. Vi definerer nu et meget vigtigt begreb, nemlig $brilliance$ (tit blot betegnet $B$), hvilket svarer til fordelingen af gennemsnitlig neutronintensitet, over x og y-positionen, samt de to divergenser. Vi ser, at brilliance afhænger af bølgelængde og z-retning. Derfor kan vi få vores brilliance som funktion af bølgelængden og z-retningen, $B(\lambda,z)$. Intuitivt kan brilliance sammenlignes med hvor mange neutroner der passerer et bestemt areal pr. tidsenhed. Herefter introducerer vi et andet meget vigtigt begreb, nemlig $brilliance transfer$ (tit blot betegnet $BT$). Vi definerer brilliance transfer som:
+
+\begin{align}
+BT(\lambda)=\frac{B(\lambda, L)}{B(\lambda,0)}
+\end{align}
+
+Brilliance transfer er altså et udtryk for brilliance i slutningen af guiden, delt med brilliance lige i starten af guiden. Ifølge Liouvilles teorem, får man, at brilliance transfer aldrig kan overstige 1, da du ikke kan få en større brilliance i slutningen af guiden, end i starten. Densiteten af faserummet kan altså ikke stige. Det betyder, at vores BT altid ligger mellem 0 og 1, hvor en BT på 1 er 'den perfekte guide'. Der vil dog altid være et tab, så en BT på 1 er ikke realistisk. Med vores indførelse af BT, kan vi nu beskrive en neutronguides effektivtet, blot ved dens BT. \cite{report:ess_optimizations}
+
+
+
+
 
 \section{Metode}
 Vi har i vores arbejde med neutronoptik arbejdet meget med simuleringsprogrammet MCstas, og derudover brugt meget viden omkring diverse komponenter der bliver brugt i guidesystemerne.
@@ -211,7 +226,8 @@ bliver ofte detekteret gennem en kerneprocess med helium, hvorefter der bliver f
 
 Den frigivne energi, $Q$, giver anledning til et elektrisk signal, og neutronen er dermed blevet detekteret.
 
-Når man bedømmer kvaliteten af sin guide, betyder det selvfølgelig noget, hvor mange neutroner der bliver transporteret fra kilde til prøve. Dette er dog ikke den vigtigste parameter man kigger på, når man bedømmer sin guide. Et meget vigtigt udtryk er den såkaldte $brilliance$. Brilliance er tæt sammensat med faserummets densitet, dvs. hvor mange neutroner der bevæger sig igennem et givent areal pr. tidsenhed. Brilliance er altså et udtryk for, hvor mange neutroner vi får transporteret igennem et relevant areal pr. tid. Ofte vil arealet være på størrelse med den prøve man beskyder, og det er derfor også intuitivt, at vi er interesserede i at finde de neutroner, der rent faktisk er fokuseret på prøven, i stedet for dem der misser den. Det er et fysisk teorem, at faserummets densitet ikke kan stige, og vi kan dermed aldrig få en brilliance, der er større ved vores prøve, end ved vores moderator. Ofte måler man brilliance lige foran moderatoren, og brilliance lige inden prøven. Hermed kan man dividere de to, for at se hvor meget brilliance vores guide har formået at bevare. Dermed snakker vi om $brilliance transfer$, ofte bare betegnet BT. \cite{lefmann_arleth_kirkensgaard_lebech_thomsen}
+
+
 
 
 \subsection{Krav til guidesystemerne}
@@ -229,10 +245,11 @@ Målet er derefter at nå så høj brilliance transfer som muligt, men for BIFRO
 
 \subsection{Bedømmelse af guidesystemer}
 
-Når man har lavet sin simulering i MCstas, er det klart at man skal bedømme hvorvidt ens guide er god eller ej. I MCstas kan man let indsætte forskellige monitors, foran sin prøve, så man kan se, hvordan neutronerne rammer prøven. Blandt monitors vi har brugt er blandt andet monitors der er følsomme overfor positionen hvormed neutronerne rammer prøven, bølgelængderne af neutronerne, divergensen for neutronerne (altså indfaldsvinklen hvormed neutronerne rammer prøven), og brilliance sensitive monitors. Specielt bedømmer vi vores guides på baggrund af hvor meget af brilliancen de bevarer. I en idealiseret verden ville vi have en brilliance transfer på 1, dvs. brilliance er den samme lige foran kilden, som den er lige inden prøven. Dette er dog ikke realistisk, da vi altid vil have et tab. Dog er det heller ikke realistisk at opnå ekstremt høj brilliance transfer ved eksempelvis at have en ekstremt bred guide, eller en meget høj m-værdi på mange af spejlene i guiden. Dette skyldes at vi som sagt også skal tage højde for prisen på diverse komponenter. Vi bedømmer altså primært vores resultater på baggrund af deres brilliance transfer, samt deres pris. Vi kigger dog også på, om vores brilliance transfer er højt for relevante bølgelængder, om der kommer mange neutroner frem, og om divergensen er for stor.
+Når man har lavet sin simulering i MCstas, er det klart at man skal bedømme hvorvidt ens guide er god eller ej. I MCstas kan man let indsætte forskellige monitors, foran sin prøve, så man kan se, hvordan neutronerne rammer prøven. Blandt monitors vi har brugt er blandt andet monitors der er følsomme overfor positionen hvormed neutronerne rammer prøven, bølgelængderne af neutronerne, divergensen for neutronerne (altså indfaldsvinklen hvormed neutronerne rammer prøven), og brilliance sensitive monitors. Specielt bedømmer vi vores guides på baggrund af hvor meget af brilliancen de bevarer, dvs. hvor høj en brilliance transfer de har. Vi er dog også kritiske overfor den brilliance transfer vi får. Det er vigtigt, at vores brilliance transfer er høj, for de rigtige bølgelængder. Derudover bedømmer vi også vores guides på baggrund af deres pris. Prisen er den eneste variabel der begrænser brugen af vores m-værdier, så for at få en realistisk guide, er det vigtigt at have prisen med som variabel.
+
 
 \subsection{Optimering}
-Vi har arbejdet med flere forskellige guides, som vi har forsøgt at optimere mest muligt. Vi har gjort dette ved at parametrisere vores instrumenter, således at vi let kunne ændre på geometrier og m-værdier. På baggrund af vores simuleringer, har vi skabt et optimeringsprogram, som kunne benytte parametriseringen af instrumentet, til automatisk at finde værdien af de parametre, der gav højest mulig brilliance transfer. Senere udvidede vi scriptet således, at det også tog højde for m-værdiernes pris. Vi har altså basalt set optimeret på geometri, m-værdi og pris. Alt dette er i første omgang bedømt på baggrund af arealet under vores brilliance transfer kurve, ved bølgelængder mellem 0.5Å og 8Å. Derefter har vi også kigget på, om vores optimeringer overholder eksempelvis pris-og divergenskrav.
+Vi har arbejdet med flere forskellige guides, som vi har forsøgt at optimere mest muligt. Vi har gjort dette ved at parametrisere vores instrumenter, således at vi let kunne ændre på geometrier og m-værdier. På baggrund af vores simuleringer, har vi skabt et optimeringsprogram, som kunne benytte parametriseringen af instrumentet, til automatisk at finde værdien af de parametre, der gav højest mulig brilliance transfer. Senere udvidede vi scriptet således, at det også tog højde for m-værdiernes pris. Vi har altså basalt set optimeret på geometri, m-værdi og pris. Alt dette er i første omgang bedømt på baggrund af arealet under vores brilliance transfer kurve, ved bølgelængder mellem 0.5Å og 8Å. Derefter har vi også kigget på, om vores optimeringer overholder eksempelvis pris-og divergenskrav. I vores script har vi eksempelvis taget højde for, at det ikke er godt, at få en høj brilliance transfer, hvis mange af neutronerne kommer med en divergens større end $\pm0.75^\circ$. Derfor kan vores optimering give os et godt bud på, hvordan en god realistisk neutronguide kunne se ud. 
 
 
 \section{Resultater}
@@ -260,8 +277,8 @@ Hvis du plotter resultaterne, er der en tydelig forskel mellem den eliptiske og 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=1\textwidth]{st_vs_elip_148948921550151.PNG}
-\caption{Brilliance transfer som funktion af bølgelængden af lige og eliptisk guide}
+\includegraphics[width=1\textwidth]{st_vs_elip_148950055477097.png}
+\caption{Brilliance transfer som funktion af bølgelængden for lige og eliptisk guide}
 \end{figure}
 
 
@@ -309,7 +326,7 @@ I vores første simulering hvor den lige guide blevet plottet mod den eliptiske 
 %% Rapporten er slut! %% 
 \newpage
 %% Kilder %%
-
+\addcontentsline{toc}{section}{Litteratur}
 \bibliographystyle{ieeetr}
 \bibliography{sources} 
 
