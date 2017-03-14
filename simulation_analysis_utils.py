@@ -60,12 +60,8 @@ def fixDivisionByZeroAndIndex(row_a, row_comp):
     return res
 
 def getErrors(result, data_source, data_sample):
-    # If the error or value is already 0, just return.
-    if (data_source[1] == 0 or data_source[2] or data_sample[1] == 0 or data_sample[2] == 0):
-        return result
-
     # Calculate the error, by error propagation.
-    result[2] = math.sqrt((1 / data_source[1]) ** 2 * data_source[2] ** 2 + (-data_sample[1] / (data_source[1] ** 2)) ** 2 * data_sample[2] ** 2)
+    result[2] = math.sqrt((((1 / data_source[1]) ** 2) * (data_sample[2] ** 2)) + ((((data_sample[1]) / ((data_source[1] ** 2)) ** 2) * (data_source[2] ** 2))))
     return result
 
 def process_price(path):

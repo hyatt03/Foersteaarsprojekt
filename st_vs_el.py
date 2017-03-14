@@ -37,14 +37,15 @@ def run_single(which):
 
 def parrallel_run_simulation():
     pool = ThreadPool(2)
-    dirs = pool.map(run_single, [1, 2])
-    
+    # dirs = pool.map(run_single, [1, 2])
+    dirs = ['./data/st_vs_el_148948323747645', './data/st_vs_el_148948323747666']
+
     # Plot the data
     fig, ax = plt.subplots()
     mean_results_elip = process_brilliance(dirs[0], 'Mean')
     mean_results_str =  process_brilliance(dirs[1], 'Mean')
-    ax.plot(mean_results_elip[2], mean_results_elip[3], 'b.-', label='Mean brilliance transfer elliptical', yerr = mean_results_elip[4])
-    ax.plot(mean_results_str[2], mean_results_str[3], 'r.-', label='Mean brilliance transfer straight', yerr = mean_results_str[4])
+    ax.errorbar(mean_results_elip[2], mean_results_elip[3], label='Mean brilliance transfer elliptical', yerr = mean_results_elip[4])
+    ax.errorbar(mean_results_str[2], mean_results_str[3], label='Mean brilliance transfer straight', yerr = mean_results_str[4])
     
     legend = ax.legend(loc='upper left', shadow=True)
     
