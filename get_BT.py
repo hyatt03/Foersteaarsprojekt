@@ -9,7 +9,7 @@ import sys
 from mcstas_utils import run_mcstas, compile_mcstas, now
 from simulation_analysis_utils import process_brilliance
 
-matplotlib.rcParams.update({'font.size': 30})
+matplotlib.rcParams.update({'font.size': 22})
 
 #from parse_brill import run_mcstas
 
