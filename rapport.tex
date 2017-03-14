@@ -211,7 +211,7 @@ Neutronspejle består af et nedre lag af såkaldt $substrate$. Dette er basis fo
 \subsubsection{Elliptiske guides}
 Når man samler en række neutronspejle i forlængelse af hinanden, kalder man det for en neutronguide. De simpleste guides er selvsagt fuldstændig lige. Dette er dog ikke altid det mest hensigtsmæssige. Der kan være flere forskellige grunde til, at man vil have en enten kurvet eller eliptisk guide. 
 Hvis neutronerne skal transportereres store afstande, kan det være en fordel, at gøre guiden breddere, ved at gøre den enten eliptisk, eller delvis eliptisk i starten. Derved kommer der længere flyvetid mellem hvert sammenstød mellem neutronen og guiden, og færre neutroner går dermed tabt. 
-Derudover kan en eliptisk guide opnå en større brilliance transfer, end en almindelig lige guide. Dette skyldes at færre neutroner går tabt lige  i starten, men at nogle af neutronerne tilgengæld har en større divergens når de kommer hen til prøven. 
+Derudover kan en eliptisk guide opnå en større brilliance transfer, end en almindelig lige guide. Dette skyldes at færre neutroner går tabt lige  i starten, men at nogle af neutronerne tilgengæld har en større divergens når de kommer hen til prøven. Dette ses tydeligt i vores resultat afsnit.
 
 Det kan også være en idé i, at få den prøve man skyder på, uden for synslinje af neutronkilden, således at man ikke får baggrundsstråling fra kilden. Dette kan gøres ved enten at lave en kurvet guide, eller eventuelt lave et såkaldt 'kink'. Et kink består af et neutronspejl, der reflekterer neutronerne fra en guide til en anden, så man kan få en vinkel mellem sine to neutronguides. 
 Det kan også være nødvendigt at samle guiden på visse steder. Dette kan eksempelvis være nødvendigt, hvis man vil indsætte en såkaldt chopper.
@@ -250,7 +250,10 @@ Når man har lavet sin simulering i MCstas, er det klart at man skal bedømme hv
 
 
 \subsection{Optimering}
-Vi har arbejdet med flere forskellige guides, som vi har forsøgt at optimere mest muligt. Vi har gjort dette ved at parametrisere vores instrumenter, således at vi let kunne ændre på geometrier og m-værdier. På baggrund af vores simuleringer, har vi skabt et optimeringsprogram, som kunne benytte parametriseringen af instrumentet, til automatisk at finde værdien af de parametre, der gav højest mulig brilliance transfer. Senere udvidede vi scriptet således, at det også tog højde for m-værdiernes pris. Vi har altså basalt set optimeret på geometri, m-værdi og pris. Alt dette er i første omgang bedømt på baggrund af arealet under vores brilliance transfer kurve, ved bølgelængder mellem 0.5Å og 8Å. Derefter har vi også kigget på, om vores optimeringer overholder eksempelvis pris-og divergenskrav. I vores script har vi eksempelvis taget højde for, at det ikke er godt, at få en høj brilliance transfer, hvis mange af neutronerne kommer med en divergens større end $\pm0.75^\circ$. Derfor kan vores optimering give os et godt bud på, hvordan en god realistisk neutronguide kunne se ud. 
+Vi har arbejdet med flere forskellige guides, som vi har forsøgt at optimere mest muligt. Vi har gjort dette ved at parametrisere vores instrumenter, således at vi let kunne ændre på geometrier og m-værdier. På baggrund af vores simuleringer, har vi skabt et optimeringsprogram, som kunne benytte parametriseringen af instrumentet, til automatisk at finde værdien af de parametre, der gav bedst muligt resultat.
+Senere forsøgte vi også at tage højde for m-værdiernes pris, så vi kunne få en god mellemvej mellem pris og kvalitet af m-værdier. Vi har altså basalt set optimeret på geometri, m-værdi og pris. 
+
+Alt dette er i første omgang bedømt på baggrund af arealet under vores brilliance transfer kurve, ved bølgelængder mellem 0.5Å og 8Å. Derefter har vi også kigget på, om vores optimeringer overholder eksempelvis pris-og divergenskrav. I vores script har vi eksempelvis taget højde for, at det ikke er godt, at få en høj brilliance transfer, hvis mange af neutronerne kommer med en divergens større end $\pm0.75^\circ$. Derfor kan vores optimering give os et godt bud på, hvordan en god og realistisk neutronguide kunne se ud. 
 
 
 \section{Resultater}
@@ -305,7 +308,7 @@ Når vi plotter vores optimerede guide, får vi følgende brilliance transfer so
 
 
 \subsubsection{Realistisk ESS geometri}
-Denne guide tager udgangspunkt en guidegeometri som har været under overvejelse til forsøget på ESS. Guiden geometri bliver populært kaldt 'EGCGE', dvs. den består af en eliptisk guide (E), et gab (G), en kurvet guide (C), endnu et gab (G), og til sidst en eliptisk guide igen (E). En skitse af guiden er tegnet herunder:
+Denne guide tager udgangspunkt en guidegeometri som har været under overvejelse til forsøget på ESS. Guidens geometri bliver populært kaldt 'EGCGE', dvs. den består af en eliptisk guide (E), et gab (G), en kurvet guide (C), endnu et gab (G), og til sidst en eliptisk guide igen (E). En skitse af guiden er tegnet herunder:
 
 \begin{figure}[H]
 \centering
@@ -379,7 +382,7 @@ I vores første simulering hvor den lige guide blevet plottet mod den eliptiske 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.5\textwidth]{psd_ess_simple_after.png}
-\caption{Positionen af neutronsammenstødene med prøven efter den eliptiske guide}
+\caption{Positionen af neutronsammenstødene med prøven efter den simple ESS guide}
 \end{figure}
 
 
