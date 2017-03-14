@@ -126,7 +126,8 @@ def plotBT(instrument, params):
 # We subtract this from the maximum possible brilliance transfer to get a function we can minimize.
 def getNegativeBrilliance(instrument, params):
     save_dir = run_mcstas(instrument, params)
-    price = process_price(save_dir)
+    # price = process_price(save_dir)
+    price = 1
     area = process_brilliance(save_dir, 'Mean')[0]
 
     if (area > 8):
