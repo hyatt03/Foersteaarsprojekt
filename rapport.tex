@@ -52,7 +52,7 @@
     {\Large Projekt nummer: 2017-05}\\[1cm]
     
     \rule{15cm}{0.01cm}\\[1cm]
-    {\LARGE\bf  Simulering af neutron optik} \\ {\it Med fokus på M-Optimization}\\ [0.5cm]
+    {\LARGE\bf  Simulering af neutron optik} \\ {\it Med fokus på optimering af spejlkvalitet}\\ [0.5cm]
     \rule{15cm}{0.01cm}\\[1cm]
 \end{center}
 
@@ -83,7 +83,7 @@
 
 Dansk:
 \\
-Vi har arbejdet med neutronoptik ved ESS i Sverige. Her har vi nærmere betegnet arbejdet med guidesystemerne, der transporterer neutronerne, fra neutronkilden, til den prøve der ønskes undersøgt. Her har vi gjort brug af simuleringsprogrammet MCstas, der bruger monte carlo simuleringer, til at simulere neutronernes vej gennem guidsne. Her har vi arbejdet med flere forskellige guides, og til slut optimeret på en guide, der måske bliver bygget ved ESS. \\
+Vi har arbejdet med neutronoptik, der skal anvendes ved ESS i Sverige. Her har vi nærmere betegnet arbejdet med guidesystemerne, der transporterer neutronerne, fra neutronkilden, til den prøve der ønskes undersøgt. Her har vi gjort brug af simuleringsprogrammet McStas, der bruger Monte Carlo simuleringer, til at simulere neutronernes vej gennem diverse guides. Her har vi arbejdet med flere forskellige guides, og til slut optimeret på en guide, der måske bliver bygget ved ESS. \\
 
 Engelsk:
 \\
@@ -104,7 +104,7 @@ We have worked on neutronoptics at ESS in Sweden. Here we have worked with the g
 
 \section{Introduktion}
 
-Vores samfund har, over de sidste par hundrede år, været under en rivende udvikling. Mange nye opfindelser er blevet skabt, og mange gamle opfindelser, er blevet optimeret. I vores søgen efter mere, leder vi konstant efter nye og bedre måder, at gøre tingene på. På trods af den teknologiske udvikling, har vi stadig mange udfordringer tilbage. Dette kan være alt fra miljø- og klima problemer, til problemer inden for sundhed. For at udvikle og studere de materialer vores verden består af, er det vigtigt for forskerne, at kunne se hvordan alting er opbygget. Et vigtigt redskab, der giver forskerne mulighed for at studere materialer helt ned på atomart niveau, er neutronspredning. Dette er et redskab, der giver interessante resultater, ikke blot for fysik, men også for eksempelvis kemi og bioteknologi, da forståelse af materialers opbygning, er essentiel i alle naturvidenskabelige fag. Netop neutronspredning bliver brugt ved ESS (European Spallation Source), i Lund i Sverige. \cite{ess_folder}
+Vores samfund har, over de sidste par hundrede år, været under en rivende udvikling. Mange nye opfindelser er blevet skabt, og mange gamle opfindelser er blevet optimeret. I vores søgen efter mere, leder vi konstant efter nye og bedre måder at gøre tingene på. På trods af den teknologiske udvikling, har vi stadig mange udfordringer tilbage. Dette rækker fra miljø- og klima problemer til problemer inden for sundhed. For at udvikle og studere de materialer, vores verden består af, er det vigtigt for forskerne at kunne se, hvordan alting er opbygget. Et vigtigt redskab, der giver forskerne mulighed for at studere materialer helt ned på atomart niveau, er neutronspredning. Dette er et redskab, der giver interessante resultater, ikke blot for fysik, men også for eksempelvis kemi og bioteknologi, da forståelse af materialers opbygning, er essentiel i alle naturvidenskabelige fag. Netop neutronspredning bliver brugt ved ESS (European Spallation Source), i Lund i Sverige. \cite{ess_folder}
 
 \subsection{Neutronspredning}
 Neutronspredning fungerer ved, at man skyder en neutron ind på sin prøve, og måler på hvordan neutronens energi og retning ændrer sig, efter sammenstødet med prøven. På baggrund af dette, kan man sige noget om den atomare og molekylære struktur af sin prøve. På det punkt minder neutronspredning meget om det mere alment kendte røntgenspredning (røntgenstråling). Der er dog både fordele og ulemper ved neutronspredning. Nogle af fordelene ved neutronspredning er, at grundet neutronens neutrale ladning, vekselvirker den ikke elektromagnetisk på samme måde som røntgenstråler. Dermed kan neutronerne lettere gennemtrænge materialerne som diverse beholdere kunne være lavet af. På den måde kan neutronspredning blive brugt, når prøven ligger inde i en beholder, og man kan derfor lave tests på prøver under eksempelvis stort tryk eller høj temperatur . Derudover er neutronspredning generelt bedre til at analysere lettere grundstoffer, hvorimod røntgenstråler er mere velegnede til de tungere (Dette vil vi ikke komme mere ind på, da det ikke har direkte relevens for vores problemstilling). Det er dog ikke altid lige let, at have med neutroner at gøre. Der kommer derved både udfordringer ved fremstilling, transport og måling af neutronerne brugt indenfor neutronspredning.
@@ -273,7 +273,7 @@ Denne simulering blev fremstillet for at fremhæve forskellen mellem en lige gui
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=1\textwidth]{ElipsStraight.JPG}
+\includegraphics[width=1\textwidth]{Straight_VS_Elipse.png}
 \caption{Eksempel på guidegeometrien, den lige guide består kun af de lige streger, mens den eliptiske kun består af de eliptiske streger}
 \end{figure}
 
@@ -292,7 +292,7 @@ En skitse af guidens geometri ses herunder:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=1\textwidth]{Elips.JPG}
+\includegraphics[width=1\textwidth]{Elipse.png}
 \caption{Skitse af simpel eliptisk guidegeometri}
 \end{figure}
 
@@ -312,7 +312,7 @@ Denne guide tager udgangspunkt en guidegeometri som har været under overvejelse
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.5\textwidth, angle=90]{EGCGE.JPG}
+\includegraphics[width=0.5\textwidth, angle=90]{EGCGE.png}
 \caption{Skitse af realistisk ESS geometri}
 \end{figure}
 
@@ -456,10 +456,6 @@ Vi har gennem dette projekt fundet en geometri, samt parametrene til denne geome
 \includegraphics[width=1\textwidth]{psd_before_ess_brill_optimized.png}
 \caption{Positionen af neutronerne ved kilden, inden vores optimerede guide}
 \end{figure}
-
-
-
-
 
 
 
