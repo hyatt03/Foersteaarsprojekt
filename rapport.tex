@@ -68,7 +68,7 @@
 
 \vfill
 
-{\large Rapporten omfatter {\bf 1} siders hovedtekst og {\bf 1} siders appendix.}
+{\large Rapporten omfatter {\bf 15} siders hovedtekst og {\bf 10} siders appendix.}
 
 {\large Rapporten er indsendt som en pdf-fil den 17 marts 2017. }
 
@@ -83,11 +83,13 @@
 
 Dansk:
 \\
-Vi har arbejdet med neutronoptik, der skal anvendes ved ESS i Sverige. Her har vi nærmere betegnet arbejdet med guidesystemerne, der transporterer neutronerne, fra neutronkilden, til den prøve der ønskes undersøgt. Her har vi gjort brug af simuleringsprogrammet McStas, der bruger Monte Carlo simuleringer, til at simulere neutronernes vej gennem diverse guides. Her har vi arbejdet med flere forskellige guides, og til slut optimeret på en guide, der måske bliver bygget ved ESS. \\
-
-Engelsk:
+Vi har arbejdet med simulering af neutronoptik med formål at forbedre transporten af neutroner fra kilde til prøve. Dette er udført ved at lave et sæt parameteriserede neutron instrumenter i Monte Carlo simuleringspakken McStas hvorefter vi har fremstillet et computerprogram der automatisk kunne optimere på de relevante parametre. Vi har taget udgangspunkt i kravene til HEIMDAL eksperimentet ved ESS i Lund som bliver designet af Københavns Universitet. 
 \\
-We have worked on neutronoptics at ESS in Sweden. Here we have worked with the guidancesystems that transport the neutron from the neutronsoruce, to the sample that are going to be 
+
+English:
+\\
+This report describes our work in simulating neutronoptics aimed at improving transport efficiency of the neutrons from source to sample via a neutronguide. For this purpose we have utilized a Monte Carlo ray tracing simulation package, McStas. We have archived this by constructing a set of parameterised simulations that allow for automatic optimization. This report is based in the problems and limitations of the HEIMDAL instrument at ESS in Lund which is, as of writing, being designed by Copenhagen University.
+
 \end{abstract}
 
 %% Abstract slut! %%
@@ -137,14 +139,16 @@ BT(\lambda)=\frac{B(\lambda, L)}{B(\lambda,0)}
 Brilliance transfer er altså et udtryk for brilliance i slutningen af guiden, delt med brilliance lige i starten af guiden. Ifølge Liouvilles teorem, får man, at brilliance transfer aldrig kan overstige 1, da du ikke kan få en større brilliance i slutningen af guiden, end i starten. Densiteten af faserummet kan altså ikke stige. Det betyder, at vores BT altid ligger mellem 0 og 1, hvor en BT på 1 er 'den perfekte guide'. Der vil dog altid være et tab, så en BT på 1 er ikke realistisk. Med vores indførelse af BT, kan vi nu beskrive en neutronguides effektivtet, blot ved dens BT. \cite{report:ess_optimizations}
 
 
-
-
-
+%%** METODE!! **%%
 \section{Metode}
-Vi har i vores arbejde med neutronoptik arbejdet meget med simuleringsprogrammet MCstas, og derudover brugt meget viden omkring diverse komponenter der bliver brugt i guidesystemerne.
+Vi har i vores arbejde med neutronoptik arbejdet meget med simuleringsprogrammet MCstas \cite{doi:10.1080/10448639908233684}, og derudover brugt meget viden omkring diverse komponenter der bliver brugt i guidesystemerne.
+
 
 \subsection{MCstas}
-Vi bruger programmet MCstas, som er et af flere normalt anvendte guideprogrammer, til at simulere diverse guides transport af neutroner fra kilde til prøve. I programmet kan vi indsætte de relevante komponenter til guiden, samt diverse monitorer, hvorpå vi kan overvåge vores neutroner. Endvidere kan vi nemt ændre parametre på de forskellige komponenter, således at vores guides bliver bedre. MCstas løser simuleringerne numerisk, og kører hver guide igennem med mange tusinde neutroner. Man løser ikke analytisk, idet antallet af neutroner er enormt, og deres forskellige bevægelser ville føre til enorme udregninger, der endvidere skulle ændres ved hver eneste optimering. Derfor bruger man førnævnte monte carlo simulering. MCstas styrker består i den lette tilgang til optimering (man kan let ændre på sine parametre), samt hurtig numerisk simulering. Omvendt er denne simulering også en svaghed, da den basalt set er baseret på tilfældighed. Dette tager man dog som sagt højde for, ved at simulere tusindvis af neutroner. Derudover kan det være svært for MCstas, at tage højde for alt det, der foregår udenfor guiden. Man kunne eksempelvis forestille sig at de neutroner, der ikke bliver reflekteret på guiden i første omgang, ville fortsætte og muligvis blive reflekteret af noget andet udenfor guiden. Derfra kunne de blive reflekteret ind i guiden igen, eller måske direkte hen på prøven. Dette er en svaghed som MCstas ikke tager højde for, men da det er en så forholdsvis lille del af neutronerne det er relevant for, bliver simuleringerne alligevel præcise.
+Vi bruger programmet MCstas, som er et af flere alment anvendte guideprogrammer, til at simulere diverse guides transport af neutroner fra kilde til prøve. I programmet kan vi indsætte de relevante komponenter til guiden, samt diverse monitorer, hvorpå vi kan overvåge vores neutroner. MCstas løser simuleringerne numerisk, og kører hver guide igennem med mange millioner neutroner. Man løser ikke analytisk, idet antallet af neutroner er enormt, og deres forskellige bevægelser ville føre til enorme udregninger, der endvidere skulle ændres ved hver eneste optimering. Derfor bruger man førnævnte Monte Carlo simulering. MCstas styrker består i den lette tilgang til optimering (man kan let ændre på sine parametre), samt hurtig numerisk simulering. Omvendt er denne simulering også en svaghed, da den basalt set er baseret på tilfældighed, det er denne tilfældighed der i sidste end giver os statistik og usikkerheder på vores simuleringer.
+
+\subsubsection{Svagheder i metoden}
+Det kan være svært for MCstas, at tage højde for alt det, der foregår udenfor guiden. Man kunne eksempelvis forestille sig at de neutroner, der ikke bliver reflekteret på guiden i første omgang, ville fortsætte og muligvis blive reflekteret af noget andet udenfor guiden. Derfra kunne de blive reflekteret ind i guiden igen, eller måske direkte hen på prøven. Dette er en svaghed som MCstas ikke tager højde for, men da det er en så forholdsvis lille del af neutronerne det er relevant for, bliver simuleringerne alligevel præcise.
 
 
 \subsection{Komponenter til guidesystemerne}
@@ -153,12 +157,19 @@ Når man laver guidesystemerne til neutronspredning, er der flere forskellige ko
 \subsubsection{Guides}
 
 Hvis man lod neutronerne flyve frit mellem kilde og prøve, ville meget få neutroner (grundet afstandskvadratloven) nå frem. For at transportere neutronerne de omtalte 165 meter fra kilde til prøve, og stadig have en rimelig intensitet ved prøven, bruger man såkaldte neutronguides. Neutronguides består af neutronspejle, hvis grundbyggesten er nikkel (Ni).
-For at kunne bedømme neutronspejles kvalitet, og dermed også kvaliteten af guiden, skal vi indføre nogle forskellige begreber. Vi betragter en neutron der bliver reflekteret af et neutronspejl. Vi kalder her den indgående neutron for $\vec{k_i}$, og den selvsamme udgående neutron for  $\vec{k_f}$. Her definerer vi $\vec{k_i}$ og $\vec{k_f}$ som  $ {\frac{2 \cdot \pi}{\lambda}} \cdot \hat{r}$, hvor $\hat{r}$ er retningen på neutronen, og $\lambda$ er bølgelængden for henholdsvis den indkommende og udkommende neutron (Vi husker partikel-bølge dualiteten fra kvantemekanikken, og ved dermed, at vi også kan beskrive neutronen som en bølge). Derudover definerer vi en spredningsvektor, $\vec{q}$, som:
-
+For at kunne bedømme neutronspejles kvalitet, og dermed også kvaliteten af guiden, skal vi indføre nogle forskellige begreber. Vi betragter en neutron der bliver reflekteret af et neutronspejl. Vi kalder her den indgående neutrons bølgevektor for $\vec{k_i}$, og den selvsamme udgående neutrons bølgevektor for  $\vec{k_f}$. Her definerer vi $\vec{k_i}$ og $\vec{k_f}$ som  $ {\frac{2 \cdot \pi}{\lambda}} \cdot \hat{v}$, hvor $\hat{v}$ er neutronens bevægelsesretning, og $\lambda$ er de Broglie-bølgelængden for henholdsvis den indkommende og udkommende neutron (Vi husker partikel-bølge dualiteten fra kvantemekanikken, og ved dermed, at vi også kan beskrive neutronen som en bølge). Derudover definerer vi en spredningsvektor, $\vec{q}$, som:
 \begin{align}
 \vec{q}=\vec{k_i}-\vec{k_f}
 \end{align}
-Dette er et vigtigt udtryk indenfor neutronspredning, hvilket vi vil bruge flere gange. Nedenfor ses en geometrisk fortolkning af $\vec{k_i}$, $\vec{k_f}$  og $ \vec{q}$
+
+Man ser at:
+\begin{align}
+\hbar \vec{q} & = \hbar \vec{k_i} - \hbar \vec{k_f} \\ 
+          & = \vec{p_i} - \vec{p_f} \\ 
+          & = \Delta \vec{p}
+\end{align}
+
+Dette er et vigtigt udtryk indenfor neutronspredning, hvilket vi vil bruge flere gange. Omskrivningen giver en intuitiv forståelse for begrebet, netop at det er impulsoverførslen der forekommer vha. spejlet. Nedenfor ses en geometrisk fortolkning af $\vec{k_i}$, $\vec{k_f}$  og $ \vec{q}$
 
 \begin{figure}[H]
 \centering
@@ -175,85 +186,86 @@ Når vi ved dette, kan vi ved hjælp af simpel trigonometri skrive længden af $
 \begin{align} \label{eq:q1}
 q=2k \cdot sin(\theta)
 \end{align}
+
 Hvor $\theta$ er vinklen som neutronen bliver reflekteret med. Hvis vi gør brug af vores definition af $k$, får vi at ligning (\ref{eq:q1}) kan skrives som:
 \begin{align} \label{eq:q2}
 q=4\pi \cdot \frac{sin(\theta)}{\lambda}
 \end{align}
-Hvor $\lambda$ altså er bølgelængden for neutronen. Da vi har ved små vinkler at gøre, kan vi approksimere ligning (\ref{eq:q2})  ved $sin(\theta)≈\theta$. Vi får at:
 
+Hvor $\lambda$ altså er bølgelængden for neutronen. Da vi har ved små vinkler at gøre, kan vi approksimere ligning (\ref{eq:q2})  ved $sin(\theta)≈\theta$. Vi får at:
 \begin{align}
 q≈4\pi \cdot \frac{\theta}{\lambda}
 \end{align}
 
-Som sagt er det ofte relevant, at kigge på den kritiske vinkel, hvilket altså er den størst mulige vinkel, hvorved totalrelfleksion er mulig. Denne vinkel betegner vi som $\theta_c$. Når vi har totalrefleksion ved den kritiske vinkel, har vi en kritisk spredningsvektor, hvis længde vi betegner med $q_c$. For et givent materiale er $q_c$ konstant, og vi ser derfor, at den kritiske vinkel er en funktion af bølgelængden. Vi får at:
-
+Som sagt er det ofte relevant, at kigge på den kritiske vinkel, hvilket altså er den størst mulige vinkel, hvorved refleksion er mulig. Denne vinkel betegner vi som $\theta_c$. Når vi har totalrefleksion ved den kritiske vinkel, har vi en kritisk spredningsvektor, hvis længde vi betegner med $q_c$. For et givent materiale er $q_c$ konstant, og vi ser derfor, at den kritiske vinkel er en funktion af bølgelængden. Vi får at:
 \begin{align}
 q_c≈4\pi \cdot \frac{\theta_c(\lambda)}{\lambda}
 \end{align}
 
 Vi har, at værdien for den kritiske spredningsvektor for nikkel er $q_{c, Ni}=0.0217\text{Å} ^{-1}$ \cite{lefmann_arleth_kirkensgaard_lebech_thomsen}. Dette er en fast værdi for nikkel, og vi kan dermed let udregne den kritiske vinkel som funktion af neutronens bølgelængde som: 
-
 \begin{align}
 \frac{q_{c,Ni} \cdot \lambda}{4\pi}=\theta_c(\lambda)
 \end{align}
 
 Vi får hermed ved simpel indsætning, at neutroner med en bølgelængde på 1Å har en kritisk vinkel på omtrent $0.1^∘$, mens neutroner med bølgelængde på 10Å har en kritisk vinkel på omtrent $1^∘$, på et neutronspejl lavet af nikkel.
-Man kan dog opnå en højere værdi af $q_c$ ved at lægge lag af andre materialer, mellem lagene af nikkel. Denne værdi af $q_c$ udregnes som:
-
+Man kan dog opnå en højere værdi af $q_c$ ved at lægge en coating, dvs. nanometer trykke lag af andre materialer, mellem lagene af nikkel. Den forøgede reflektivitet opnås pga. interferens mellem bølger spredt i de forskellige lag. Denne værdi af $q_c$ udregnes som:
 \begin{align}
 q_c=m \cdot q_{c,Ni}
 \end{align}
 
-Hvor m er den såkaldte m-værdi. Denne er altså en indikation på, hvor stor en kvalitet spejlet har, i forhold til et rent Ni-spejl. m-værdien for et spejl er ofte på et par stykker, men kan komme helt op på 7. \cite{lefmann_arleth_kirkensgaard_lebech_thomsen}
+Hvor m er den såkaldte m-værdi. Denne er altså en indikation på, hvor stor en kvalitet spejlet har, i forhold til et rent Ni-spejl. m-værdien for et spejl er ofte på $1-3$, men kan komme helt op på $7$. \cite{lefmann_arleth_kirkensgaard_lebech_thomsen} Se også figur \ref{fig:m_values_lambda} for reflektiviteten ved forskellige m-værdier og bølgelængder.
 
-Neutronspejle består af et nedre lag af såkaldt $substrate$. Dette er basis for spejlet, og kan laves af flere forskellige materialer, alt afhængigt af, hvor stor kvalitet spejlet ønskes i, og hvordan spejlet skal interergere med neutronerne. Derudover består neutronspejle af nogle lag $coating$ ovenpå. Det er netop denne coating der dikterer m-værdien for spejlet, dvs. mange lag coating giver en høj m-værdi. Senere vil vi komme ind på priserne for henholdsvis substrate og coating, da det er en vigtig begrænsing for vores simuleringer.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{m-values-lambda.png}
+    \caption{Reflektivitetsindex som funktion af bølgelængde for forskellige m-værdier} \label{fig:m_values_lambda}
+\end{figure}
+
+Neutronspejle består af et nedre lag af såkaldt $substrate$. Dette er basis for spejlet, og kan laves af flere forskellige materialer, alt afhængigt af, hvor stor kvalitet spejlet ønskes i, og hvordan det skal interagere med neutronerne.
 
 \subsubsection{Elliptiske guides}
-Når man samler en række neutronspejle i forlængelse af hinanden, kalder man det for en neutronguide. De simpleste guides er selvsagt fuldstændig lige. Dette er dog ikke altid det mest hensigtsmæssige. Der kan være flere forskellige grunde til, at man vil have en enten kurvet eller eliptisk guide. 
+Når man samler en række neutronspejle i forlængelse af hinanden, kalder man det for en neutronguide. De simpleste guides er fuldstændig lige. Dette er dog ikke altid det mest hensigtsmæssige. Der kan være flere forskellige grunde til, at man vil have en enten kurvet eller eliptisk guide. 
 Hvis neutronerne skal transportereres store afstande, kan det være en fordel, at gøre guiden breddere, ved at gøre den enten eliptisk, eller delvis eliptisk i starten. Derved kommer der længere flyvetid mellem hvert sammenstød mellem neutronen og guiden, og færre neutroner går dermed tabt. 
-Derudover kan en eliptisk guide opnå en større brilliance transfer, end en almindelig lige guide. Dette skyldes at færre neutroner går tabt lige  i starten, men at nogle af neutronerne tilgengæld har en større divergens når de kommer hen til prøven. Dette ses tydeligt i vores resultat afsnit.
+Derudover kan en eliptisk guide opnå en større brilliance transfer, end en almindelig lige guide. Dette skyldes at færre neutroner går tabt lige  i starten, men at nogle af neutronerne til gengæld har en større divergens når de kommer hen til prøven. Dette ses tydeligt i vores resultat afsnit.
 
-Det kan også være en idé i, at få den prøve man skyder på, uden for synslinje af neutronkilden, således at man ikke får baggrundsstråling fra kilden. Dette kan gøres ved enten at lave en kurvet guide, eller eventuelt lave et såkaldt 'kink'. Et kink består af et neutronspejl, der reflekterer neutronerne fra en guide til en anden, så man kan få en vinkel mellem sine to neutronguides. 
-Det kan også være nødvendigt at samle guiden på visse steder. Dette kan eksempelvis være nødvendigt, hvis man vil indsætte en såkaldt chopper.
+For at reducere baggrundsstråling fra kilde på prøve kan man fjerne prøven fra den direkte synslinje. Dette kan gøres ved enten at lave en kurvet guide, eller eventuelt lave et såkaldt 'kink'. Et kink består af et neutronspejl, der reflekterer neutronerne fra en guide til en anden, så man kan få en vinkel mellem sine to neutronguides. 
+Det kan også være nødvendigt at have afbrydelser guiden på visse steder. Dette kan eksempelvis være nødvendigt, hvis man vil indsætte en såkaldt chopper.
 
 \subsubsection{Chopper}
-En chopper er en roterende komponent, der kun lader neutroner passere i visse tidsintervaller. Den simpleste chopper er en 'disk chopper', som basalt set er en roterende disk, med et antal 'revner' eller huller nær kanten. Chopperen bliver sat til at rotere foran neutronstrålen, og neutronerne kan dermed kun passere chopperen, når chopperen er åben, dvs. når neutronen kan passere gennem hullet i chopperen. I det chopperen roterer, vil det kun til nogle tidspunkter være muligt for neutronerne at passere. Med en chopper kan man altså opdele neutronstrålen i mindre bider. Dette kan give en bedre kontrol over neutronerne, og dermed bedre resultater. \cite{ess_folder}
+En chopper er en roterende komponent, der kun lader neutroner passere i visse tidsintervaller. Den simpleste chopper er en 'disk chopper', som basalt set er en roterende disk, med et antal 'revner' eller huller nær kanten. Chopperen bliver sat til at rotere foran neutronstrålen, og neutronerne kan dermed kun passere chopperen, når chopperen er åben, dvs. når neutronen kan passere gennem hullet i chopperen. I det chopperen roterer, vil det kun til nogle tidspunkter være muligt for neutronerne at passere. Med en chopper kan man altså opdele neutronstrålen i mindre bidder. Dette kan give en bedre kontrol over neutronernes flyvetid, og dermed mere præcise resultater. \cite{ess_folder}
 
 \subsubsection{Neutronkilder, moderator og neutrondetektionr}
-Neutroner kan genereres på flere forskellige måder. Ved ESS i Lund bliver neutronerne frembragt ved protonbombardament af en wolframkilde. Alle neutronerne skal helst have samme hastighed, og for at give dem dette gør man brug af en såkaldt moderator. En moderator er et ofte hydrogenholdigt materiale, som omkrænser neutronkilden. Neutronernes energi bliver derved normaliseret ved, at de langsomt vil opnå termisk ligevægt med moderatoren gennem sammenstød med moderatorens hydrogenatomer (eksempler på moderatorer kunne være $H_2O$, $H_2$ eller $CH_4$). Man kan hermed ændre på neutronernes energi ved at ændre på moderatorens temperatur. 
-Efter neutronerne har interergeret med prøven, skal de selvsagt detekteres, således at man kan få forsøgsresultater. Neutronerne 
+Efter neutronerne har interageret med prøven, skal de detekteres, således at man kan få forsøgsresultater. Neutronerne 
 bliver ofte detekteret gennem en kerneprocess med helium, hvorefter der bliver frigjort noget energi, $Q$. \cite{lefmann_arleth_kirkensgaard_lebech_thomsen}
-
 \begin{align}
 ^3He + n \to  ^3H + ^1H + Q
 \end{align}
 
-Den frigivne energi, $Q$, giver anledning til et elektrisk signal, og neutronen er dermed blevet detekteret.
-
+Den frigivne energi, $Q$, giver anledning til et elektrisk signal vha. en gas (ofte Ar gas) under et stort spændingsfald (typisk et par kV), som giver anledning en gnist der nemt, og konsistent, kan detekteres.
 
 \subsection{Krav til guidesystemerne}
-De forskellige guides der bliver bygget, skal bruges til forskellige eksperimenter, hvorfor deres specifikationer er forskellige. BIFROST som bearbejdes i dette projekt må koste op til 2.10 M€, hvilket selvfølgelig har betydning for vores optimeringsmuligheder. Prøven skal befinde sig 165m fra kilden, og derfor skal selve guiden være 162,4m lang, da de første 2m og de sidste 0.6m skal være fri for guides, så det er plads til diverse instrumenter. Endvidere må guiden højst have en tykkelse på $10cm \cdot 10cm$ på sit breddeste, for at mindske prisen.
+De forskellige guides der bliver bygget, skal bruges til forskellige eksperimenter, hvorfor deres specifikationer er forskellige. Guiden til det danske instrument, som bearbejdes i dette projekt, må koste op til 2.10 M€, hvilket selvfølgelig har betydning for vores optimeringsmuligheder. Prøven skal befinde sig 165m fra kilden, og derfor skal selve guiden være 162,4m lang, da de første 2m og de sidste 0.6m skal være fri for guides, så det er plads til diverse instrumenter. Endvidere må guiden højst have en tykkelse på ca. $10cm \cdot 10cm$ på sit bredeste sted for at mindske prisen.
 \\
-Derudover er der krav til det substrate, som neutronspejlene blandt andet er lavet af. De første 23.5m guide skal have substrate bestående af aluminium, hvilket koster (omtrent) $25.000 \text{€}/m^2$. Det er nødvendigt med aluminium substrate det første stykke, da strålingen er meget høj og denne ikke ioniserer aluminium på samme måde som f.eks. kobber. Hvis noget går i stykker kan man derfor stadig komme ind og lave det igen. Efter de første 23.5m guide, kan man skifte til en billigere substrate, bestående af borcron, hvilket koster (omtrent) $14.000 \text{€}/m^2$.
+Derudover er der krav til det substrat, som neutronspejlene blandt andet er lavet af. De første 23.5m guide skal have substrat bestående af aluminium, hvilket koster (omtrent) $25.000 \text{€}/m^2$. Det er nødvendigt med aluminium substrat det første stykke, da strålingen er meget høj og denne ikke aktiverer aluminium på samme måde som f.eks. kobber. Hvis noget går i stykker, kan man derfor stadig komme ind og lave det igen. Efter de første 23.5m guide, kan man skifte til et billigere substrat, bestående af borcron, hvilket koster (omtrent) $14.000 \text{€}/m^2$.
 \\
-Man skal også gøre sig overvejelser mht. de tidligere nævnte m-værdier. Selve materialet til coating af spejlene er ikke videre dyrt, men coatingsprocessen får prisen til at stige. Basisprisen for coating er (omtrent) $L\cdot8(K\text{€}/m)$, hvor L er længden du vil dække med coating. Ekstra lag koster endda (omtrent) $(L\cdot(m^{2,6})/4)\cdot2(K\text{€}/m)$, , hvor L er længen du vil dække, og m er m-værdien for spejlet. Derfor bruger man kun høje m-værdier i begrænset omfang. De steder man bruger høje m-værdier er hvor flere neutroner rammer i en større vinkel, da en høj m-værdi øger muligheden for at reflektere ved højere indgangsvinkler. Derfor bruges de ved starten og slutningen af hver del. Selv hvis man havde råd til en høj m-værdi i hele stykket, ville man ikke gøre det,da en høj m-værdi udelukker nogle neutroner, der ellers ville nå frem til prøven.
+Man skal også gøre sig overvejelser mht. de tidligere nævnte m-værdier. Selve materialet til coating af spejlene er ikke videre dyrt, men coatingsprocessen får prisen til at stige. Basisprisen for coating er (omtrent) $L\cdot8(K\text{€}/m)$, hvor L er længden du vil dække med coating. Ekstra lag koster endda (omtrent) $(L\cdot(m^{2,6})/4)\cdot2(K\text{€}/m)$, , hvor L er længen du vil dække, og m er m-værdien for spejlet. Derfor bruger man kun høje m-værdier i begrænset omfang. De steder man bruger høje m-værdier er hvor flere neutroner rammer i en større vinkel, da en høj m-værdi øger muligheden for at reflektere ved højere indgangsvinkler. Derfor bruges de ved starten og slutningen af hver del af elliptiske guides.
 \\
-Udover prisen som en begrænsende faktor, skal der indsættes choppers 0.5m og 23.5m inde i vores guide. Det resulterer i, at guidens tværsnitsareal skal sænkes på disse steder, så den stemmer overens med chopperne. Dimensionerne af guiden omkring en chopper skal være på $3cm\cdot5cm$. 
+Udover prisen som en begrænsende faktor, skal der indsættes choppers 6.5m og 23.5m inde i vores guide. Det resulterer i, at guidens tværsnitsareal skal sænkes på disse steder, så den stemmer overens med chopperne. Dimensionerne af guiden omkring en chopper skal være på $3cm\cdot5cm$. 
 \\
-Divergensen i vores guide må højst fluktuere med $\pm0.75^\circ$. Derudover er det vigtigt for eksperimentet, at neutronerne har den rette energi, hvilket er en af grundene til, at prøven skal være uden for synslinje af kilden. Hvis prøven ikke er dette, kan enkelte hurtige neutroner blot  bevæge sig direkte hen til prøven, uden at blive reflekteret. Dermed ville vi ikke have nogen kontrol over disse neutroner.
+Divergensen i vores guide må højst være $\pm0.75^\circ$. Derudover er det vigtigt for eksperimentet, at neutronerne har den rette energi, hvilket er en af grundene til, at prøven skal være uden for synslinje af kilden. Hvis prøven ikke er dette, kan enkelte hurtige neutroner blot  bevæge sig direkte hen til prøven, uden at blive reflekteret. Dermed ville vi ikke have nogen kontrol over disse neutroner.
 \\
-Målet er derefter at nå så høj brilliance transfer som muligt i et bølgelængdeinterval indenfor 0.5Å til 8Å.
+Målet er derefter at nå så høj brilliance transfer som muligt i et bølgelængdeinterval indenfor 0.5Å til 8Å, ved en divergens på $\pm0.75^\circ$ i begge retninger på en prøve med dimensionerne $10x10 mm^2$.
 
 \subsection{Bedømmelse af guidesystemer}
 
-Når man har lavet sin simulering i MCstas, er det klart at man skal bedømme hvorvidt ens guide er god eller ej. I MCstas kan man let indsætte forskellige monitors foran sin prøve, så man kan se, hvordan neutronerne rammer prøven. Blandt monitors vi har brugt er blandt andet monitors der er følsomme overfor positionen hvormed neutronerne rammer prøven, bølgelængderne af neutronerne, divergensen for neutronerne (altså indfaldsvinklen hvormed neutronerne rammer prøven), og brilliance sensitive monitors. Specielt bedømmer vi vores guides på baggrund af hvor meget af brilliancen de bevarer, dvs. hvor høj en brilliance transfer de har. Vi er dog også kritiske overfor den brilliance transfer vi får. Det er vigtigt, at vores brilliance transfer er høj, for de rigtige bølgelængder. Derudover bedømmer vi også vores guides på baggrund af deres pris. Prisen er den eneste variabel der begrænser brugen af vores m-værdier, så for at få en realistisk guide, er det vigtigt at have prisen med som variabel.
+Når man har lavet sin simulering, er det klart at man skal bedømme hvorvidt ens guide er god eller ej. Man kan let indsætte forskellige monitors foran sin prøve, så man kan se, hvordan neutronerne rammer prøven. Blandt monitors vi har brugt er blandt andet monitors der er følsomme overfor positionen hvormed neutronerne rammer prøven, bølgelængderne af neutronerne, divergensen for neutronerne (altså indfaldsvinklen hvormed neutronerne rammer prøven). Specielt bedømmer vi vores guides på baggrund af hvor meget af brilliancen de bevarer, dvs. hvor høj en brilliance transfer de har. Vi er dog også kritiske overfor den brilliance transfer vi får. Det er vigtigt, at vores brilliance transfer er høj, for de rigtige bølgelængder. Derudover bedømmer vi også vores guides på baggrund af deres pris. Prisen er den eneste variabel der begrænser brugen af vores m-værdier, så for at få en realistisk guide, er det vigtigt at have prisen med som variabel.
 
 
 \subsection{Optimering}
-Vi har arbejdet med flere forskellige guides, som vi har forsøgt at optimere mest muligt. Vi har gjort dette ved at parametrisere vores instrumenter, således at vi let kunne ændre på geometrier og m-værdier. På baggrund af vores simuleringer, har vi skabt et optimeringsprogram, som kunne benytte parametriseringen af instrumentet, til automatisk at finde værdien af de parametre, der gav bedst muligt resultat.
+Vi har arbejdet med flere forskellige guides, som vi har forsøgt at optimere mest muligt. Vi har gjort dette ved at parameterisere vores instrumenter, således at vi let kunne ændre på geometrier og m-værdier. På baggrund af vores simuleringer har vi skabt et optimeringsprogram, som kunne benytte parameteriseringen af instrumentet, til automatisk at finde værdien af de parametre, der gav bedst muligt resultat.
 Senere forsøgte vi også at tage højde for m-værdiernes pris, så vi kunne få en god mellemvej mellem pris og kvalitet af m-værdier. Vi har altså basalt set optimeret på geometri, m-værdi og pris. 
 
-Alt dette er i første omgang bedømt på baggrund af arealet under vores brilliance transfer kurve, ved bølgelængder mellem 0.5Å og 8Å. Derefter har vi også kigget på, om vores optimeringer overholder eksempelvis pris-og divergenskrav. I vores script har vi eksempelvis taget højde for, at det ikke er godt, at få en høj brilliance transfer, hvis mange af neutronerne kommer med en divergens større end $\pm0.75^\circ$. Derfor kan vores optimering give os et godt bud på, hvordan en god og realistisk neutronguide kunne se ud. 
+Alt dette er i første omgang bedømt på baggrund af arealet under vores brilliance transfer kurve ved bølgelængder mellem 0.5Å og 8Å. Derefter har vi også kigget på, om vores optimeringer overholder pris- og divergenskrav. I vores script har vi eksempelvis taget højde for, at det ikke er godt, at få en høj brilliance transfer, hvis mange af neutronerne kommer med en divergens større end $\pm0.75^\circ$. Derfor kan vores optimering give os et godt bud på, hvordan en god og realistisk neutronguide kunne se ud. 
 
 
 \section{Resultater}

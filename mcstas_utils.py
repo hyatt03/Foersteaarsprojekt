@@ -89,14 +89,6 @@ def run_mcstas(instrument, params, neutrons = 10000000, m_val = 2):
         run_instrument_with_params.append('length_e1=4')
         run_instrument_with_params.append('guide_start_xw=0.1')
         run_instrument_with_params.append('guide_start_yh=0.1')
-	run_instrument_with_params.append('a0_e1=6')
-	run_instrument_with_params.append('a1_e1=0')
-        run_instrument_with_params.append('a2_e1=0')
-        run_instrument_with_params.append('a3_e1=0')
-        run_instrument_with_params.append('a0_e2=6')
-        run_instrument_with_params.append('a1_e2=0')
-        run_instrument_with_params.append('a2_e2=0')
-        run_instrument_with_params.append('a3_e2=0')
     
     for key in params.keys():
         run_instrument_with_params.append('{}={}'.format(key, params[key]))
