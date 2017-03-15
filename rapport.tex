@@ -34,7 +34,8 @@
 \usepackage{fancyhdr}
 \usepackage{framed}
 \usepackage{footnote}
- \usepackage{url}
+\usepackage{url}
+\usepackage{tabularx}
 
 \linespread{1.3} % linjeafstand 1.5
 \setlength{\parindent}{0cm}
@@ -379,29 +380,50 @@ Vi har fremstillet et computerprogram, der automatisk optimerer på parameterise
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{div_straight_after.png}
-\caption{Divergensen efter den lige guide}  \label{ap:div_straight_after}
+\caption{Divergensen, på prøven, efter den lige (ikke-optimerede) guide}  \label{ap:div_straight_after}
 \end{figure}
 
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{div_ellipse_after.png}
-\caption{Divergensen efter den eliptiske guide} \label{ap:div_ellipse_after}
+\caption{Divergensen, på prøven, efter den elliptiske (ikke-optimerede) guide} \label{ap:div_ellipse_after}
 \end{figure}
 
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{psd_straight_after.png}
-\caption{Positionen af neutronerne efter den lige guide}
+\caption{Positionen af neutronerne efter den lige  (ikke-optimerede) guide}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{psd_ellipse_after.png}
-\caption{Positionen af neutronerne efter den eliptiske guide}
+\caption{Positionen af neutronerne efter den elliptiske  (ikke-optimerede) guide}
 \end{figure}
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{div_straight_before.png}
+\caption{Divergensen inden guiden, dette er i praksis et billede af vores kilde}
+\end{figure}
+
+\newpage
+\subsection{Det simpleste ESS tilfælde}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{div_ess_simple_after.png}
+\caption{Divergens, på prøven, efter den simple (optimerede) ESS guide}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{psd_ess_simple_after.png}
+\caption{Positionen af neutronerne, på prøven, efter den simple (optimerede) ESS guide}
+\end{figure}
 
 
 \begin{figure}[H]
@@ -410,70 +432,26 @@ Vi har fremstillet et computerprogram, der automatisk optimerer på parameterise
 \caption{Divergensen inden guiden}
 \end{figure}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=1\textwidth]{psd_straight_before.png}
-\caption{Positionen af neutronerne inden guiden}
-\end{figure}
-
-
-
-\subsection{Det simpleste ESS tilfælde}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=1\textwidth]{div_ess_simple_after.png}
-\caption{Divergens efter den simple ESS guide}
-\end{figure}
-
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=1\textwidth]{psd_ess_simple_after.png}
-\caption{Positionen af neutronerne efter den simple ESS guide}
-\end{figure}
-
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=1\textwidth]{div_ess_simple_before.png}
-\caption{Divergensen inden guiden}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=1\textwidth]{psd_ess_simple_before.png}
-\caption{Positionen af neutronerne inden guiden}
-\end{figure}
-
-
-
+\newpage
 \subsection{Realistisk ESS geometri}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{div_after_ess_brill_optimized.png}
-\caption{Divergensen ved prøven efter vores optimerede guide}
+\caption{Divergensen, ved prøven, efter vores optimerede guide (EGCGE)}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{psd_after_ess_brill_optimized.png}
-\caption{Positionen af neutronerne ved prøven efter vores optimerede guide}
+\caption{Positionen af neutronerne, ved prøven, efter vores optimerede guide (EGCGE)}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{div_before_ess_brill_optimized.png}
-\caption{Divergensen ved kilden, inden vores optimerede guide}
+\caption{Divergensen ved kilden, inden vores optimerede guide (EGCGE)}
 \end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=1\textwidth]{psd_before_ess_brill_optimized.png}
-\caption{Positionen af neutronerne ved kilden, inden vores optimerede guide}
-\end{figure}
-
 
 \begin{figure}[H]
 \centering
@@ -482,7 +460,72 @@ Vi har fremstillet et computerprogram, der automatisk optimerer på parameterise
 \end{figure}
 
 \subsubsection{Parametre} \label{Parametre_EGCGE}
+\begin{tabularx}{\textwidth}{l|l|X}
+    Navn           & Værdi                & Beskrivelse                                                                                                     \\
+    \hline
+    \hline
+    a0\_e1         & 5.5                  & Konstantleddet i polynomiet der bestemmer m-værdi distributionen på spejlene.                                   \\
+    \hline
+    a1\_e1         & 0                    & Linearfaktoren i polynomiet der bestemmer m-værdi distributionen på spejlene.                                   \\
+    \hline
+    a2\_e1         & 0.0001               & Faktoren på andengradsleddet i polynomiet der bestemmer m-værdi distributionen på spejlene.                     \\
+    \hline
+    a3\_e1         & 0                    & Faktoren på tredjegradsleddet i polynomiet der bestemmer m-værdi distributionen på spejlene.                    \\
+    \hline
+    linxw\_e1      & 4.4752237911433      & Denne parameter bestemmer hvor excentrisk den første halvdel af ellipseguidens horizontale komponent skal være. \\
+    \hline
+    linyh\_e1      & 9.698281963758113    & Denne parameter bestemmer hvor excentrisk den første halvdel af ellipseguidens vertikale komponent skal være.   \\
+    \hline
+    mid\_yh\_e1    & 0.04503009019349665  & Denne parameter bestemmer hvor høj ellipseguiden er på sit højeste.                                             \\
+    \hline
+    mid\_xw\_e1    & 0.07975987716673665  & Denne parameter bestemmer hvor bred ellipseguiden er på sit bredeste.                                           \\
+    \hline
+    loutxw\_e1     & 71.38607628275157    & Denne parameter bestemmer hvor excentrisk den anden halvdel af ellipseguidens horizontale komponent skal være.  \\
+    \hline
+    loutyh\_e1     & 133.6632501395813    & Denne parameter bestemmer hvor excentrisk den anden halvdel af ellipseguidens vertikale komponent skal være.    \\
+     
+\end{tabularx}
 
+
+
+\begin{tabularx}{\textwidth}{l|l|X}
+    Navn           & Værdi                & Beskrivelse                                                                                                     \\
+    \hline
+    \hline
+cguide\_mi     & 4.153508529906514    & M-værdien på den inderste side af den kurvede guide.                                                            \\
+\hline
+cguide\_ma     & 3.309629150766485    & M-værdien på den yderste side af den kurvede guide.                                                             \\
+\hline
+cguide\_ms     & 1.153739174062582    & M-værdien på den øvre og nedre side af den kurvede guide.                                                       \\
+\hline
+cguide\_xw     & 0.03900806476991718  & Bredden på den kurvede guide.                                                                                   \\
+\hline
+cguide\_yh     & 0.07586472210893247  & Højden på den kurvede guide.                                                                                    \\
+\hline
+cguide\_length & 1.0023114185849367   & Længden af den kurvede guide.                                                                                   \\
+\hline
+cguide\_radius & 2305.457032997859    & Hvor kurvet den kurvede guide er.                                                                               \\
+\hline
+a0\_e2         & 2                    & Konstantleddet i polynomiet der bestemmer m-værdi distributionen på spejlene.                                   \\
+\hline
+a1\_e2         & 0.01                 & Linearfaktoren i polynomiet der bestemmer m-værdi distributionen på spejlene.                                   \\
+\hline
+a2\_e2         & 0.0001               & Faktoren på andengradsleddet i polynomiet der bestemmer m-værdi distributionen på spejlene.                     \\
+\hline
+a3\_e2         & -0.0000005           & Faktoren på tredjegradsleddet i polynomiet der bestemmer m-værdi distributionen på spejlene.                    \\
+\hline
+linxw\_e2      & 74.15432646521889    & Denne parameter bestemmer hvor excentrisk den første halvdel af ellipseguidens horizontale komponent skal være. \\
+\hline
+linyh\_e2      & 30.326763194542405   & Denne parameter bestemmer hvor excentrisk den første halvdel af ellipseguidens vertikale komponent skal være.   \\
+\hline
+mid\_xw\_e2    & 0.037781105642567085 & Denne parameter bestemmer hvor bred ellipseguiden er på sit bredeste.                                           \\
+\hline
+mid\_yh\_e2    & 0.038197739553814794 & Denne parameter bestemmer hvor høj ellipseguiden er på sit højeste.                                             \\
+\hline
+loutxw\_e2     & 16.863191843381514   & Denne parameter bestemmer hvor excentrisk den anden halvdel af ellipseguidens horizontale komponent skal være.  \\
+\hline
+loutyh\_e2     & 8.804603652147305    & Denne parameter bestemmer hvor excentrisk den anden halvdel af ellipseguidens vertikale komponent skal være. 
+\end{tabularx}
 
 %% Appendix slut! %%
 
