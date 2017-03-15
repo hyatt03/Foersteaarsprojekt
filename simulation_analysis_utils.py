@@ -15,7 +15,7 @@ os.chdir(workingDir)
 
 # Make sure this script can run without a display (server environment).
 import matplotlib
-matplotlib.use('pdf')
+# matplotlib.use('pdf')
 matplotlib.rcParams.update({'font.size': 24})
 
 # Import helper modules
@@ -166,7 +166,8 @@ def plotDIV(save_dir, xmax = 2, ymax = 2, filename = 0):
 
 def plotBT(instrument, params):
     # Run sim to get all the required data.
-    save_dir = run_mcstas(instrument, params, neutrons = 100000000)
+    # save_dir = run_mcstas(instrument, params, neutrons = 100000000)
+    save_dir = './data/ess_brill_optimized_148957644481576'
     [mean_area, mean_result, res_x, res_y, err_y] = process_brilliance(save_dir, 'Mean')
     # [peak_area, peak_result, peak_res_x, peak_res_y, peak_err_y] = process_brilliance(save_dir, 'Peak')
 
@@ -174,16 +175,19 @@ def plotBT(instrument, params):
     fig, ax = plt.subplots()
 
     # ax.plot(peak_res_x, peak_res_y, 'r.-', label='Peak brilliance transfer')
-    ax.plot(res_x, res_y, 'b.-', label='Mean brilliance transfer')
+    ax.errorbar(res_x, res_y, yerr = err_y, label='Mean brilliance transfer')
 
     legend = ax.legend(loc='upper left', shadow=True)
 
+    price = process_price(save_dir)
+
     plt.xlabel("Wavelength [AA]")
     plt.ylabel("Brilliance Transfer")
-    plt.title('Mean brilliance transfers as a function of wavelength')
+    plt.title('Mean brilliance transfers as a function of wavelength\n area: {}, price: {}'.format(mean_area, price))
     plt.axis([0, 8, 0, 1])
     plt.grid(True)
-    plt.savefig('ess_brill_optimized_mean_{}.png'.format(now()))
+    # plt.savefig('brill_optimized_mean_{}.png'.format(now()))
+    plt.show()
 
     return save_dir
 
@@ -213,14 +217,53 @@ def objective(args):
 
 if __name__ == "__main__":
     # get all the plots if this file is run directly.
-    with open(getResultsFile(), "rb") as a:
-        lines = a.readlines()
+    # with open(getResultsFile(), "rb") as a:
+    #     lines = a.readlines()
 
-    compile_mcstas(getExperiment())
-    save_dir = plotBT(getExperiment(), json.loads(lines[-1]))
-    plotDIV(save_dir + '/source_div.dat', filename = 'div_before_ess_brill_optimized.png')
-    plotDIV(save_dir + '/sample_div.dat', filename = 'div_after_ess_brill_optimized.png')
+    params = {
+        "mid_yh_e2": 0.038197739553814794, 
+        "linxw_e2": 74.15432646521889, 
+        "loutyh_e1": 133.6632501395813, 
+        "loutyh_e2": 8.804603652147305,
+        "linyh_e1": 9.698281963758113, 
+        "cguide_yh": 0.07586472210893247, 
+        "cguide_xw": 0.03900806476991718, 
+        "cguide_length": 1.0023114185849367,
+        "mid_xw_e1": 0.07975987716673665, 
+        "linyh_e2": 30.326763194542405, 
+        "cguide_radius": 2305.457032997859,
+        "loutxw_e1": 71.38607628275157, 
+        "loutxw_e2": 16.863191843381514, 
+        "linxw_e1": 4.4752237911433, 
+        "mid_yh_e1": 0.04503009019349665, 
+        "mid_xw_e2": 0.037781105642567085,
+        
+        # M optimizations
+        # Curve
+        "cguide_mi": 4, # 4.153508529906514,
+        "cguide_ma": 3.5, # 3.309629150766485,
+        "cguide_ms": 1, # 1.153739174062582,
+
+        # Ellipse 1
+        "a0_e1": 5.5,
+        "a1_e1": 0.0,
+        "a2_e1": 0.0001,
+        "a3_e1": 0,
+
+        # Ellipse 2
+        "a0_e2": 2,
+        "a1_e2": 0.01,
+        "a2_e2": 0.0001,
+        "a3_e2": -0.0000005
+    }
+
+    # compile_mcstas(getExperiment())
+    save_dir = plotBT(getExperiment(), params)
     
-    plotPSD(save_dir + '/source_psd.dat', filename = 'psd_before_ess_brill_optimized.png')
-    plotPSD(save_dir + '/sample_psd.dat', filename = 'psd_after_ess_brill_optimized.png')
+    
+    # plotDIV(save_dir + '/source_div.dat', filename = 'div_before_ess_brill_optimized.png')
+    # plotDIV(save_dir + '/sample_div.dat', filename = 'div_after_ess_brill_optimized.png')
+    
+    # plotPSD(save_dir + '/source_psd.dat', filename = 'psd_before_ess_brill_optimized.png')
+    # plotPSD(save_dir + '/sample_psd.dat', filename = 'psd_after_ess_brill_optimized.png')
     
