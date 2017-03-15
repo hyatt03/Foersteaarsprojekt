@@ -259,22 +259,22 @@ Alt dette er i første omgang bedømt på baggrund af arealet under vores brilli
 \section{Resultater}
 
 \subsection{Vores guide(s)}
-Vi har i løbet af dette projekt lavet en del virtuelle eksperimenter vha. MCStas. Vi vil dog begrænse os til nogle enkelte guides, for at begrænse omfanget af rapporten.
+Vi har i løbet af dette projekt lavet mange forskellige simuleringer, af mange forskellige guides, i McStas. Vi vil dog begrænse os til nogle enkelte guides, for at begrænse omfanget af rapporten.
 
 Specifikt vil vi fokusere på disse simuleringer:
 \begin{enumerate}
     \item Simpel simulering af lige versus elliptisk guide \cite{github:st_vs_el}
-    \item Simpel simulering af elliptisk guide der minder om ESS forholdende. \cite{github:ess_sim_simple}
+    \item Simpel simulering af elliptisk guide der minder om ESS forholdene. \cite{github:ess_sim_simple}
     \item En mere realistisk simulering af potentiel ESS guide geometri. \cite{github:ess_brill_optimized}
 \end{enumerate}
 
 \subsubsection{Sammenligning af lige og elliptisk guide}
-Denne simulering blev fremstillet for at fremhæve forskellen mellem en lige guide, og en elliptisk guide. En skitse af deres geometri ses herunder:
+Denne simulering blev fremstillet for at fremhæve forskellen mellem en lige guide, og en elliptisk guide. En skitse af deres geometri ses på figur \ref{lige_mod_eliptisk}
 
-\begin{figure}[H]
+\begin{figure}[H] 
 \centering
 \includegraphics[width=1\textwidth]{Straight_VS_Elipse.png}
-\caption{Eksempel på guidegeometrien, den lige guide består kun af de lige streger, mens den eliptiske kun består af de eliptiske streger}
+\caption{Eksempel på guidegeometrien, den lige guide består kun af de lige streger, mens den eliptiske kun består af de eliptiske streger} \label{lige_mod_eliptisk}
 \end{figure}
 
 Hvis du plotter resultaterne, er der en tydelig forskel mellem den eliptiske og lige guide. Resultatet ses herunder:
@@ -312,18 +312,18 @@ Denne guide tager udgangspunkt en guidegeometri som har været under overvejelse
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.5\textwidth, angle=90]{EGCGE.png}
+\includegraphics[width=1\textwidth]{EGCGE.png}
 \caption{Skitse af realistisk ESS geometri}
 \end{figure}
 
-Dette er en guidestruktur som potentielt godt kunne blive brugt ved ESS. Vi har optimeret med hensyn til geometrien. Vores resultat ses herunder
+Dette er en guidestruktur som potentielt godt kunne blive brugt ved ESS. Vi har optimeret med hensyn til geometrien, m-værdien og prisen. Vores resultat ses herunder
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=1\textwidth]{brill_optimized_mean_148952691102106.png}
+\includegraphics[width=1\textwidth]{brill_optimized_mean_148957776280566.png}
 \caption{Brilliance transfer som funktion af bølgelængde af optimeret EGCGE}
 \end{figure}
-
+Vi har, at denne guide, ifølge vores prisestimater koster $1.84M\text{€}$
 
 \section{Diskussion}
 
@@ -457,6 +457,12 @@ Vi har gennem dette projekt fundet en geometri, samt parametrene til denne geome
 \caption{Positionen af neutronerne ved kilden, inden vores optimerede guide}
 \end{figure}
 
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.6\textwidth, angle=90]{EGCGE.png}
+\caption{Skitse af realistisk ESS geometri}
+\end{figure}
 
 
 %% Appendix slut! %%
