@@ -270,13 +270,13 @@ Vi har i løbet af dette projekt lavet mange forskellige simuleringer, af mange 
 
 Specifikt vil vi fokusere på disse simuleringer:
 \begin{enumerate}
-    \item Simpel simulering af lige versus elliptisk guide \cite{github:st_vs_el}
-    \item Simpel simulering af elliptisk guide der minder om ESS forholdene. \cite{github:ess_sim_simple}
-    \item En mere realistisk simulering af potentiel ESS guide geometri. \cite{github:ess_brill_optimized}
+    \item Simpel simulering af lige versus elliptisk guide \cite{github:st_vs_el}.
+    \item Simpel simulering af elliptisk guide der minder om ESS forholdene \cite{github:ess_sim_simple}.
+    \item En mere realistisk simulering af potentiel ESS guide geometri. \cite{github:ess_brill_optimized}.
 \end{enumerate}
 
 \subsubsection{Sammenligning af lige og elliptisk guide}
-Denne simulering blev fremstillet for at fremhæve forskellen mellem en lige guide, og en elliptisk guide. En skitse af deres geometri ses på figur \ref{lige_mod_eliptisk}.
+Denne simulering blev fremstillet for at fremhæve forskellen mellem en lige guide, og en elliptisk guide. En skitse af deres geometri ses på figur [\ref{lige_mod_eliptisk}].
 
 \begin{figure}[H] 
 \centering
@@ -284,7 +284,7 @@ Denne simulering blev fremstillet for at fremhæve forskellen mellem en lige gui
 \caption{Eksempel på de to guidegeometrier. Til venstre ses den eliptiske guide, og til højre den lige guide} \label{lige_mod_eliptisk}
 \end{figure}
 
-I vores simulering af de to guides, har vi udover værdierne vist i skitsen, brugt en kilde på $3cm\cdot8cm$, og en fast m-værdi på 6. Resultaterne af vores simulering ses på figur \ref{st_vs_elip}
+I vores simulering af de to guides, har vi udover værdierne vist i skitsen, brugt en kilde på $3cm\cdot8cm$, og en fast m-værdi på 6. Resultaterne af vores simulering ses på figur [\ref{st_vs_elip}].
 
 \begin{figure}[H]
 \centering
@@ -295,7 +295,7 @@ I vores simulering af de to guides, har vi udover værdierne vist i skitsen, bru
 
 \subsubsection{Det simpleste ESS tilfælde}
 Denne guide blev fremstillet for at simulere det simpleste tilfælde man kan forestille sig ved ESS. Vi har kun her optimeret efter de simpleste omstændigheder. Dvs. vi har sat en fast m-værdi, og derefter optimeret guidens geometri, hvor den skulle overholde nogle af de simpleste geometriske krav.
-En skitse af guidens geometri ses på figur \ref{Ellipse}
+En skitse af guidens geometri ses på figur [\ref{Ellipse}].
 
 \begin{figure}[H]
 \centering
@@ -303,7 +303,7 @@ En skitse af guidens geometri ses på figur \ref{Ellipse}
 \caption{Skitse af simpel elliptisk guidegeometri} \label{Ellipse}
 \end{figure}
 
-Når vi simulerer vores optimerede elliptiske guide med en kilde på $3cm\cdot8cm$, en m-værdi på 6, og dimensioner som vist i skitsen, får vi brilliance transfer som funktion af bølgelængden, som vist på figur \ref{simpel_guide}
+Når vi simulerer vores optimerede elliptiske guide med en kilde på $3cm\cdot8cm$, en m-værdi på 6, og dimensioner som vist i skitsen, får vi brilliance transfer som funktion af bølgelængden, som vist på figur [\ref{simpel_guide}].
 
 \begin{figure}[H]
 \centering
@@ -315,27 +315,27 @@ Når vi simulerer vores optimerede elliptiske guide med en kilde på $3cm\cdot8c
 
 
 \subsubsection{Realistisk ESS geometri}
-Denne guide tager udgangspunkt i en guidegeometri, som har været under overvejelse til forsøget på ESS. Guidensgeometri bliver populært kaldt 'EGCGE', dvs. den består af en elliptisk guide (E), et gab (G), en kurvet guide (C), endnu et gab (G), og til sidst en elliptisk guide igen (E). En skitse af guiden er på figur \ref{EGCGE}
+Denne guide tager udgangspunkt i en guidegeometri, som har været under overvejelse til forsøget på ESS. Guidensgeometri bliver populært kaldt 'EGCGE', dvs. den består af en elliptisk guide (E), et gab (G), en kurvet guide (C), endnu et gab (G), og til sidst en elliptisk guide igen (E). En skitse af guiden er på figur [\ref{EGCGE}].
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{EGCGE.png}
 \caption{Skitse af realistisk ESS geometri} \label{EGCGE}
 \end{figure}
-
-Vi har optimeret guiden med hensyn til geometrien, m-værdien og prisen. Vores resultat ses på figur \ref{EGCGE_brill}
+For større skitse, se appendix [\ref{Skitse_EGCGE_ja}]. \\
+Vi har optimeret guiden med hensyn til geometrien, m-værdien og prisen. Vores resultat ses på figur [\ref{EGCGE_brill}].
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{brill_optimized_mean_148957776280566.png}
 \caption{Brilliance transfer som funktion af bølgelængde af optimeret EGCGE} \label{EGCGE_brill}
 \end{figure}
-Vi har, at denne guide, ifølge vores prisestimater, koster $1.84M\text{€}$. Værdier for parametrene findes i appendix \ref{Parametre_EGCGE}
+Vi har, at denne guide, ifølge vores prisestimater, koster $1.84M\text{€}$. Værdier for parametrene findes i appendix [\ref{Parametre_EGCGE}]
 
 \section{Diskussion}
 
 \subsection{Bedømmelse af vores guides}
-I vores første simulering, hvor den lige guide blev sammenlignet med den eliptiske guide, var det meget tydeligt, at den eliptiske gav en klart større brilliance transfer. Dette er første tegn på, at guidegeometrien kan optimeres. Dog må vi huske, at det ikke kun er brilliance transfer, der tæller. Divergensen betyder eksempelvis også meget. Vi kan se på figur \ref{ap:div_straight_after} og \ref{ap:div_ellipse_after} at den elliptiske guide har betydeligt større divergens, end den lige guide. Hvis du kun optimerer din guide efter brilliance transfer, kan det altså komme til at koste i divergens, da elipseformen naturligt afbøjer rays mod sample. Vi kan se, at hvis vi har et krav på $\pm 0.75^\circ$, er dette kun opfyldt til fulde ved den lige guide. Der er flere måder at komme uden om dette problem på. Eksempelvis kunne man fra start optimere sin guide med et krav om en divergens på maks  $\pm 0.75^\circ$, eller man kunne gøre brug af pinholes. Derudover får vi i både vores lige og eliptiske guides meget støj, fordi prøven ligger i direkte synslinje til kilden. Dermed kommer der nogle hurtige neutroner direkte fra kilden til prøven. Dette viser også tegn på, at simple geometrier, som eksempelvis en enkelt ellipse, ikke altid er den bedste mulighed.
+I vores første simulering, hvor den lige guide blev sammenlignet med den eliptiske guide, var det meget tydeligt, at den eliptiske gav en klart større brilliance transfer. Dette er første tegn på, at guidegeometrien kan optimeres. Dog må vi huske, at det ikke kun er brilliance transfer, der tæller. Divergensen betyder eksempelvis også meget. Vi kan se på figur [\ref{ap:div_straight_after}] og [\ref{ap:div_ellipse_after}] at den elliptiske guide har betydeligt større divergens, end den lige guide. Hvis du kun optimerer din guide efter brilliance transfer, kan det altså komme til at koste i divergens, da elipseformen naturligt afbøjer rays mod sample. Vi kan se, at hvis vi har et krav på $\pm 0.75^\circ$, er dette kun opfyldt til fulde ved den lige guide. Der er flere måder at komme uden om dette problem på. Eksempelvis kunne man fra start optimere sin guide med et krav om en divergens på maks  $\pm 0.75^\circ$, eller man kunne gøre brug af pinholes. Derudover får vi i både vores lige og eliptiske guides meget støj, fordi prøven ligger i direkte synslinje til kilden. Dermed kommer der nogle hurtige neutroner direkte fra kilden til prøven. Dette viser også tegn på, at simple geometrier, som eksempelvis en enkelt ellipse, ikke altid er den bedste mulighed.
 \\
 \\
 For at opfylde divergenskrav samt at få prøven ud af direkte synslinje af kilden introducerer vi en ny, mere kompleks, geometri. Den mere komplekse geometri (EGCGE) sikrer at vi vha. pinholes kan reducere divergensens for at opfylde divergenskravet samt at fjerne neutroner med for høj energi. Vi har derfor optimeret på den mere komplekse geometri som under de optimale forhold har meget lille tab af brilliance transfer.
@@ -347,7 +347,7 @@ Den første fejlkilde i vores vurdering af systemet er udefrakommende neutroner,
 Eksperimentet kan naturligvis også forbedres, dette kunne f.eks. være ved at afprøve nye, bedre, geometrier. Herudover har vi haft en begrænset mængde tid til optimeringerne, derfor er det muligt at vi kun har fundet et lokalt maksimum for brilliance transfer frem for det globale. Derudover har vi arbejdet med optimeringen i faser. Først har vi optimeret på geometrien af opsætningen hvorefter, vi har haft fokus på m-værdier og pris af opstillingen. Det er derfor muligt, at vi ikke har fundet det optimum som både tager højde for pris og geometri, men derimod et lokalt maksimum for kombinationen af disse paramtre.
 
 \section{Konklusion}
-Vi har fremstillet et computerprogram, der automatisk optimerer på parameteriserede simuleringer for at lette arbejdsbyrden i designet af instrumenterne. Vi har gennem dette projekt fundet en geometri, samt parametrene til denne geometri, der opfylder alle krav til neutronguiden, med undtagelse af pris, der har en meget pæn overførsel af neutronerne. Vi har også defineret begreber og målstørrelser til vurdering af disse geometrier. Herudover har vi diskuteret relevante problemstillinger med både Monte Carlo simuleringer generelt, men også problemer i vores specifikke simulering. 
+Vi har arbejdet med at optimere guidesystemer til transport af neutroner. Dertil har vi fremstillet et computerprogram, der automatisk optimerer på parametriserede simuleringer, for at lette arbejdsbyrden i designet af instrumenterne. Derefter har vi sammenlignet lige og elliptiske guide, og optimeret geometrien i en simpel guide. Vi har til slut i dette projekt fundet en overordnet geometri, der godt kunne blive aktuel på ESS, parametriseret denne, og herefter optimeret den i både geometri, pris og m-værdi. Vi har fået en høj brilliance transfer (over 0.5 for de fleste bølgelængder, se figur [\ref{EGCGE_brill}]), til en pris på $1.84\text{M€}$. Derudover har vi diskuteret relevante problemstillinger ved både Monte Carlo simuleringer generelt, men også problemer i vores specifikke simulering. Her er vi nået frem til, at vores optimerede EGCGE guide, er et realistisk bud, på en god guide.
 
 
 %% Rapporten er slut! %% 
@@ -468,7 +468,7 @@ Vi har fremstillet et computerprogram, der automatisk optimerer på parameterise
 \begin{figure}[H]
 \centering
 \includegraphics[width=1.6\textwidth, angle=90]{EGCGE.png}
-\caption{Skitse af realistisk ESS geometri}
+\caption{Skitse af realistisk ESS geometri} \label{Skitse_EGCGE_ja}
 \end{figure}
 
 \subsubsection{Parametre} \label{Parametre_EGCGE}
