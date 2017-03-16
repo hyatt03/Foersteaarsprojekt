@@ -156,22 +156,23 @@ Brilliance transfer er altså et udtryk for brilliance i slutningen af guiden, d
 
 %%** METODE!! **%%
 \section{Metode}
-Vi har i vores arbejde med neutronoptik arbejdet meget med simuleringsprogrammet McStas \cite{doi:10.1080/10448639908233684}, og derudover brugt meget viden omkring diverse komponenter der bliver brugt i guidesystemerne.
+Vi har i vores arbejde med neutronoptik arbejdet meget med simuleringspakken McStas \cite{doi:10.1080/10448639908233684}, og derudover brugt meget viden omkring diverse komponenter der bliver brugt i guidesystemerne.
 
 
 \subsection{McStas}
-Vi bruger programmet McStas, som er et af flere alment anvendte guideprogrammer, til at simulere diverse guides transport af neutroner fra kilde til prøve. I programmet kan vi indsætte de relevante komponenter til guiden, samt diverse monitorer, hvorpå vi kan overvåge vores neutroner. McStas løser simuleringerne numerisk, og kører hver guide igennem med mange millioner neutroner. Man løser ikke analytisk, idet antallet af neutroner er enormt, og deres forskellige bevægelser ville føre til enorme udregninger, der endvidere skulle ændres ved hver eneste optimering. Derfor bruger man førnævnte Monte Carlo simulering. McStas styrker består i den lette tilgang til optimering (man kan let ændre på sine parametre), samt hurtig numerisk simulering. Omvendt er denne simulering også en svaghed, da den basalt set er baseret på tilfældighed, det er denne tilfældighed der i sidste end giver os statistik og usikkerheder på vores simuleringer.
+Vi bruger McStas, som er et af flere alment anvendte guidepakker, til at simulere diverse guides transport af neutroner fra kilde til prøve. I programmet kan vi indsætte de relevante komponenter til guiden, samt diverse monitorer, hvorpå vi kan overvåge vores neutroner. McStas løser simuleringerne numerisk, og kører hver guide igennem med mange millioner neutroner. Man løser ikke problemet analytisk, idet det består af mange variable som man skal integrere op over og grundet den komplekse natur af de geometriske beregninger, der endvidere skulle ændres ved hver eneste optimering. Derfor bruger man førnævnte Monte Carlo simulering. McStas styrker består i den lette tilgang til optimering (man kan let ændre på sine parametre), samt hurtig numerisk simulering. Omvendt er denne simulering også en svaghed, da den basalt set er baseret på tilfældighed, det er denne tilfældighed der i sidste end giver os statistik og usikkerheder på vores simuleringer, dette betyder det er nødvendigt at simulere tilstrækkeligt mange neutroner før man kan opnå en acceptabel fejl på simuleringen.
 
 \subsubsection{Svagheder i metoden}
-Det kan være svært for MCstas, at tage højde for alt det, der foregår udenfor guiden. Man kunne eksempelvis forestille sig at de neutroner, der ikke bliver reflekteret på guiden i første omgang, ville fortsætte og muligvis blive reflekteret af noget andet udenfor guiden. Derfra kunne de blive reflekteret ind i guiden igen, eller måske direkte hen på prøven. Dette er en svaghed som MCstas ikke tager højde for, men da det er en så forholdsvis lille del af neutronerne det er relevant for, bliver simuleringerne alligevel præcise.
+Det kan være svært for McStas, at tage højde for alt det, der foregår udenfor guiden. Man kunne eksempelvis forestille sig at de neutroner, der ikke bliver reflekteret på guiden i første omgang, ville fortsætte og muligvis blive reflekteret af noget andet udenfor guiden. Derfra kunne de blive reflekteret ind i guiden igen, eller måske direkte hen på prøven og blive til uønsket baggrundsstøj. Dette er en svaghed som McStas ikke tager højde for, men da det er en så forholdsvis lille del af neutronerne det er relevant for, bliver simuleringerne alligevel præcise.
 
+En anden svaghed ved simulering generelt er at vores modeller ikke nødvendigvis stemmer helt overens med virkeligheden.
 
 \subsection{Komponenter til guidesystemerne}
 Når man laver guidesystemerne til neutronspredning, er der flere forskellige komponenter, man kan gøre brug af.
 
 \subsubsection{Guides}
 
-Hvis man lod neutronerne flyve frit mellem kilde og prøve, ville meget få neutroner (grundet afstandskvadratloven) nå frem. For at transportere neutronerne de omtalte 165 meter fra kilde til prøve, og stadig have en rimelig intensitet ved prøven, bruger man såkaldte neutronguides. Neutronguides består af neutronspejle, hvis grundbyggesten er nikkel (Ni).
+Hvis man lod neutronerne flyve frit mellem kilde og prøve, ville meget få neutroner nå frem (grundet afstandskvadratloven). For at transportere neutronerne de omtalte 165 meter fra kilde til prøve, og stadig have en rimelig intensitet ved prøven, bruger man såkaldte neutronguides. Neutronguides består af neutronspejle, hvis grundbyggesten er nikkel (Ni).
 For at kunne bedømme neutronspejles kvalitet, og dermed også kvaliteten af guiden, skal vi indføre nogle forskellige begreber. Vi betragter en neutron der bliver reflekteret af et neutronspejl. Vi kalder her den indgående neutrons bølgevektor for $\vec{k_i}$, og den selvsamme udgående neutrons bølgevektor for  $\vec{k_f}$. Her definerer vi $\vec{k_i}$ og $\vec{k_f}$ som  $ {\frac{2 \cdot \pi}{\lambda}} \cdot \hat{v}$, hvor $\hat{v}$ er neutronens bevægelsesretning, og $\lambda$ er de Broglie-bølgelængden for henholdsvis den indkommende og udkommende neutron (Vi husker partikel-bølge dualiteten fra kvantemekanikken, og ved dermed, at vi også kan beskrive neutronen som en bølge). Derudover definerer vi en spredningsvektor, $\vec{q}$, som:
 \begin{align}
 \vec{q}=\vec{k_i}-\vec{k_f}
@@ -192,7 +193,7 @@ Dette er et vigtigt udtryk indenfor neutronspredning, hvilket vi vil bruge flere
 \caption{En neutron der laver totalrefleksion på et neutronspejl} \label{neutronspejl}
 \end{figure}
 
-Når vi arbejder med guides, er vi ofte interesseret i den kritiske vinkel, hvilket er den størst mulige vinkel, hvorved vi kan få totalrefleksion mellem guide og neutron. Når vi har totalrefleksion, gælder det at længden af $\vec{k_i}$ er lig længden af $\vec{k_f}$, hvilket vi blot vil kalde for k:
+Når vi arbejder med guides, er vi ofte interesseret i den kritiske vinkel, hvilket er den størst mulige vinkel, hvorved vi kan få refleksion mellem guide og neutron. Når vi har totalrefleksion, gælder det at længden af $\vec{k_i}$ er lig længden af $\vec{k_f}$, hvilket vi blot vil kalde for k:
 \begin{align}
 k_i=k_f=k
 \end{align}
@@ -239,18 +240,22 @@ Hvor m er den såkaldte m-værdi. Denne er altså en indikation på, hvor stor e
 Neutronspejle består af et nedre lag af såkaldt $substrate$. Dette er basis for spejlet, og kan laves af flere forskellige materialer, alt afhængigt af, hvor stor kvalitet spejlet ønskes i, og hvordan det skal vekselvirke med neutronerne.
 
 \subsubsection{Elliptiske guides}
-Når man samler en række neutronspejle i forlængelse af hinanden, kalder man det for en neutronguide. De simpleste guides er fuldstændig lige. Dette er dog ikke altid det mest hensigtsmæssige. Der kan være flere forskellige grunde til, at man vil have en enten kurvet eller eliptisk guide. 
-Hvis neutronerne skal transportereres store afstande, kan det være en fordel, at gøre guiden breddere, ved at gøre den enten eliptisk, eller delvis eliptisk i starten. Derved kommer der længere flyvetid mellem hvert sammenstød mellem neutronen og guiden, og færre neutroner går dermed tabt. 
-Derudover kan en eliptisk guide opnå en større brilliance transfer, end en almindelig lige guide. Dette skyldes at færre neutroner går tabt lige  i starten, men at nogle af neutronerne til gengæld har en større divergens når de kommer hen til prøven. Dette ses tydeligt i vores resultat afsnit.
+Når man samler en række neutronspejle i forlængelse af hinanden, kalder man det for en neutronguide. De simpleste guides er fuldstændig lige. Dette er dog ikke altid det mest hensigtsmæssige. Der kan være flere forskellige grunde til, at man vil have en enten kurvet eller elliptisk guide. 
+Hvis neutronerne skal transporteres store afstande, kan det være en fordel, at gøre guiden bredere, ved at gøre den enten elliptisk, eller delvis elliptisk i starten. Derved kommer der længere flyvetid mellem hvert sammenstød mellem neutronen og guiden, og færre neutroner går dermed tabt. 
+En elliptisk kan guide opnå en større brilliance transfer, end en almindelig lige guide. Dette skyldes at færre neutroner går tabt lige  i starten, men at nogle af neutronerne til gengæld har en større divergens når de kommer hen til prøven. Dette ses tydeligt i vores resultat afsnit.
 
 For at reducere baggrundsstråling fra kilde på prøve, kan man fjerne prøven fra den direkte synslinje af kilden. Dette kan gøres ved enten at lave en kurvet guide, eller eventuelt lave et såkaldt 'kink'. Et kink består af et neutronspejl, der reflekterer neutronerne fra en guide til en anden, så man kan få en vinkel mellem sine to neutronguides. 
 Det kan også være nødvendigt at have afbrydelser i guiden på visse steder. Dette kan eksempelvis være nødvendigt, hvis man vil indsætte en såkaldt chopper.
 
 \subsubsection{Chopper}
-En chopper er en roterende komponent, der kun lader neutroner passere i visse tidsintervaller. Den simpleste chopper er en 'disk chopper', som basalt set er en roterende disk, med et antal 'revner' eller huller nær kanten. Chopperen bliver sat til at rotere foran neutronstrålen, og neutronerne kan dermed kun passere chopperen, når chopperen er åben, dvs. når neutronen kan passere gennem hullet i chopperen. I det chopperen roterer, vil det kun til nogle tidspunkter være muligt for neutronerne at passere. Med en chopper kan man altså opdele neutronstrålen i mindre bidder. Dette kan give en bedre kontrol over neutronernes flyvetid, og dermed mere præcise resultater. \cite{ess_folder}
+En chopper er en roterende komponent, der kun lader neutroner passere i visse tidsintervaller. Den simpleste chopper er en 'disk chopper', som basalt set er en roterende disk, med et antal 'revner' eller huller nær kanten. Chopperen bliver sat til at rotere igennem neutronstrålen, og neutronerne kan dermed kun passere chopperen, når chopperen er åben, dvs. når neutronen kan passere gennem hullet i chopperen. Idet chopperen roterer, vil det kun til nogle tidspunkter være muligt for neutronerne at passere. Med en chopper kan man altså opdele neutronstrålen i mindre bidder. Dette kan give en bedre kontrol over neutronernes flyvetid, og dermed mere præcise resultater. \cite{ess_folder}
 
 \subsubsection{Neutronkilder, moderator og neutrondetektioner}
+<<<<<<< HEAD
 Efter neutronerne har interageret med prøven, skal de detekteres, således at man kan få forsøgsresultater. Neutronerne 
+=======
+Efter neutronerne har vekselvirket med prøven, skal de detekteres, således at man kan få forsøgsresultater. Neutronerne 
+>>>>>>> eedf916143d40328785e363e3fbcc52530c12f73
 bliver ofte detekteret gennem en kerneprocess med helium, hvorefter der bliver frigjort noget energi, $Q$. \cite{lefmann_arleth_kirkensgaard_lebech_thomsen}
 \begin{align}
 ^3He + n \to  ^3H + ^1H + Q
@@ -259,13 +264,13 @@ bliver ofte detekteret gennem en kerneprocess med helium, hvorefter der bliver f
 Den frigivne energi, $Q$, giver anledning til et elektrisk signal vha. en gas (ofte Ar gas) under et stort spændingsfald (typisk et par kV), som giver anledning til en gnist der nemt, og konsistent, kan detekteres.
 
 \subsection{Krav til guidesystemerne}
-De forskellige guides der bliver bygget, skal bruges til forskellige eksperimenter, hvorfor deres specifikationer er forskellige. Guiden til det danske instrument, BIFROST, som bearbejdes i dette projekt, må koste op til 2.10 M€, hvilket selvfølgelig har betydning for vores optimeringsmuligheder. Prøven skal befinde sig 165m fra kilden, og derfor skal selve guiden være 162,4m lang, da de første 2m og de sidste 0.6m skal være fri for guides, så det er plads til diverse instrumenter. Endvidere må guiden højst have en tykkelse på ca. $10cm \cdot 10cm$ på sit bredeste sted for at mindske prisen.
+De forskellige guides der bliver bygget, skal bruges til forskellige instrumenter, hvorfor deres specifikationer er forskellige. Guiden til det danske instrument, BIFROST, som bearbejdes i dette projekt, må koste op til 2.10 M€, hvilket selvfølgelig har betydning for vores optimeringsmuligheder. Prøven skal befinde sig 165m fra kilden, og derfor skal selve guiden være 162,4m lang, da de første 2m og de sidste 0.6m skal være fri for guides, så det er plads til diverse instrumenter. Endvidere må guiden højst have en tykkelse på ca. $10cm \cdot 10cm$ på sit bredeste sted for at mindske prisen.
 \\
-Derudover er der krav til det substrat, som neutronspejlene blandt andet er lavet af. De første 23.5m guide skal have substrat bestående af aluminium, hvilket koster (omtrent) $25.000 \text{€}/m^2$. Det er nødvendigt med aluminium substrat det første stykke, da strålingen er meget høj og denne ikke aktiverer aluminium på samme måde som f.eks. kobber. Hvis noget går i stykker, kan man derfor stadig komme ind og lave det igen. Efter de første 23.5m guide, kan man skifte til et billigere substrat, bestående af borcron, hvilket koster (omtrent) $14.000 \text{€}/m^2$.
+Derudover er der krav til det substrat, som neutronspejlene blandt andet er lavet af. De første 23.5m guide skal have substrat bestående af aluminium, hvilket koster (omtrent) $25.000 \text{€}/m^2$. Det er nødvendigt med aluminium substrat det første stykke, da strålingen er meget høj, under denne stråling vil borcron gå i stykker, og denne ikke aktiverer aluminium på samme måde som f.eks. kobber. Hvis noget går i stykker, kan man derfor stadig komme ind og lave det igen. Efter de første 23.5m guide, kan man skifte til et billigere substrat, bestående af borcron, hvilket koster (omtrent) $14.000 \text{€}/m^2$.
 \\
-Man skal også gøre sig overvejelser mht. de tidligere nævnte m-værdier. Selve materialet til coating af spejlene er ikke videre dyrt, men coatingsprocessen får prisen til at stige. Basisprisen for coating er (omtrent) $L\cdot8(K\text{€}/m)$, hvor L er længden du vil dække med coating. Ekstra lag koster endda (omtrent) $(L\cdot(m^{2,6})/4)\cdot2(K\text{€}/m)$, , hvor L er længen du vil dække, og m er m-værdien for spejlet. Derfor bruger man kun høje m-værdier i begrænset omfang. De steder man bruger høje m-værdier er hvor flere neutroner rammer i en større vinkel, da en høj m-værdi øger muligheden for at reflektere ved højere indgangsvinkler. Derfor bruges de ved starten og slutningen af hver del af elliptiske guides.
+Man skal også gøre sig overvejelser mht. de tidligere nævnte m-værdier. Selve materialet til coating af spejlene er ikke videre dyrt, men coatingsprocessen får prisen til at stige. Basisprisen for coating er (omtrent) $L\cdot 8 (K\text{€}/m)$, hvor L er længden du vil dække med coating. Ekstra lag koster endda (omtrent) $(L\cdot(m^{2,6})/4)\cdot 2 (K\text{€}/m)$, , hvor L er længen du vil dække, og m er m-værdien for spejlet. Derfor bruger man kun høje m-værdier i begrænset omfang. De steder man bruger høje m-værdier er hvor flere neutroner rammer i en større vinkel, da en høj m-værdi øger muligheden for at reflektere ved højere indgangsvinkler. Derfor bruges de ved starten og slutningen af hver del af elliptiske guides.
 \\
-Udover prisen som en begrænsende faktor, skal der indsættes choppers 6.5m og 23.5m inde i vores guide. Det resulterer i, at guidens tværsnitsareal skal sænkes på disse steder, så den stemmer overens med chopperne. Dimensionerne af guiden omkring en chopper skal være på $3cm\cdot5cm$. 
+Udover prisen som en begrænsende faktor, skal der indsættes en chopper ved 6.5 m inde i vores guide og der skal indsnævres ved 23.5 m for at begrænse baggrundsstøj. Det resulterer i, at guidens tværsnitsareal skal sænkes på disse steder, så den stemmer overens med chopperne. Dimensionerne af guiden omkring en chopper skal være på $3cm\cdot5cm$. 
 \\
 Divergensen i vores guide må højst være $\pm0.75^\circ$. Derudover er det vigtigt for eksperimentet, at neutronerne har den rette energi, hvilket er en af grundene til, at prøven skal være uden for synslinje af kilden. Hvis prøven ikke er dette, kan enkelte hurtige neutroner blot  bevæge sig direkte hen til prøven, uden at blive reflekteret. Dermed ville vi ikke have nogen kontrol over disse neutroner.
 \\
@@ -296,12 +301,12 @@ Specifikt vil vi fokusere på disse simuleringer:
 \end{enumerate}
 
 \subsubsection{Sammenligning af lige og elliptisk guide}
-Denne simulering blev fremstillet for at fremhæve forskellen mellem en lige guide, og en elliptisk guide. En skitse af deres geometri ses på figur [\ref{lige_mod_eliptisk}]. Derudover kan yderligere resultater findes i appendix [\ref{sammenligning}]
+Denne simulering blev fremstillet for at fremhæve forskellen mellem en lige guide, og en elliptisk guide. Skitse af deres geometrier ses på figur [\ref{lige_mod_eliptisk}]. Derudover kan yderligere resultater findes i appendix [\ref{sammenligning}]
 
 \begin{figure}[H] 
 \centering
 \includegraphics[width=1\textwidth]{Straight_VS_Elipse.png}
-\caption{Eksempel på de to guidegeometrier. Til venstre ses den eliptiske guide, og til højre den lige guide} \label{lige_mod_eliptisk}
+\caption{Eksempel på de to guidegeometrier. Til venstre ses den elliptiske guide, og til højre den lige guide} \label{lige_mod_eliptisk}
 \end{figure}
 
 I vores simulering af de to guides, har vi udover værdierne vist i skitsen, brugt en kilde på $3cm\cdot8cm$, og en fast m-værdi på 6. Resultaterne af vores simulering ses på figur [\ref{st_vs_elip}].
@@ -311,12 +316,11 @@ I vores simulering af de to guides, har vi udover værdierne vist i skitsen, bru
 \includegraphics[width=0.9\textwidth]{st_vs_elip_148950055477097.png}
 \caption{Brilliance transfer som funktion af bølgelængden for lige og elliptisk guide} \label{st_vs_elip}
 \end{figure}
-
+Figur [\ref{st_vs_elip}] sammenligner brilliance transfer for de to guidegeometrier, det viser at selv før optimeringer kan en elliptisk guide transportere et langt større faserum. Dette resultat er konsistent med \cite{Kleno201275}.
 
 \subsubsection{Det simpleste ESS tilfælde}
 Denne guide blev fremstillet for at simulere det simpleste tilfælde man kan forestille sig ved ESS. Vi har kun her optimeret efter de simpleste omstændigheder. Dvs. vi har sat en fast m-værdi, og derefter optimeret guidens geometri, hvor den skulle overholde nogle af de simpleste geometriske krav.
 En skitse af guidens geometri ses på figur [\ref{Ellipse}].
-
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{Elipse.png}
@@ -324,16 +328,16 @@ En skitse af guidens geometri ses på figur [\ref{Ellipse}].
 \end{figure}
 
 Når vi simulerer vores optimerede elliptiske guide med en kilde på $3cm\cdot8cm$, en m-værdi på 6, og dimensioner som vist i skitsen, får vi brilliance transfer som funktion af bølgelængden, som vist på figur [\ref{simpel_guide}].
-
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{optimized_mean_4.png}
 \caption{Brilliance transfer som funktion af bølgelængden for simpel elliptisk guide.} \label{simpel_guide}
 \end{figure}
+Figur [\ref{simpel_guide}] viser at vi har en meget høj ydeevne, målt ved brilliance transfer, efter at have optimeret på blot 6 geometriske parametre. 
 
 
 \subsubsection{Realistisk ESS geometri}
-Denne guide tager udgangspunkt i en guidegeometri, som har været under overvejelse til forsøget på ESS. Guidensgeometri bliver populært kaldt 'EGCGE', dvs. den består af en elliptisk guide (E), et gab (G), en kurvet guide (C), endnu et gab (G), og til sidst en elliptisk guide igen (E). En skitse af guiden er på figur [\ref{EGCGE}].
+Denne guide tager udgangspunkt i en guidegeometri, som har været under overvejelse til instrumentet på ESS. Guidens geometri bliver populært kaldt 'EGCGE', dvs. den består af en elliptisk guide (E), et gab (G), en kurvet guide (C), endnu et gab (G), og til sidst en elliptisk guide igen (E). En skitse af guiden er på figur [\ref{EGCGE}].
 
 \begin{figure}[H]
 \centering
@@ -341,14 +345,14 @@ Denne guide tager udgangspunkt i en guidegeometri, som har været under overveje
 \caption{Skitse af realistisk ESS geometri} \label{EGCGE}
 \end{figure}
 For større skitse, se appendix, figur [\ref{Skitse_EGCGE_ja}]. \\
-Vi har optimeret guiden med hensyn til geometrien, m-værdien og prisen. Vores resultat ses på figur [\ref{EGCGE_brill}].
+Vi har optimeret guiden med hensyn til geometrien, m-værdien og prisen. Vores resultat ses på figur [\ref{EGCGE_brill}]. Vi har i alt optimeret på 27 parametre, et overblik over disse med beskrivelser og værdier for parametre kan findes i appendix [\ref{Parametre_EGCGE}].
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{brill_optimized_mean_148957776280566.png}
 \caption{Brilliance transfer som funktion af bølgelængde af optimeret EGCGE} \label{EGCGE_brill}
 \end{figure}
-Vi har, at denne guide, ifølge vores prisestimater, koster $1.84M\text{€}$. Værdier for parametrene findes i appendix [\ref{Parametre_EGCGE}]
+Vi har, at denne guide, ifølge vores prisestimater, koster $1.84M\text{€}$. Resultatet på figur [\ref{EGCGE_brill}] viser at omkring 5 Å og derover transporterer vi omtrent $60\%$ af faserummet.
 
 \section{Diskussion}
 
