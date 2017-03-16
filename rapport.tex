@@ -283,9 +283,11 @@ Når man har lavet sin simulering, er det klart at man skal bedømme hvorvidt en
 
 \subsection{Optimering}
 Vi har arbejdet med flere forskellige guides, som vi har forsøgt at optimere mest muligt. Vi har gjort dette ved at parameterisere vores instrumenter, således at vi let kunne ændre på geometrier og m-værdier. På baggrund af vores simuleringer har vi skabt et optimeringsprogram, som kunne benytte parameteriseringen af instrumentet, til automatisk at finde værdien af de parametre, der gav bedst muligt resultat.
-Senere forsøgte vi også at tage højde for m-værdiernes pris, så vi kunne få en god mellemvej mellem pris og kvalitet af m-værdier. Vi har altså basalt set optimeret på geometri, m-værdi og pris. 
+Senere forsøgte vi også at tage højde for m-værdiernes pris, så vi kunne få en god mellemvej mellem pris og kvalitet af m-værdier. Vi har altså basalt set optimeret på geometri, m-værdi og pris. Alt dette er i første omgang bedømt på baggrund af arealet under vores brilliance transfer kurve ved bølgelængder mellem 0.5Å og 8Å. Derefter har vi også kigget på, om vores optimeringer overholder pris- og divergenskrav. I vores script har vi eksempelvis taget højde for, at det ikke er godt, at få en høj brilliance transfer, hvis mange af neutronerne kommer med en divergens større end $\pm0.75^\circ$. Derfor kan vores optimering give os et godt bud på, hvordan en god og realistisk neutronguide kunne se ud.
 
-Alt dette er i første omgang bedømt på baggrund af arealet under vores brilliance transfer kurve ved bølgelængder mellem 0.5Å og 8Å. Derefter har vi også kigget på, om vores optimeringer overholder pris- og divergenskrav. I vores script har vi eksempelvis taget højde for, at det ikke er godt, at få en høj brilliance transfer, hvis mange af neutronerne kommer med en divergens større end $\pm0.75^\circ$. Derfor kan vores optimering give os et godt bud på, hvordan en god og realistisk neutronguide kunne se ud. 
+Konkret har vi benyttet Tree of Parzen Estimators algoritmen til at optimere vores geometrier, det er en algoritme der udplukker nogle prøve værdier der er jævnt fordelt over et interval, hvorefter den fitter disse resultater og benytter det fit til at finde nogle nye prøve værdier. På den måde får algoritmen gradvist forbedret modellen for parametrene over tid, som giver os et bedre estimat på hvad vores optimale betingelser er. Vi har sikret at vores guides levede op til divergenskrav ved at begrænse vores brilliance måler til kun at optage neutroner der lever op til vores krav, på den måde straffes geometrier der tillader alt for store divergenser.
+
+Vores m og pris optimeringer har været præget af en mere manuel tilgang, her har vi ladet vores m-værdier været bestemt ved et tredjegradspolynomium, hvor vi har justeret konstanterne og kørt en simulering for at se resultatet, som består af en graf over brilliance transfer med pris og areal under grafen skrevet i grafens titel.
 
 
 \section{Resultater}
@@ -333,7 +335,7 @@ Når vi simulerer vores optimerede elliptiske guide med en kilde på $3cm\cdot8c
 \includegraphics[width=0.9\textwidth]{optimized_mean_4.png}
 \caption{Brilliance transfer som funktion af bølgelængden for simpel elliptisk guide.} \label{simpel_guide}
 \end{figure}
-Figur [\ref{simpel_guide}] viser at vi har en meget høj ydeevne, målt ved brilliance transfer, efter at have optimeret på blot 6 geometriske parametre. 
+Figur [\ref{simpel_guide}] viser at vi har en meget høj ydeevne, målt ved brilliance transfer, efter at have optimeret på blot 6 geometriske parametre.
 
 
 \subsubsection{Realistisk ESS geometri}
@@ -353,6 +355,7 @@ Vi har optimeret guiden med hensyn til geometrien, m-værdien og prisen. Vores r
 \caption{Brilliance transfer som funktion af bølgelængde af optimeret EGCGE} \label{EGCGE_brill}
 \end{figure}
 Vi har, at denne guide, ifølge vores prisestimater, koster $1.84M\text{€}$. Resultatet på figur [\ref{EGCGE_brill}] viser at omkring 5 Å og derover transporterer vi omtrent $60\%$ af faserummet.
+
 
 \section{Diskussion - Bedømmelse af vores guides}
 I vores første simulering, hvor den lige guide blev sammenlignet med den eliptiske guide, var det meget tydeligt, at den eliptiske gav en klart større brilliance transfer, hvilket stemmer overens med resultater fundet ved \cite{Kleno201275}. Dette er første tegn på, at guidegeometrien kan optimeres. Dog må vi huske, at det ikke kun er brilliance transfer, der tæller. Divergensen betyder eksempelvis også meget. Vi kan se på figur [\ref{ap:div_straight_after}] og [\ref{ap:div_ellipse_after}] at den elliptiske guide har betydeligt større divergens, end den lige guide. Hvis du kun optimerer din guide efter brilliance transfer, kan det altså komme til at koste i divergens, fordi ellipseformen tillader refleksion ved højere divergens end den lige. Vi kan se, at hvis vi har et krav på $\pm 0.75^\circ$, er dette kun opfyldt til fulde ved den lige guide. Der er flere måder at komme uden om dette problem på. Eksempelvis kunne man fra start optimere sin guide med et krav om en divergens på maks  $\pm 0.75^\circ$, eller man kunne gøre brug af pinholes. Derudover får vi i både vores lige og eliptiske guides meget støj, fordi prøven ligger i direkte synslinje til kilden. Dermed kommer der nogle hurtige neutroner direkte fra kilden til prøven. Dette viser også tegn på, at simple geometrier, som eksempelvis en enkelt ellipse, ikke altid er den bedste mulighed.
