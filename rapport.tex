@@ -37,7 +37,7 @@
 \usepackage{url}
 \usepackage{tabularx}
 
-\linespread{1.3} % linjeafstand 1.5
+\linespread{1.2} % linjeafstand 1.5
 \setlength{\parindent}{0cm}
 \setlength{\parskip}{0.3cm}
 
@@ -351,21 +351,19 @@ Vi har optimeret guiden med hensyn til geometrien, m-værdien og prisen. Vores r
 \end{figure}
 Vi har, at denne guide, ifølge vores prisestimater, koster $1.84M\text{€}$. Resultatet på figur [\ref{EGCGE_brill}] viser at omkring 5 Å og derover transporterer vi omtrent $60\%$ af faserummet.
 
-\section{Diskussion}
-
-\subsection{Bedømmelse af vores guides}
+\section{Diskussion - Bedømmelse af vores guides}
 I vores første simulering, hvor den lige guide blev sammenlignet med den eliptiske guide, var det meget tydeligt, at den eliptiske gav en klart større brilliance transfer, hvilket stemmer overens med resultater fundet ved \cite{Kleno201275}. Dette er første tegn på, at guidegeometrien kan optimeres. Dog må vi huske, at det ikke kun er brilliance transfer, der tæller. Divergensen betyder eksempelvis også meget. Vi kan se på figur [\ref{ap:div_straight_after}] og [\ref{ap:div_ellipse_after}] at den elliptiske guide har betydeligt større divergens, end den lige guide. Hvis du kun optimerer din guide efter brilliance transfer, kan det altså komme til at koste i divergens, fordi ellipseformen tillader refleksion ved højere divergens end den lige. Vi kan se, at hvis vi har et krav på $\pm 0.75^\circ$, er dette kun opfyldt til fulde ved den lige guide. Der er flere måder at komme uden om dette problem på. Eksempelvis kunne man fra start optimere sin guide med et krav om en divergens på maks  $\pm 0.75^\circ$, eller man kunne gøre brug af pinholes. Derudover får vi i både vores lige og eliptiske guides meget støj, fordi prøven ligger i direkte synslinje til kilden. Dermed kommer der nogle hurtige neutroner direkte fra kilden til prøven. Dette viser også tegn på, at simple geometrier, som eksempelvis en enkelt ellipse, ikke altid er den bedste mulighed.
 \\
 \\
 For at opfylde divergenskrav samt at få prøven ud af direkte synslinje af kilden introducerer vi en ny, mere kompleks, geometri. Den mere komplekse geometri (EGCGE) sikrer at vi vha. pinholes kan reducere divergensens for at opfylde divergenskravet samt at fjerne neutroner med for høj energi. Vi har derfor optimeret på den mere komplekse geometri som under de optimale forhold har meget lille tab af brilliance transfer.
 \\
 \\
-Den første fejlkilde i vores vurdering af systemet er udefrakommende neutroner, disse er meget svære at simulere da de både kan komme fra andre eksperimenter, men og fra passiv støj. En anden almindelig fejlkilde er fabrikations fejl i spejlene, dette kan være ujævnheder på overfladen eller fejl i placering af spejlene. Over tid øges fejlen også da neutronerne bliver absoberet af substratet som leder til ionisering af substratet hvilket både kan give ekstra baggrundstråling og lede til opbygning af gas i substratet som giver ujævnheder i overfladen.
+Den første fejlkilde i vores vurdering af systemet er udefrakommende neutroner. Disse er meget svære at simulere da de både kan komme fra andre eksperimenter, men og fra passiv støj. En anden almindelig fejlkilde er fabrikations fejl i spejlene, dette kan være ujævnheder på overfladen eller fejl i placering af spejlene. Over tid øges fejlen også da neutronerne bliver absorberet af substratet som leder til ionisering af substratet hvilket både kan give ekstra baggrundsstråling og lede til opbygning af gas i substratet som giver ujævnheder i overfladen.
 \\
-Eksperimentet kan naturligvis også forbedres, dette kunne f.eks. være ved at afprøve nye, bedre, geometrier. Herudover har vi haft en begrænset mængde tid til optimeringerne, derfor er det muligt at vi kun har fundet et lokalt maksimum for brilliance transfer frem for det globale. Derudover har vi arbejdet med optimeringen i faser. Først har vi optimeret på geometrien af opsætningen hvorefter, vi har haft fokus på m-værdier og pris af opstillingen. Det er derfor muligt, at vi ikke har fundet det optimum som både tager højde for pris og geometri, men derimod et lokalt maksimum for kombinationen af disse paramtre.
+Eksperimentet kan naturligvis også forbedres, dette kunne f.eks. være ved at afprøve nye, bedre, geometrier. Herudover har vi haft en begrænset mængde tid til optimeringerne, derfor er det muligt at vi kun har fundet et lokalt maksimum for brilliance transfer frem for det globale. Derudover har vi arbejdet med optimeringen i faser. Først har vi optimeret på geometrien af opsætningen hvorefter, vi har haft fokus på m-værdier og pris af opstillingen. Det er derfor muligt, at vi ikke har fundet det optimum som både tager højde for pris og geometri, men derimod et lokalt maksimum for kombinationen af disse parametre.
 
 \section{Konklusion}
-Vi har arbejdet med at optimere guidesystemer til transport af neutroner. Dertil har vi fremstillet et computerprogram, der automatisk optimerer på parametriserede simuleringer, for at lette arbejdsbyrden i designet af instrumenterne. Derefter har vi sammenlignet lige og elliptiske guide, og optimeret geometrien i en simpel guide. Vi har til slut i dette projekt fundet en overordnet geometri, der godt kunne blive aktuel på ESS, parametriseret denne, og herefter optimeret den i både geometri, pris og m-værdi (For resultat, se appendix [\ref{Parametre_EGCGE}]). Vi har fået en høj brilliance transfer (over 0.5 for de fleste bølgelængder, se figur [\ref{EGCGE_brill}]), til en pris på $1.84\text{M€}$, hvilket er indenfor budgettet. Derudover har vi diskuteret relevante problemstillinger ved både Monte Carlo simuleringer generelt, men også problemer i vores specifikke simulering. Her er vi nået frem til, at vores optimerede EGCGE guide, er et realistisk bud, på en god guide.
+Vi har arbejdet med at optimere guidesystemer til transport af neutroner. Dertil har vi fremstillet et computerprogram, der automatisk optimerer på parameteriserede simuleringer, for at lette arbejdsbyrden i designet af instrumenterne. Derefter har vi sammenlignet lige og elliptiske guide, og optimeret geometrien i en simpel guide. Vi har til slut i dette projekt fundet en overordnet geometri, der godt kunne blive aktuel på ESS, parameteriseret denne, og herefter optimeret den i både geometri, pris og m-værdi (For resultat, se appendix [\ref{Parametre_EGCGE}]). Vi har fået en høj brilliance transfer (over 0.5 for de fleste bølgelængder, se figur [\ref{EGCGE_brill}]), til en pris på $1.84\text{M€}$, hvilket er indenfor budgettet. Derudover har vi diskuteret relevante problemstillinger ved både Monte Carlo simuleringer generelt, men også problemer i vores specifikke simulering. Her er vi nået frem til, at vores optimerede EGCGE guide, er et realistisk bud, på en god guide.
 
 
 %% Rapporten er slut! %% 
